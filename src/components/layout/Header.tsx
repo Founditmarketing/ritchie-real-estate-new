@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Drawer } from "./Drawer";
-import { Logo } from "@/components/brand/Logo";
+import { LogoWordmarkImage } from "@/components/brand/Logo";
 import { cn } from "@/lib/cn";
 
 const NAV = [
@@ -49,7 +49,27 @@ export function Header() {
             scrolled ? "py-3" : "py-4",
           )}
         >
-          <Logo tone={scrolled ? "dark" : "light"} />
+          {/*
+            Canonical brand wordmark. Always uses the real RRE PNG (with
+            its transparent background and real navy + maroon colors).
+            Over the dark hero photo it sits on a cream nameplate so the
+            navy text reads; on the scrolled cream header the chip blends
+            in but still provides a subtle pad of breathing room.
+          */}
+          <Link
+            href="/"
+            aria-label="Ritchie Real Estate, home"
+            className={cn(
+              "inline-block transition-colors duration-500",
+              scrolled ? "bg-transparent px-0 py-0" : "bg-cream px-3 py-1.5 md:px-3.5 md:py-2",
+            )}
+          >
+            <LogoWordmarkImage
+              width={150}
+              priority
+              className="h-auto w-[120px] transition-[width] duration-500 md:w-[150px]"
+            />
+          </Link>
 
           <div className="hidden md:flex items-center gap-8">
             {NAV.map((item) => (
