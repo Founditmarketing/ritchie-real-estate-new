@@ -83,19 +83,19 @@ export function Hero() {
           )}
         </motion.div>
 
-        {/* Sky breathes (top is sunset-warm + soft-light cast). Darkening
-            ramps up earlier so the entire copy zone (~45-100% of viewport
-            height) reads cleanly even over busy parts of the photograph.
-            Previously the dark only kicked in at 92% which left the italic
-            "Ritchie." sitting over the riverfront amphitheater with low
-            contrast. */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,oklch(0.16_0.07_262/0.18)_0%,oklch(0.16_0.07_262/0.10)_22%,oklch(0.16_0.07_262/0.55)_50%,oklch(0.10_0.05_262/0.88)_82%,oklch(0.10_0.05_262/0.97)_100%)]" />
-        {/* Stronger vignette pulling focus to the lower-left where the
-            headline lives. Increases ink behind the title without flattening
-            the right side where the river/amphitheater detail sits. */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_22%_72%,oklch(0.10_0.05_262/0.78)_0%,transparent_55%)]" />
-        {/* Warm sunset cast on the upper third */}
-        <div className="absolute inset-x-0 top-0 h-[38%] bg-[linear-gradient(180deg,oklch(0.60_0.10_30/0.20)_0%,transparent_100%)] mix-blend-soft-light" />
+        {/*
+          Gradient deliberately restrained: previous version muddied the
+          cityscape with a heavy radial vignette. Now the entire upper
+          70% of the photo reads almost untouched, with darkening
+          confined to the bottom band where the headline copy actually
+          sits. The lower-left vignette is tightened to focus only the
+          area immediately behind the type.
+        */}
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,transparent_40%,oklch(0.10_0.05_262/0.35)_65%,oklch(0.10_0.05_262/0.82)_88%,oklch(0.10_0.05_262/0.95)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_22%_82%,oklch(0.10_0.05_262/0.60)_0%,transparent_70%)]" />
+        {/* Warm sunset cast on the upper third \u2014 amplifies the photo's
+            existing warmth without changing exposure */}
+        <div className="absolute inset-x-0 top-0 h-[42%] bg-[linear-gradient(180deg,oklch(0.65_0.12_30/0.15)_0%,transparent_100%)] mix-blend-soft-light" />
       </motion.div>
 
       {/* TOP SLATE — film-style timestamp + brand mark watermark ----- */}

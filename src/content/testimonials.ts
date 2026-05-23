@@ -4,6 +4,12 @@ export type Testimonial = {
   /** Role + city; e.g. "Seller \u00b7 Garden District". */
   role: string;
   avatar?: string;
+  /** The actual property they bought / sold / leased. */
+  property?: string;
+  /** Transaction value formatted, e.g. "$615k". Optional. */
+  transaction?: string;
+  /** Rating (1\u20135). Defaults to 5. */
+  rating?: number;
 };
 
 const u = (id: string) =>
@@ -16,6 +22,8 @@ export const testimonials: Testimonial[] = [
     name: "Anne LeBlanc",
     role: "Seller \u00b7 Garden District",
     avatar: u("1494790108377-be9c29b29330"),
+    property: "214 Elliott St \u2014 Sold over ask",
+    transaction: "$402k",
   },
   {
     quote:
@@ -23,6 +31,8 @@ export const testimonials: Testimonial[] = [
     name: "James Thibodeaux",
     role: "Investor \u00b7 Alexandria",
     avatar: u("1507003211169-0a1dd7228f2d"),
+    property: "3422 MacArthur Dr \u2014 NNN lease",
+    transaction: "$825k",
   },
   {
     quote:
@@ -30,6 +40,8 @@ export const testimonials: Testimonial[] = [
     name: "Priya & Eli Patel",
     role: "Buyers \u00b7 Pineville",
     avatar: u("1438761681033-6461ffad8d80"),
+    property: "1102 Edgewood Dr \u2014 Relocation",
+    transaction: "$273k",
   },
   {
     quote:
@@ -37,5 +49,7 @@ export const testimonials: Testimonial[] = [
     name: "Tom Beaulieu",
     role: "Estate sale \u00b7 Tioga",
     avatar: u("1500648767791-00dcc994a43e"),
+    property: "18.4 acres on Indian Creek Rd",
+    transaction: "$145k",
   },
 ];

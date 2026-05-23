@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
+import { TiltCard } from "@/components/listing/TiltCard";
 import { getListings, formatPrice, formatSqft, type Listing } from "@/lib/listings";
 
 /**
@@ -125,7 +126,7 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
         className="group block"
       >
         <PlateMeta num={num} type={listing.type} />
-        <div className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
+        <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
           <Image
             src={cover.src}
             alt={cover.alt}
@@ -136,7 +137,7 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
           <FavoriteHeart listing={listing} />
           <ScheduleTourAffordance />
-        </div>
+        </TiltCard>
         <div className="mt-5">
           <h3 className="font-serif text-[22px] leading-[1.12] text-navy-ink transition-colors group-hover:text-crimson">
             {listing.title}

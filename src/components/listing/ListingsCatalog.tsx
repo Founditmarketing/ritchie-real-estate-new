@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
+import { TiltCard } from "@/components/listing/TiltCard";
 import { formatPrice, formatSqft, type Listing } from "@/lib/listings";
 import { ease } from "@/lib/motion";
 
@@ -154,8 +155,11 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
         className="group block"
       >
         <PlateMeta num={num} type={listing.type} />
-        {/* Mobile uses 16/10; sm+ reverts to the editorial 4/5 portrait. */}
-        <div className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
+        {/* Mobile uses 16/10; sm+ reverts to the editorial 4/5 portrait.
+            TiltCard adds a subtle pointer-tracked 3D tilt to the image
+            on hover \u2014 desktop only (touch pointers don't fire continuous
+            move events). Caps at 5\u00b0; intentional restraint. */}
+        <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
           <Image
             src={cover.src}
             alt={cover.alt}
@@ -166,7 +170,7 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
           <FavoriteHeart listing={listing} />
           <ScheduleTourAffordance />
-        </div>
+        </TiltCard>
         <div className="mt-5">
           <h3 className="font-serif text-[22px] leading-[1.12] text-navy-ink transition-colors group-hover:text-crimson">
             {listing.title}

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { serif, sans } from "@/lib/fonts";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { CustomCursor } from "@/components/motion/CustomCursor";
-import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { RouteTransitions } from "@/components/motion/RouteTransitions";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -38,7 +37,6 @@ export default function RootLayout({
     >
       <body className="grain min-h-full flex flex-col bg-cream text-ink">
         <SmoothScroll />
-        <ScrollProgress />
         <CustomCursor />
         <Header />
         <main className="flex-1">
