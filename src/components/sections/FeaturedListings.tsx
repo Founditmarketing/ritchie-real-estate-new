@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
+import { PlateImage } from "@/components/listing/PlateImage";
 import { TiltCard } from "@/components/listing/TiltCard";
 import { getListings, formatPrice, formatSqft, type Listing } from "@/lib/listings";
 
@@ -77,7 +77,6 @@ export async function FeaturedListings() {
 }
 
 function FeaturePlate({ listing }: { listing: Listing }) {
-  const cover = listing.images[0];
   return (
     <Link
       href={`/listings/${listing.id}`}
@@ -87,13 +86,7 @@ function FeaturePlate({ listing }: { listing: Listing }) {
       <PlateMeta num="01" type={listing.type} />
       <div className="mt-4 grid grid-cols-12 gap-x-6 gap-y-8">
         <div className="relative col-span-12 aspect-[16/10] overflow-hidden bg-cream-warm md:col-span-8 md:aspect-[16/12]">
-          <Image
-            src={cover.src}
-            alt={cover.alt}
-            fill
-            sizes="(min-width: 768px) 66vw, 100vw"
-            className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-          />
+          <PlateImage listing={listing} sizes="(min-width: 768px) 66vw, 100vw" />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
           <FavoriteHeart listing={listing} />
           <ScheduleTourAffordance />
@@ -117,7 +110,6 @@ function FeaturePlate({ listing }: { listing: Listing }) {
 }
 
 function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
-  const cover = listing.images[0];
   return (
     <li>
       <Link
@@ -127,12 +119,9 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
       >
         <PlateMeta num={num} type={listing.type} />
         <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
-          <Image
-            src={cover.src}
-            alt={cover.alt}
-            fill
+          <PlateImage
+            listing={listing}
             sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 100vw"
-            className="object-cover transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
           />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
           <FavoriteHeart listing={listing} />

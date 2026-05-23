@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { areas } from "@/content/areas";
 import { Reveal } from "@/components/motion/Reveal";
+import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { duration, ease } from "@/lib/motion";
 
@@ -28,9 +29,9 @@ export function AreasMap() {
                 Know the area
               </Eyebrow>
               <h2 className="mt-5 font-serif text-[clamp(36px,5vw,72px)] leading-[0.98] tracking-[-0.02em] text-navy-ink">
-                Where Central
-                <br />
-                Louisiana <em className="not-italic italic text-crimson">lives.</em>
+                <HeadlineReveal>
+                  {["Where Central", <>Louisiana <em className="not-italic italic text-crimson">lives.</em></>]}
+                </HeadlineReveal>
               </h2>
             </div>
             <Link

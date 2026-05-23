@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { MagneticButton } from "@/components/motion/MagneticButton";
+import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ease } from "@/lib/motion";
 
@@ -34,10 +35,9 @@ export function Closer() {
           Let&rsquo;s get started
         </Eyebrow>
         <h2 className="mt-5 font-serif text-[clamp(36px,5vw,72px)] leading-[1.03] tracking-[-0.02em]">
-          Your next move
-          <br />
-          begins with a{" "}
-          <em className="not-italic italic text-crimson-bright">hello.</em>
+          <HeadlineReveal>
+            {["Your next move", <>begins with a <em className="not-italic italic text-crimson-bright">hello.</em></>]}
+          </HeadlineReveal>
         </h2>
 
         <motion.div
@@ -50,10 +50,14 @@ export function Closer() {
           <MagneticButton
             href="/contact"
             data-cursor-label="Call"
-            className="inline-flex items-center gap-3 bg-paper px-10 py-4.5 text-[12px] font-medium uppercase tracking-[0.14em] text-navy transition-colors hover:bg-cream-warm"
+            className="group inline-flex items-center gap-4 bg-crimson px-12 py-5 text-[13px] font-medium uppercase tracking-[0.22em] text-cream shadow-[0_24px_60px_-16px_oklch(0.40_0.17_20/0.65)] transition-colors hover:bg-crimson-deep"
+            strength={36}
           >
             Talk to Ritchie
-            <span aria-hidden>&rarr;</span>
+            <span
+              aria-hidden
+              className="inline-block h-px w-9 bg-current transition-[width] duration-500 ease-out group-hover:w-16"
+            />
           </MagneticButton>
         </motion.div>
       </div>

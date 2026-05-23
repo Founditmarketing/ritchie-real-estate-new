@@ -35,6 +35,8 @@ export function Stars({
 }
 
 function Star({ size, filled }: { size: number; filled: boolean }) {
+  /* Diamond mark \u2014 same shape as the Ritchie logo, just smaller and
+     used as rating glyph. Quiet brand callback without screaming. */
   return (
     <svg
       width={size}
@@ -43,14 +45,12 @@ function Star({ size, filled }: { size: number; filled: boolean }) {
       aria-hidden
       className="text-crimson"
     >
-      <path
-        /* Classic 5-point star, slightly chunky for legibility at small
-           sizes \u2014 inspired by NYT review-style stars. */
-        d="M12 2.5l2.756 6.182 6.744.683-5.064 4.514 1.46 6.621L12 17.27l-6.896 3.23 1.46-6.621L1.5 9.365l6.744-.683z"
+      <polygon
+        points="12,2 22,12 12,22 2,12"
         fill={filled ? "currentColor" : "none"}
         stroke="currentColor"
         strokeWidth="1.6"
-        strokeLinejoin="round"
+        strokeLinejoin="miter"
       />
     </svg>
   );

@@ -109,18 +109,22 @@ export function Hero() {
         <div className="absolute inset-x-0 top-0 h-[42%] bg-[linear-gradient(180deg,oklch(0.65_0.12_30/0.15)_0%,transparent_100%)] mix-blend-soft-light" />
       </motion.div>
 
-      {/* TOP SLATE — film-style timestamp + brand mark watermark ----- */}
+      {/* TOP SLATE \u2014 film-style timestamp + brand mark watermark.
+          Drop-shadow on the slate text (and a thin top scrim above) so
+          the coordinates stay legible over the brightest part of the
+          sunset photo. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-44 bg-[linear-gradient(180deg,oklch(0.16_0.07_262/0.45)_0%,transparent_100%)]" />
       <div className="relative z-10 mx-auto flex w-full max-w-[1440px] items-start justify-between px-6 pt-32 lg:px-12">
         <motion.div
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, ease: ease.outExpo, delay: 0.3 }}
-          className="font-sans text-[10.5px] uppercase tracking-[0.32em] text-cream-warm/85"
+          className="font-sans text-[10.5px] uppercase tracking-[0.32em] text-cream [text-shadow:0_1px_2px_oklch(0.10_0.05_262/0.65)]"
         >
-          <span className="text-crimson-bright">N 31.3°</span>
-          <span className="mx-3 text-cream-warm/40">/</span>
+          <span className="text-crimson-bright">N 31.3&deg;</span>
+          <span className="mx-3 text-cream/55">/</span>
           Alexandria, LA
-          <span className="mx-3 text-cream-warm/40">/</span>
+          <span className="mx-3 text-cream/55">/</span>
           Est. 2003
         </motion.div>
         <motion.div
@@ -193,13 +197,14 @@ export function Hero() {
           className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12"
         >
           <div className="max-w-[44ch]">
-            <p className="font-serif text-[clamp(18px,1.4vw,22px)] font-normal italic leading-[1.45] text-cream-warm">
-              Two decades. A CCIM-credentialed broker. A team that treats every
-              address like its own. Residential to commercial.
+            {/* Body text in upright roman, not italic \u2014 italic at this size
+                hurt readability across multiple lines. Italic is reserved
+                for accent words ("Ritchie.", "worth", "track", "lives")
+                throughout the site. */}
+            <p className="font-serif text-[clamp(18px,1.4vw,22px)] font-normal leading-[1.45] text-cream-warm">
+              Two decades of local knowledge. A CCIM-credentialed broker.
+              A team that treats every address like its own.
             </p>
-            {/* Brand stamp on its own line: previously sat inline with the
-                body copy where it read as a link / CTA rather than a
-                tagline punctuation. */}
             <p className="mt-4 flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.26em] text-crimson-bright">
               <span className="h-px w-6 bg-current" />
               Ritchie knows.

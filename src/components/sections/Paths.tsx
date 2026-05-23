@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
+import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ease } from "@/lib/motion";
 
@@ -40,9 +41,9 @@ export function Paths() {
         <Reveal>
           <Eyebrow variant="italic" tone="crimson">However you move</Eyebrow>
           <h2 className="mt-4 font-serif text-[clamp(34px,4.4vw,58px)] leading-[1.03] tracking-[-0.015em]">
-            Three ways we put
-            <br />
-            Cenla to <em className="not-italic italic text-crimson">work.</em>
+            <HeadlineReveal>
+              {["Three ways we put", <>Cenla to <em className="not-italic italic text-crimson">work.</em></>]}
+            </HeadlineReveal>
           </h2>
         </Reveal>
 

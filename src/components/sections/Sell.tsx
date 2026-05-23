@@ -75,10 +75,11 @@ export function Sell() {
           </Reveal>
 
           <Reveal delay={0.12}>
-            <p className="mt-6 max-w-[46ch] font-serif text-[18px] italic leading-[1.55] text-ink-soft">
+            {/* Roman body, not italic \u2014 reserved for accent words. */}
+            <p className="mt-6 max-w-[46ch] font-serif text-[18px] leading-[1.55] text-ink-soft">
               A complimentary valuation built from real Cenla comparables and
-              current market data &mdash; not a Zillow algorithm. Takes about
-              thirty seconds.
+              current market data, not a Zillow algorithm. Takes about thirty
+              seconds.
             </p>
           </Reveal>
 

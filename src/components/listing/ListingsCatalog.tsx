@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
+import { PlateImage } from "@/components/listing/PlateImage";
 import { TiltCard } from "@/components/listing/TiltCard";
 import { formatPrice, formatSqft, type Listing } from "@/lib/listings";
 import { ease } from "@/lib/motion";
@@ -101,7 +101,6 @@ function Row({ block }: { block: Block }) {
 /* ---------- LAYOUT VARIANTS ---------- */
 
 function FeatureRow({ listing, num }: { listing: Listing; num: string }) {
-  const cover = listing.images[0];
   return (
     <Link
       href={`/listings/${listing.id}`}
@@ -111,13 +110,7 @@ function FeatureRow({ listing, num }: { listing: Listing; num: string }) {
       <PlateMeta num={num} type={listing.type} />
       <div className="mt-4 grid grid-cols-12 gap-x-6 gap-y-8">
         <div className="relative col-span-12 aspect-[16/9] overflow-hidden bg-cream-warm md:col-span-8 md:aspect-[16/10]">
-          <Image
-            src={cover.src}
-            alt={cover.alt}
-            fill
-            sizes="(min-width: 768px) 66vw, 100vw"
-            className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-          />
+          <PlateImage listing={listing} sizes="(min-width: 768px) 66vw, 100vw" />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
           <FavoriteHeart listing={listing} />
           <ScheduleTourAffordance />
@@ -146,7 +139,6 @@ function FeatureRow({ listing, num }: { listing: Listing; num: string }) {
 }
 
 function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
-  const cover = listing.images[0];
   return (
     <li>
       <Link
@@ -155,17 +147,10 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
         className="group block"
       >
         <PlateMeta num={num} type={listing.type} />
-        {/* Mobile uses 16/10; sm+ reverts to the editorial 4/5 portrait.
-            TiltCard adds a subtle pointer-tracked 3D tilt to the image
-            on hover \u2014 desktop only (touch pointers don't fire continuous
-            move events). Caps at 5\u00b0; intentional restraint. */}
         <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
-          <Image
-            src={cover.src}
-            alt={cover.alt}
-            fill
+          <PlateImage
+            listing={listing}
             sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 100vw"
-            className="object-cover transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
           />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
           <FavoriteHeart listing={listing} />
@@ -209,7 +194,6 @@ function SplitRow({
 }
 
 function WidePlate({ listing, num }: { listing: Listing; num: string }) {
-  const cover = listing.images[0];
   return (
     <Link
       href={`/listings/${listing.id}`}
@@ -218,13 +202,7 @@ function WidePlate({ listing, num }: { listing: Listing; num: string }) {
     >
       <PlateMeta num={num} type={listing.type} />
       <div className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm">
-        <Image
-          src={cover.src}
-          alt={cover.alt}
-          fill
-          sizes="(min-width: 1024px) 60vw, 100vw"
-          className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-        />
+        <PlateImage listing={listing} sizes="(min-width: 1024px) 60vw, 100vw" />
         {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
         <FavoriteHeart listing={listing} />
         <ScheduleTourAffordance />
@@ -263,13 +241,7 @@ function ColumnPlate({ listing, num }: { listing: Listing; num: string }) {
         transition={{ duration: 0.5, ease: ease.outExpo }}
         className="relative mt-5 aspect-[5/6] overflow-hidden bg-cream-warm"
       >
-        <Image
-          src={listing.images[0].src}
-          alt={listing.images[0].alt}
-          fill
-          sizes="(min-width: 1024px) 30vw, 100vw"
-          className="object-cover transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
-        />
+        <PlateImage listing={listing} sizes="(min-width: 1024px) 30vw, 100vw" />
         <FavoriteHeart listing={listing} />
         <ScheduleTourAffordance />
       </motion.div>

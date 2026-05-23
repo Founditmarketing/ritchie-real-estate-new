@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Counter } from "@/components/motion/Counter";
 import { Reveal } from "@/components/motion/Reveal";
+import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ease } from "@/lib/motion";
 
@@ -65,9 +66,9 @@ export function MarketStats() {
               The Cenla market, right now
             </Eyebrow>
             <h2 className="mt-4 font-serif text-[clamp(30px,3.2vw,46px)] leading-[1.05] tracking-[-0.015em]">
-              We don&rsquo;t guess the market.
-              <br />
-              We <em className="not-italic italic text-crimson-bright">track</em> it.
+              <HeadlineReveal>
+                {["We don\u2019t guess the market.", <>We <em className="not-italic italic text-crimson-bright">track</em> it.</>]}
+              </HeadlineReveal>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>

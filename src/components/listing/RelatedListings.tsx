@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
+import { PlateImage } from "@/components/listing/PlateImage";
 import { TiltCard } from "@/components/listing/TiltCard";
 import { formatPrice, getListings, type Listing } from "@/lib/listings";
 
@@ -63,7 +63,6 @@ export async function RelatedListings({ current }: { current: Listing }) {
 }
 
 function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
-  const cover = listing.images[0];
   const facts: string[] = [];
   if (listing.beds > 0) facts.push(`${listing.beds} bed`);
   if (listing.baths > 0) facts.push(`${listing.baths} bath`);
@@ -84,13 +83,7 @@ function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
           <span>{listing.type}</span>
         </div>
         <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
-          <Image
-            src={cover.src}
-            alt={cover.alt}
-            fill
-            sizes="(min-width: 768px) 28vw, 100vw"
-            className="object-cover transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
-          />
+          <PlateImage listing={listing} sizes="(min-width: 768px) 28vw, 100vw" />
           <FavoriteHeart listing={listing} />
           <div
             aria-hidden
