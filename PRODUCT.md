@@ -14,7 +14,7 @@ real-estate-template look-and-feel is the failure mode to avoid.
 ## Voice
 - Local first. "Cenla" is real shorthand here \u2014 keep it.
 - Confident, not slick. "We don't guess the market, we track it."
-- The hook is "**Ritchie know.**" Lean into the wordplay; it's the brand.
+- The hook is "**Ritchie knows.**" Lean into the wordplay; it's the brand.
 - Plain English numbers. Don't say "real estate solutions provider."
 - Brevity. Editorial typography expects words to earn their space.
 

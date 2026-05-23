@@ -69,17 +69,28 @@ export function Hero() {
               className="object-cover object-[60%_38%]"
             />
           ) : (
+            /* Explicit <source type="..."> with the avc1 codec string
+               helps iOS Safari pick the right decoder immediately, which
+               is what was making the video render less crisply on iPhone
+               than Android. `disablePictureInPicture` + `disableRemotePlayback`
+               prevent iOS from showing a tap-to-AirPlay overlay on the hero. */
             <video
-              src="/hero/hero.mp4"
               poster="/hero/hero-poster.jpg"
               autoPlay
               muted
               loop
               playsInline
               preload="metadata"
+              disablePictureInPicture
+              disableRemotePlayback
               aria-hidden
               className="absolute inset-0 h-full w-full object-cover object-[60%_38%]"
-            />
+            >
+              <source
+                src="/hero/hero.mp4"
+                type='video/mp4; codecs="avc1.4D4028"'
+              />
+            </video>
           )}
         </motion.div>
 
@@ -191,7 +202,7 @@ export function Hero() {
                 tagline punctuation. */}
             <p className="mt-4 flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.26em] text-crimson-bright">
               <span className="h-px w-6 bg-current" />
-              Ritchie know.
+              Ritchie knows.
             </p>
           </div>
 

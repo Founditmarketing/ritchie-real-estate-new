@@ -23,7 +23,7 @@ export function Broker() {
           <div className="absolute inset-0 bg-gradient-to-tr from-navy-ink/40 via-transparent to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-navy-ink/80 to-transparent" />
           <div className="absolute bottom-8 left-8 font-serif text-[22px] italic text-crimson-bright drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
-            &ldquo;Ritchie know.&rdquo;
+            &ldquo;Ritchie knows.&rdquo;
           </div>
         </div>
 
