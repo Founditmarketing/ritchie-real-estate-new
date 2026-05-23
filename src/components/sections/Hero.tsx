@@ -55,17 +55,32 @@ export function Hero() {
         <motion.div
           className="absolute inset-0"
           style={{ x: driftX, y: driftY }}
-          animate={{ scale: [1, 1.04, 1] }}
+          animate={reduced ? undefined : { scale: [1, 1.04, 1] }}
           transition={{ duration: 18, ease: "easeInOut", repeat: Infinity }}
         >
-          <Image
-            src="/hero/alexandria-riverfront.png"
-            alt="Downtown Alexandria, Louisiana, at sunset, with the Red River and the riverfront amphitheater"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[60%_38%]"
-          />
+          {reduced ? (
+            /* prefers-reduced-motion: just the poster image, no autoplay. */
+            <Image
+              src="/hero/hero-poster.jpg"
+              alt="Downtown Alexandria, Louisiana, at sunset"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-[60%_38%]"
+            />
+          ) : (
+            <video
+              src="/hero/hero.mp4"
+              poster="/hero/hero-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover object-[60%_38%]"
+            />
+          )}
         </motion.div>
 
         {/* Sky breathes (top is sunset-warm + soft-light cast). Darkening

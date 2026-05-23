@@ -39,6 +39,9 @@ yarn-error.log*
 # debug / diagnostic screenshots
 scripts/shots/
 
+# temp commit message file
+.commit-msg.tmp
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
