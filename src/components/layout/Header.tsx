@@ -50,24 +50,25 @@ export function Header() {
           )}
         >
           {/*
-            Canonical brand wordmark. Always uses the real RRE PNG (with
-            its transparent background and real navy + maroon colors).
-            Over the dark hero photo it sits on a cream nameplate so the
-            navy text reads; on the scrolled cream header the chip blends
-            in but still provides a subtle pad of breathing room.
+            Canonical RRE PNG, never wrapped in a chip. Over the dark
+            hero photo it gets a soft drop-shadow halo for legibility
+            without a hard background; once scrolled to the cream
+            header, the shadow fades and the wordmark sits naturally.
           */}
           <Link
             href="/"
             aria-label="Ritchie Real Estate, home"
-            className={cn(
-              "inline-block transition-colors duration-500",
-              scrolled ? "bg-transparent px-0 py-0" : "bg-cream px-3 py-1.5 md:px-3.5 md:py-2",
-            )}
+            className="inline-block"
           >
             <LogoWordmarkImage
               width={150}
               priority
-              className="h-auto w-[120px] transition-[width] duration-500 md:w-[150px]"
+              className={cn(
+                "h-auto w-[120px] transition-[filter] duration-500 md:w-[150px]",
+                scrolled
+                  ? "drop-shadow-none"
+                  : "[filter:drop-shadow(0_1px_2px_rgba(0,0,0,0.5))_drop-shadow(0_8px_24px_rgba(0,0,0,0.35))]",
+              )}
             />
           </Link>
 
