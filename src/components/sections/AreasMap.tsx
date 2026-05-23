@@ -384,7 +384,7 @@ function CenlaMap({
           <line x1="40" y1="-3" x2="40" y2="3" stroke="oklch(0.89 0.025 72 / 0.4)" strokeWidth="0.8" />
           <line x1="80" y1="-3" x2="80" y2="3" stroke="oklch(0.89 0.025 72 / 0.6)" strokeWidth="0.8" />
           <text y="14" fontFamily="var(--font-sans)" fontSize="8" fill="oklch(0.89 0.025 72 / 0.6)" letterSpacing="1.5">
-            0 \u2014 5 \u2014 10 MI
+            {"0 \u2014 5 \u2014 10 MI"}
           </text>
         </motion.g>
 
@@ -400,10 +400,10 @@ function CenlaMap({
 
         {/* Coordinate corner labels */}
         <text x="6" y="14" fontFamily="var(--font-sans)" fontSize="8" letterSpacing="2" fill="oklch(0.89 0.025 72 / 0.4)">
-          31.45\u00b0N / 92.7\u00b0W
+          {"31.45\u00b0N / 92.7\u00b0W"}
         </text>
         <text x="634" y="514" textAnchor="end" fontFamily="var(--font-sans)" fontSize="8" letterSpacing="2" fill="oklch(0.89 0.025 72 / 0.4)">
-          31.2\u00b0N / 92.3\u00b0W
+          {"31.2\u00b0N / 92.3\u00b0W"}
         </text>
       </svg>
     </div>

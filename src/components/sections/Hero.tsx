@@ -180,15 +180,19 @@ export function Hero() {
             </p>
           </div>
 
+          {/* Primary action: filled crimson on cream label, the loudest
+              moment on the hero. Outline rationale was "editorial restraint"
+              but it under-cued the most important click on the page. */}
           <MagneticButton
             href="/listings"
-            className="group inline-flex items-center gap-4 self-start border border-cream/40 bg-transparent px-7 py-4 text-[11.5px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-cream hover:text-navy-ink md:self-end"
+            data-cursor-label="Search"
+            className="group inline-flex items-center gap-4 self-start bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream shadow-[0_18px_40px_-12px_oklch(0.40_0.17_20/0.6)] transition-colors hover:bg-crimson-deep md:self-end"
             strength={32}
           >
             See what&rsquo;s on the market
             <span
               aria-hidden
-              className="inline-block h-px w-9 bg-current transition-[width,transform] duration-500 ease-out group-hover:w-16"
+              className="inline-block h-px w-10 bg-current transition-[width] duration-500 ease-out group-hover:w-16"
             />
           </MagneticButton>
         </motion.div>

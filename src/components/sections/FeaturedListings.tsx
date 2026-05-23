@@ -2,15 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
 import { getListings, formatPrice, formatSqft, type Listing } from "@/lib/listings";
 
 /**
- * Featured listings as an editorial spread. Same hierarchy as the
- * catalog plates so the home page and /listings feel like one system:
- *   plate # / type  \u2192  image  \u2192  title  \u2192  address  \u2192  PRICE (anchor)
+ * Featured listings as an editorial spread. Shares the exact PlateMeta /
+ * PriceAnchor / FavoriteHeart / ScheduleTourAffordance vocabulary with
+ * ListingsCatalog and RelatedListings so cards read as one system.
  *
- * Feature plate up top (title beside image in the right gutter), then
- * three portrait plates underneath.
+ * Server component: fetches its own data, renders mostly static markup,
+ * inlines the FavoriteHeart client island for the per-card save toggle.
  */
 export async function FeaturedListings() {
   const items = await getListings({ status: "active", limit: 4 });
@@ -93,6 +94,8 @@ function FeaturePlate({ listing }: { listing: Listing }) {
             className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
           />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
+          <FavoriteHeart listing={listing} />
+          <ScheduleTourAffordance />
         </div>
         <div className="col-span-12 flex flex-col justify-between gap-7 md:col-span-4">
           <div>
@@ -122,9 +125,6 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
         className="group block"
       >
         <PlateMeta num={num} type={listing.type} />
-        {/* On mobile use 16/10 landscape so three stacked cards don't add
-            ~1400px of vertical scroll. At sm+ revert to the editorial 4/5
-            portrait that anchors the desktop grid. */}
         <div className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
           <Image
             src={cover.src}
@@ -134,6 +134,8 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
             className="object-cover transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
           />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
+          <FavoriteHeart listing={listing} />
+          <ScheduleTourAffordance />
         </div>
         <div className="mt-5">
           <h3 className="font-serif text-[22px] leading-[1.12] text-navy-ink transition-colors group-hover:text-crimson">
@@ -149,15 +151,13 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
   );
 }
 
-/* shared hierarchy parts - identical to ListingsCatalog so cards read as
-   one system across the home page and the catalog page */
+/* ---------- SHARED PARTS (mirrored in ListingsCatalog) ---------- */
 
 function PlateMeta({ num, type }: { num: string; type: string }) {
   return (
     <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink-soft">
-      <span>
-        <span className="font-serif text-[14px] italic font-medium text-crimson">{num}</span>
-        <span className="ml-2.5">Plate</span>
+      <span className="font-serif text-[14px] italic font-medium text-crimson">
+        {num}
       </span>
       <span>{type}</span>
     </div>
@@ -170,6 +170,23 @@ function BadgeTag({ children }: { children: React.ReactNode }) {
       {children}
     </span>
   );
+}
+
+function ScheduleTourAffordance() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 translate-y-full bg-navy-ink/85 px-4 py-3 text-center font-sans text-[10.5px] font-medium uppercase tracking-[0.24em] text-cream backdrop-blur-sm transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0"
+    >
+      Schedule a tour
+      <span className="ml-2 text-crimson-bright">&rarr;</span>
+    </div>
+  );
+}
+
+function pricePerSqft(listing: Listing): string | null {
+  if (!listing.sqft || listing.sqft <= 0) return null;
+  return `$${Math.round(listing.price / listing.sqft).toLocaleString()}/sqft`;
 }
 
 function PriceAnchor({
@@ -187,6 +204,7 @@ function PriceAnchor({
   if (listing.sqft > 0) facts.push(`${formatSqft(listing.sqft)} sqft`);
   else if (listing.lotAcres) facts.push(`${listing.lotAcres} acres`);
   const factLine = facts.slice(0, 3).join("  \u00b7  ");
+  const psf = pricePerSqft(listing);
   const priceSize =
     size === "lg"
       ? "text-[clamp(34px,3.6vw,52px)]"
@@ -196,10 +214,15 @@ function PriceAnchor({
 
   return (
     <div className={`border-t border-navy-ink/15 pt-3.5 ${className ?? ""}`}>
-      <div
-        className={`font-serif ${priceSize} font-semibold leading-none tracking-[-0.015em] text-navy-ink`}
-      >
-        {formatPrice(listing.price)}
+      <div className="flex items-baseline justify-between gap-3">
+        <span
+          className={`font-serif ${priceSize} font-semibold leading-none tracking-[-0.015em] text-navy-ink`}
+        >
+          {formatPrice(listing.price)}
+        </span>
+        {psf ? (
+          <span className="font-serif text-[12px] italic text-ink-soft">{psf}</span>
+        ) : null}
       </div>
       {factLine ? (
         <div className="mt-2.5 text-[11.5px] tracking-[0.04em] text-ink-soft">

@@ -2,97 +2,164 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+
+const PRICE_OPTIONS = [
+  { label: "Any price", min: undefined, max: undefined },
+  { label: "Under $200k", min: 0, max: 200000 },
+  { label: "$200k\u2013$350k", min: 200000, max: 350000 },
+  { label: "$350k\u2013$500k", min: 350000, max: 500000 },
+  { label: "$500k+", min: 500000, max: undefined },
+];
+
+const INTENTS = [
+  { v: "residential", label: "A home" },
+  { v: "commercial", label: "Commercial" },
+  { v: "land", label: "Land" },
+  { v: "rental", label: "A rental" },
+];
+
+const BEDS = [
+  { v: "", label: "Any" },
+  { v: "1", label: "1+" },
+  { v: "2", label: "2+" },
+  { v: "3", label: "3+" },
+  { v: "4", label: "4+" },
+];
 
 /**
- * Floating search bar that overlaps the hero with negative margin.
- * Submits to /listings with URL state so the listings page can read it.
+ * Real-estate search as an editorial section. Lives between the Manifesto
+ * (light) and MarketStats (dark) so the rhythm goes cream \u2192 cream \u2192 navy,
+ * with this section providing the section's product-layer payload.
+ *
+ * Posts to /listings via URL params so the catalog page can read them.
+ * No card chrome \u2014 hairline-rule fields, serif inputs, one big crimson
+ * submit, so it reads as part of the editorial vocabulary rather than
+ * a Zillow widget bolted on.
  */
 export function SearchBar() {
   const router = useRouter();
-  const [intent, setIntent] = useState("buy");
-  const [where, setWhere] = useState("");
-  const [price, setPrice] = useState("any");
+  const [intent, setIntent] = useState<string>("residential");
+  const [city, setCity] = useState("");
+  const [beds, setBeds] = useState<string>("");
+  const [priceIdx, setPriceIdx] = useState(0);
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (intent && intent !== "residential") params.set("type", intent);
+    if (city.trim()) params.set("city", city.trim());
+    if (beds) params.set("bedsMin", beds);
+    const p = PRICE_OPTIONS[priceIdx];
+    if (p?.min) params.set("priceMin", String(p.min));
+    if (p?.max) params.set("priceMax", String(p.max));
+    router.push(`/listings${params.toString() ? `?${params}` : ""}`);
+  }
 
   return (
-    <div className="relative z-20 -mt-14">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const params = new URLSearchParams();
-          if (intent === "rent") params.set("type", "rental");
-          if (intent === "commercial") params.set("type", "commercial");
-          if (where) params.set("city", where);
-          if (price !== "any") {
-            const [min, max] = price.split("-").map((n) => Number(n));
-            if (min) params.set("priceMin", String(min));
-            if (max) params.set("priceMax", String(max));
-          }
-          router.push(`/listings?${params.toString()}`);
-        }}
-        className="mx-auto flex max-w-[1080px] flex-col border border-line bg-paper shadow-[0_36px_70px_-28px_oklch(0.22_0.10_262/0.5)] md:flex-row"
-      >
-        <Seg label="I want to">
-          <select
-            value={intent}
-            onChange={(e) => setIntent(e.target.value)}
-            className="w-full border-none bg-transparent font-serif text-[18px] font-medium text-ink outline-none"
-          >
-            <option value="buy">Buy a home</option>
-            <option value="rent">Rent a home</option>
-            <option value="commercial">Find commercial</option>
-          </select>
-        </Seg>
-        <Seg label="Location">
-          <input
-            value={where}
-            onChange={(e) => setWhere(e.target.value)}
-            placeholder={"Alexandria, Pineville\u2026"}
-            className="w-full border-none bg-transparent font-serif text-[18px] font-medium text-ink placeholder:text-ink-soft/60 outline-none"
-          />
-        </Seg>
-        <Seg label="Price range" last>
-          <select
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            className="w-full border-none bg-transparent font-serif text-[18px] font-medium text-ink outline-none"
-          >
-            <option value="any">Any price</option>
-            <option value="0-200000">Up to $200k</option>
-            <option value="200000-350000">$200k\u2013$350k</option>
-            <option value="350000-500000">$350k\u2013$500k</option>
-            <option value="500000-0">$500k+</option>
-          </select>
-        </Seg>
-        <button
-          type="submit"
-          className="whitespace-nowrap bg-crimson px-9 py-5 font-sans text-[12px] uppercase tracking-[0.14em] text-cream transition-colors hover:bg-crimson-deep md:py-0"
+    <section className="bg-cream pb-24 pt-4 md:pb-32 md:pt-8">
+      <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
+        <div className="mb-9 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between md:gap-10">
+          <div>
+            <Eyebrow variant="numbered" num="03" tone="crimson">
+              Start the search
+            </Eyebrow>
+            <h2 className="mt-4 font-serif text-[clamp(28px,3.4vw,48px)] leading-[1.04] tracking-[-0.02em] text-navy-ink">
+              Show me{" "}
+              <em className="not-italic italic text-crimson">what&rsquo;s out there.</em>
+            </h2>
+          </div>
+          <p className="max-w-[34ch] font-serif text-[15px] italic leading-[1.55] text-ink-soft">
+            Four fields, every Cenla listing. Filters write the URL so you can
+            share a search with anyone.
+          </p>
+        </div>
+
+        <form
+          onSubmit={submit}
+          className="grid grid-cols-1 gap-x-0 gap-y-3 border-t border-b border-navy-ink/15 py-6 md:grid-cols-[1.4fr_1.4fr_0.9fr_1fr_auto] md:items-end md:gap-x-8 md:gap-y-0"
         >
-          Search Cenla
-        </button>
-      </form>
-    </div>
+          <Field label="I want">
+            <select
+              value={intent}
+              onChange={(e) => setIntent(e.target.value)}
+              className="w-full border-none bg-transparent font-serif text-[18px] text-navy-ink outline-none"
+            >
+              {INTENTS.map((i) => (
+                <option key={i.v} value={i.v}>
+                  {i.label}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label="In" border>
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="Alexandria"
+              className="w-full border-none bg-transparent font-serif text-[18px] text-navy-ink placeholder:text-ink-soft/50 outline-none"
+            />
+          </Field>
+          <Field label="Beds" border>
+            <select
+              value={beds}
+              onChange={(e) => setBeds(e.target.value)}
+              className="w-full border-none bg-transparent font-serif text-[18px] text-navy-ink outline-none"
+            >
+              {BEDS.map((b) => (
+                <option key={b.v || "any"} value={b.v}>
+                  {b.label}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label="Up to" border>
+            <select
+              value={priceIdx}
+              onChange={(e) => setPriceIdx(Number(e.target.value))}
+              className="w-full border-none bg-transparent font-serif text-[18px] text-navy-ink outline-none"
+            >
+              {PRICE_OPTIONS.map((p, i) => (
+                <option key={p.label} value={i}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <button
+            type="submit"
+            data-cursor-label="Go"
+            className="mt-3 inline-flex items-center justify-center gap-3 self-stretch bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition-colors hover:bg-crimson-deep md:mt-0"
+          >
+            Search Cenla
+            <span aria-hidden>&rarr;</span>
+          </button>
+        </form>
+      </div>
+    </section>
   );
 }
 
-function Seg({
+function Field({
   label,
   children,
-  last = false,
+  border = false,
 }: {
   label: string;
   children: React.ReactNode;
-  last?: boolean;
+  border?: boolean;
 }) {
   return (
-    <div
-      className={`flex flex-1 flex-col gap-1.5 px-6 py-5 ${
-        last ? "" : "border-b border-line md:border-b-0 md:border-r"
+    <label
+      className={`flex flex-col gap-1.5 py-2 md:py-0 ${
+        border ? "md:border-l md:border-navy-ink/15 md:pl-8" : ""
       }`}
     >
-      <label className="text-[9.5px] font-medium uppercase tracking-[0.16em] text-crimson">
+      <span className="font-sans text-[10.5px] font-medium uppercase tracking-[0.22em] text-crimson">
         {label}
-      </label>
+      </span>
       {children}
-    </div>
+    </label>
   );
 }

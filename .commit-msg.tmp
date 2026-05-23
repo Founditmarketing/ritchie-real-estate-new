@@ -1,0 +1,40 @@
+Close the product-layer gap on listings + fix several real bugs
+
+Bugs caught and fixed:
+- Map labels rendered raw `\u2014` and `\u00b0` escape sequences as
+  text (same JSX-text class of bug as the arrows earlier). Switched
+  every offending text to interpolated string literals so the chars
+  resolve at runtime.
+- MarketStats counters momentarily flashed "$0k / 0d / 0%" alongside
+  real YoY badges during scroll, which read as broken. Replaced the
+  count-up tween with static rendering. The sparkline draw-in is the
+  kinetic moment for the block; counting numbers was a SaaS cliche.
+- Testimonials AnimatePresence used `mode="wait"`, which created a
+  visible blank gap between slides. Removed wait mode and absolute-
+  positioned the figure so exit + enter crossfade safely overlap.
+
+Listing cards now earn product depth:
+- Favorite-heart button in upper-right (with crimson active state and
+  proper aria-pressed). Lives in `ListingCardChrome.tsx` as a client
+  island so the surrounding plates can stay server-rendered.
+- Price-per-sqft displayed beside the asking price, italic serif so
+  it reads as a quiet annotation, not another bold number.
+- Hover-reveal "Schedule a tour" affordance slides up from the
+  bottom edge of the image. Pure CSS group-hover, no JS.
+- Dropped the literal "Plate" word from the meta strip (just the
+  italic plate number now). User feedback: the word was noise on
+  scannable cards.
+
+Strengthened conversion paths:
+- Hero CTA promoted from outline to filled crimson with shadow lift.
+  It's the loudest moment on the hero now, instead of the quietest.
+- SearchBar reintroduced as its own dedicated editorial section
+  between Manifesto and MarketStats. Real shape (intent + city +
+  beds + price), serif inputs, hairline rules, one big crimson
+  submit. Lives apart from the hero so it doesn't crowd the headline
+  and gets the breathing room to feel like a deliberate product
+  moment, not a Zillow widget.
+
+Same plate vocabulary now in FeaturedListings (server async),
+ListingsCatalog (client), and RelatedListings (server async) so all
+three surfaces read as one system.

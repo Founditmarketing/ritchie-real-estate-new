@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { testimonials } from "@/content/testimonials";
-import { duration, ease } from "@/lib/motion";
+import { ease } from "@/lib/motion";
 
 export function Testimonials() {
   const [i, setI] = useState(0);
@@ -33,15 +33,22 @@ export function Testimonials() {
           </div>
         </Reveal>
 
-        <div className="relative mx-auto min-h-[280px] max-w-[880px]">
-          <AnimatePresence mode="wait">
+        <div className="relative mx-auto min-h-[320px] max-w-[880px]">
+          {/*
+            No `mode="wait"` here: with it, the outgoing slide must
+            finish its exit before the new slide starts entering, which
+            produced a visible blank gap. Without it, exit and enter
+            crossfade in parallel \u2014 we absolutely position the figure
+            so they can occupy the same space during the brief overlap.
+          */}
+          <AnimatePresence initial={false}>
             <motion.figure
               key={t.name}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: duration.base, ease: ease.out }}
-              className="flex flex-col items-center text-center"
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.55, ease: ease.outExpo }}
+              className="absolute inset-0 flex flex-col items-center text-center"
             >
               <blockquote className="font-serif text-[clamp(22px,2.6vw,32px)] font-medium leading-[1.4] italic text-ink before:mr-1 before:content-['\201c'] before:text-crimson">
                 {t.quote}

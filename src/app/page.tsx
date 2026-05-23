@@ -1,5 +1,6 @@
 import { Hero } from "@/components/sections/Hero";
 import { Manifesto } from "@/components/sections/Manifesto";
+import { SearchBar } from "@/components/sections/SearchBar";
 import { MarketStats } from "@/components/sections/MarketStats";
 import { Paths } from "@/components/sections/Paths";
 import { FeaturedListings } from "@/components/sections/FeaturedListings";
@@ -14,6 +15,10 @@ export default function HomePage() {
     <>
       <Hero />
       <Manifesto />
+      {/* Search lives here, not over the hero. After the manifesto's
+          editorial breath and before the navy market band, it gets full
+          breathing room as its own product moment. */}
+      <SearchBar />
       <MarketStats />
       <Paths />
       <FeaturedListings />

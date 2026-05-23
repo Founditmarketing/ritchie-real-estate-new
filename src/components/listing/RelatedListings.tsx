@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
 import { formatPrice, getListings, type Listing } from "@/lib/listings";
 
 /**
@@ -76,9 +77,8 @@ function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
         className="group block"
       >
         <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink-soft">
-          <span>
-            <span className="font-serif text-[14px] italic font-medium text-crimson">{num}</span>
-            <span className="ml-2.5">Plate</span>
+          <span className="font-serif text-[14px] italic font-medium text-crimson">
+            {num}
           </span>
           <span>{listing.type}</span>
         </div>
@@ -90,6 +90,13 @@ function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
             sizes="(min-width: 768px) 28vw, 100vw"
             className="object-cover transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
           />
+          <FavoriteHeart listing={listing} />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 translate-y-full bg-navy-ink/85 px-4 py-3 text-center font-sans text-[10.5px] font-medium uppercase tracking-[0.24em] text-cream backdrop-blur-sm transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0"
+          >
+            Schedule a tour <span className="ml-2 text-crimson-bright">&rarr;</span>
+          </div>
         </div>
         <div className="mt-5">
           <h3 className="font-serif text-[22px] leading-[1.12] text-navy-ink transition-colors group-hover:text-crimson">
@@ -100,8 +107,15 @@ function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
           </p>
         </div>
         <div className="mt-5 border-t border-navy-ink/15 pt-3.5">
-          <div className="font-serif text-[24px] font-semibold leading-none tracking-[-0.015em] text-navy-ink">
-            {formatPrice(listing.price)}
+          <div className="flex items-baseline justify-between gap-3">
+            <span className="font-serif text-[24px] font-semibold leading-none tracking-[-0.015em] text-navy-ink">
+              {formatPrice(listing.price)}
+            </span>
+            {listing.sqft > 0 ? (
+              <span className="font-serif text-[12px] italic text-ink-soft">
+                ${Math.round(listing.price / listing.sqft).toLocaleString()}/sqft
+              </span>
+            ) : null}
           </div>
           {facts.length ? (
             <div className="mt-2.5 text-[11.5px] tracking-[0.04em] text-ink-soft">

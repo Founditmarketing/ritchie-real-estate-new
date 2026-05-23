@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
+import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
 import { formatPrice, formatSqft, type Listing } from "@/lib/listings";
 import { ease } from "@/lib/motion";
 
@@ -117,6 +118,8 @@ function FeatureRow({ listing, num }: { listing: Listing; num: string }) {
             className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
           />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
+          <FavoriteHeart listing={listing} />
+          <ScheduleTourAffordance />
         </div>
         <div className="col-span-12 flex flex-col justify-between gap-7 md:col-span-4">
           <div>
@@ -161,6 +164,8 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
             className="object-cover transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
           />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
+          <FavoriteHeart listing={listing} />
+          <ScheduleTourAffordance />
         </div>
         <div className="mt-5">
           <h3 className="font-serif text-[22px] leading-[1.12] text-navy-ink transition-colors group-hover:text-crimson">
@@ -217,6 +222,8 @@ function WidePlate({ listing, num }: { listing: Listing; num: string }) {
           className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
         />
         {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
+        <FavoriteHeart listing={listing} />
+        <ScheduleTourAffordance />
       </div>
       <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-7">
         <div>
@@ -259,6 +266,8 @@ function ColumnPlate({ listing, num }: { listing: Listing; num: string }) {
           sizes="(min-width: 1024px) 30vw, 100vw"
           className="object-cover transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
         />
+        <FavoriteHeart listing={listing} />
+        <ScheduleTourAffordance />
       </motion.div>
       <PriceAnchor listing={listing} size="sm" className="mt-5" />
     </Link>
@@ -270,9 +279,10 @@ function ColumnPlate({ listing, num }: { listing: Listing; num: string }) {
 function PlateMeta({ num, type }: { num: string; type: string }) {
   return (
     <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink-soft">
-      <span>
-        <span className="font-serif text-[14px] italic font-medium text-crimson">{num}</span>
-        <span className="ml-2.5">Plate</span>
+      {/* "Plate" word dropped \u2014 the italic number alone reads as
+          editorial without adding noise to scannable property cards. */}
+      <span className="font-serif text-[14px] italic font-medium text-crimson">
+        {num}
       </span>
       <span>{type}</span>
     </div>
@@ -287,6 +297,11 @@ function BadgeTag({ children }: { children: React.ReactNode }) {
   );
 }
 
+function pricePerSqft(listing: Listing): string | null {
+  if (!listing.sqft || listing.sqft <= 0) return null;
+  return `$${Math.round(listing.price / listing.sqft).toLocaleString()}/sqft`;
+}
+
 function PriceAnchor({
   listing,
   size,
@@ -296,13 +311,13 @@ function PriceAnchor({
   size: "sm" | "md" | "lg";
   className?: string;
 }) {
-  // Build the single-line fact summary (max 3 facts, no labels)
   const facts: string[] = [];
   if (listing.beds > 0) facts.push(`${listing.beds} bed`);
   if (listing.baths > 0) facts.push(`${listing.baths} bath`);
   if (listing.sqft > 0) facts.push(`${formatSqft(listing.sqft)} sqft`);
   else if (listing.lotAcres) facts.push(`${listing.lotAcres} acres`);
   const factLine = facts.slice(0, 3).join("  \u00b7  ");
+  const psf = pricePerSqft(listing);
 
   const priceSize =
     size === "lg"
@@ -313,10 +328,15 @@ function PriceAnchor({
 
   return (
     <div className={`border-t border-navy-ink/15 pt-3.5 ${className ?? ""}`}>
-      <div
-        className={`font-serif ${priceSize} font-semibold leading-none tracking-[-0.015em] text-navy-ink`}
-      >
-        {formatPrice(listing.price)}
+      <div className="flex items-baseline justify-between gap-3">
+        <span
+          className={`font-serif ${priceSize} font-semibold leading-none tracking-[-0.015em] text-navy-ink`}
+        >
+          {formatPrice(listing.price)}
+        </span>
+        {psf ? (
+          <span className="font-serif text-[12px] italic text-ink-soft">{psf}</span>
+        ) : null}
       </div>
       {factLine ? (
         <div className="mt-2.5 text-[11.5px] tracking-[0.04em] text-ink-soft">
@@ -329,4 +349,24 @@ function PriceAnchor({
 
 function pad(n: number) {
   return String(n).padStart(2, "0");
+}
+
+/**
+ * Bottom-edge hover affordance that hints "schedule a tour" without
+ * stealing focus from the image. Hidden until hover, slides in from
+ * below, fully accessible by clicking anywhere on the card (the parent
+ * Link captures the click; this is a visual hint, not an interactive
+ * sub-element). Touch-only users skip this gracefully \u2014 they tap the
+ * card and land on the detail page where the real tour CTA lives.
+ */
+function ScheduleTourAffordance() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 translate-y-full bg-navy-ink/85 px-4 py-3 text-center font-sans text-[10.5px] font-medium uppercase tracking-[0.24em] text-cream backdrop-blur-sm transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0"
+    >
+      Schedule a tour
+      <span className="ml-2 text-crimson-bright">&rarr;</span>
+    </div>
+  );
 }
