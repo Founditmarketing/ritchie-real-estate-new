@@ -95,7 +95,12 @@ export function ListingHero({ listing }: { listing: Listing }) {
           </Beat>
         ) : null}
 
-        <h1 className="mt-7 max-w-[18ch] font-serif font-medium tracking-[-0.025em] text-paper [text-shadow:0_2px_60px_oklch(0.10_0.05_262/0.55)]">
+        {/* Do NOT add a `ch`-based max-width here. `ch` resolves against
+            the h1's inherited 16px font-size, not the 140px clamp on the
+            children inside the Beat \u2014 it would shrink the container to
+            ~144px and clip the property title. Width is bounded by the
+            outer 1440px container. */}
+        <h1 className="mt-7 font-serif font-medium tracking-[-0.025em] text-paper [text-shadow:0_2px_60px_oklch(0.10_0.05_262/0.55)]">
           <Beat delay={0.13} block reduced={reduced}>
             {/* leading 1.02 keeps Cormorant ascenders/descenders inside
                 the Beat's overflow-hidden mask. */}

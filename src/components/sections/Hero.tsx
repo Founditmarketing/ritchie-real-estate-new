@@ -122,14 +122,20 @@ export function Hero() {
         */}
         {/*
           NOTE on line-height: Beat wraps each line in `overflow-hidden`
-          for the mask-reveal animation. Cormorant Garamond ascenders and
-          descenders extend ~5% past the line-box, so any `leading` value
-          below ~1.0 clips glyphs at large desktop sizes. Use 1.02 for
-          upright lines and 0.98 for the italic (italics are taller in
-          Cormorant; 0.98 leaves room for the dot in "Ritchie." without
-          inflating the headline rhythm).
+          for the mask-reveal animation. Cormorant ascenders/descenders
+          extend ~5% past the line-box; any `leading` below ~1.0 clips
+          glyphs at large desktop sizes. Use 1.02 for upright and 0.98
+          for the italic ("Ritchie.").
+
+          NOTE on width: NEVER constrain this h1 with `ch` units. `ch`
+          resolves against the h1's own font-size (inherits 16px from
+          body, not the 148px clamp on the children), so a value like
+          `max-w-[18ch]` becomes ~144px on desktop and squeezes the huge
+          headline text into a sliver \u2014 producing the persistent
+          "chopped" rendering bug. The h1 takes full container width;
+          each Beat is `block` so words wrap naturally per line.
         */}
-        <h1 className="font-serif font-medium tracking-[-0.025em] text-paper [text-shadow:0_2px_60px_oklch(0.10_0.05_262/0.6)] max-w-full sm:max-w-[18ch]">
+        <h1 className="font-serif font-medium tracking-[-0.025em] text-paper [text-shadow:0_2px_60px_oklch(0.10_0.05_262/0.6)]">
           <Beat block delay={0.05} reduced={reduced} className="text-[clamp(40px,9vw,148px)] leading-[1.02]">
             Central
           </Beat>
