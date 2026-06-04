@@ -300,11 +300,11 @@ function marketSummary(city?: string): string {
   const lines = areas.map((a) => {
     const median = a.stats.find((s) => s.label.toLowerCase().includes("median"))?.value ?? "—";
     const dom = a.stats.find((s) => s.label.toLowerCase().includes("dom"))?.value ?? "—";
-    return `• ${a.name} — ${median} median, ${dom} DOM`;
+    return `• ${a.name}: ${median} median, ${dom} DOM`;
   });
   return `Here's the lay of the land across Cenla right now:\n${lines.join(
     "\n",
-  )}\n\nWe don't guess the market — we track it. Want me to dig into one of these?`;
+  )}\n\nWe don't guess the market, we track it. Want me to dig into one of these?`;
 }
 
 const GREETING_CHIPS = [
@@ -327,7 +327,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
   if (!text) {
     return {
       reply:
-        "I'm Matt's desk on the web — I know every active listing in Central Louisiana. Tell me what you're after: a home, commercial space, or land. Or ask me what the market's doing.",
+        "I'm Matt's desk on the web. I know every active listing in Central Louisiana. Tell me what you're after: a home, commercial space, or land. Or ask what the market's doing.",
       chips: GREETING_CHIPS,
     };
   }
@@ -336,7 +336,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
   if (wantsToConnect(text)) {
     return {
       reply:
-        "Good — let's get you on Matt's calendar. Drop your name and the best way to reach you, plus a line on what you're after, and he'll follow up personally. No call center, no drip campaign.",
+        "Good. Let's get you on Matt's calendar. Drop your name and the best way to reach you, plus a line on what you're after, and he'll follow up personally. No call center, no drip campaign.",
       cta: "lead",
     };
   }
@@ -389,14 +389,14 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
       });
       if (relaxed.length) {
         return {
-          reply: `Nothing active matches ${summary} this minute — Cenla inventory is tight. Here's the closest I'd show you instead. Want me to flag you the moment something fits?`,
+          reply: `Nothing active matches ${summary} this minute; Cenla inventory is tight. Here's the closest I'd show you instead. Want me to flag you the moment something fits?`,
           listings: relaxed.map(toCard),
           chips: ["Notify me", "Widen the budget", "Talk to Matt"],
           cta: "lead",
         };
       }
       return {
-        reply: `I don't have anything active for ${summary} right now. Leave your details and Matt will reach out the moment one hits the market — he usually knows before it's listed.`,
+        reply: `I don't have anything active for ${summary} right now. Leave your details and Matt will reach out the moment one hits the market; he usually knows before it's listed.`,
         cta: "lead",
       };
     }

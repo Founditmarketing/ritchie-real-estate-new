@@ -216,3 +216,28 @@ h1, h2, h3, .serif {
 .leaflet-control-attribution a {
   color: var(--color-crimson-bright) !important;
 }
+
+/* ---------------------------------------------------------------- */
+/* Ask Ritchie concierge — refined dark scrollbar                   */
+/* ---------------------------------------------------------------- */
+.chat-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--color-cream) 16%, transparent)
+    transparent;
+}
+.chat-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.chat-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chat-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--color-cream) 14%, transparent);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.chat-scroll:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--color-crimson) 42%, transparent);
+  background-clip: padding-box;
+}

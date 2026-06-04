@@ -131,7 +131,7 @@ export function ExploreClient({ listings }: { listings: ExploreListing[] }) {
         }
       } catch {
         setAiReply(
-          "I lost my connection for a second — try again, or call Matt at 318-449-8919.",
+          "I lost my connection for a second. Try again, or call Matt at 318-449-8919.",
         );
       } finally {
         setLoading(false);

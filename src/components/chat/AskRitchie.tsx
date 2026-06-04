@@ -33,7 +33,7 @@ const GREETING: UIMessage = {
   id: "greeting",
   role: "assistant",
   content:
-    "I'm Matt's desk on the web — I know every active listing in Central Louisiana. What are you after?",
+    "I'm Matt's desk on the web. I know every active listing in Central Louisiana, the streets they're on, and what they're really worth. What are you after?",
   chips: [
     "Find me a home",
     "Commercial space",
@@ -271,7 +271,7 @@ export function AskRitchie() {
             ref={launcherRef}
             type="button"
             onClick={() => setOpen(true)}
-            aria-label="Ask Ritchie — chat with the Cenla concierge"
+            aria-label="Ask Ritchie, the Cenla concierge"
             initial={reduce ? false : { opacity: 0, scale: 0.85, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 12 }}
@@ -332,11 +332,16 @@ export function AskRitchie() {
               )}
             >
               {/* Header */}
-              <header className="relative flex items-center gap-3 border-b border-cream/10 bg-navy-ink/60 px-5 py-4">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-navy">
+              <header className="relative flex items-center gap-3 overflow-hidden border-b border-cream/10 bg-navy-ink/60 px-5 py-4">
+                {/* Brand ember: a warm crimson glow that grounds the crest. */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -left-10 -top-16 h-40 w-40 rounded-full bg-[radial-gradient(circle,oklch(0.50_0.18_22/0.28),transparent_70%)]"
+                />
+                <span className="relative grid h-10 w-10 place-items-center rounded-full bg-navy ring-1 ring-cream/10">
                   <LogoMark tone="light" size={26} />
                 </span>
-                <span className="leading-tight">
+                <span className="relative leading-tight">
                   <span
                     id={titleId}
                     className="block font-serif text-[18px] text-cream"
@@ -344,8 +349,8 @@ export function AskRitchie() {
                     Ask Ritchie
                   </span>
                   <span className="flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.22em] text-cream-warm/60">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    Online · answers in seconds
+                    <PulseDot />
+                    Replies instantly
                   </span>
                 </span>
                 <button
@@ -353,7 +358,7 @@ export function AskRitchie() {
                   onClick={close}
                   aria-label="Close chat"
                   data-cursor="grow"
-                  className="ml-auto grid h-9 w-9 place-items-center rounded-full text-cream-warm/70 transition-colors hover:bg-cream/10 hover:text-cream"
+                  className="relative ml-auto grid h-10 w-10 place-items-center rounded-full text-cream-warm/70 transition-colors hover:bg-cream/10 hover:text-cream"
                 >
                   <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
                     <path
@@ -369,17 +374,23 @@ export function AskRitchie() {
               {/* Messages */}
               <div
                 ref={scrollRef}
-                className="flex-1 space-y-5 overflow-y-auto px-5 py-5"
+                className="chat-scroll flex-1 space-y-5 overflow-y-auto px-5 py-5"
               >
                 {messages.map((m) => (
-                  <MessageBlock
+                  <motion.div
                     key={m.id}
-                    message={m}
-                    onChip={send}
-                    leadState={leadState}
-                    onLeadSubmit={submitLead}
-                    onCloseAfterNav={close}
-                  />
+                    initial={reduce ? false : { opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: reduce ? 0 : 0.34, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <MessageBlock
+                      message={m}
+                      onChip={send}
+                      leadState={leadState}
+                      onLeadSubmit={submitLead}
+                      onCloseAfterNav={close}
+                    />
+                  </motion.div>
                 ))}
                 {loading && <TypingDots />}
               </div>
@@ -418,7 +429,7 @@ export function AskRitchie() {
                     disabled={!input.trim() || loading}
                     aria-label="Send"
                     data-cursor="grow"
-                    className="grid h-9 w-9 shrink-0 place-items-center rounded-[3px] bg-crimson text-cream transition-colors hover:bg-crimson-bright disabled:opacity-35"
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-[3px] bg-crimson text-cream transition-colors hover:bg-crimson-bright disabled:opacity-35"
                   >
                     <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
                       <path
@@ -514,7 +525,7 @@ function ListingChip({
 }) {
   const meta =
     listing.type === "land"
-      ? `${listing.sqft ? "" : ""}Land`
+      ? "Land"
       : listing.type === "commercial"
         ? `${listing.sqft.toLocaleString()} sq ft · Commercial`
         : `${listing.beds} bd · ${listing.baths} ba · ${listing.sqft.toLocaleString()} sq ft`;
@@ -526,7 +537,7 @@ function ListingChip({
       data-cursor-label="View"
       className="group flex gap-3 overflow-hidden rounded-[4px] border border-cream/12 bg-navy/60 p-2 transition-colors hover:border-crimson/45"
     >
-      <span className="relative h-16 w-20 shrink-0 overflow-hidden rounded-[2px] bg-navy">
+      <span className="relative h-[72px] w-[104px] shrink-0 overflow-hidden rounded-[2px] bg-navy">
         {listing.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -536,9 +547,17 @@ function ListingChip({
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : null}
+        {listing.badge ? (
+          <span className="absolute left-1 top-1 bg-crimson px-1.5 py-0.5 text-[8px] font-medium uppercase tracking-[0.1em] text-cream">
+            {listing.badge}
+          </span>
+        ) : null}
       </span>
       <span className="flex min-w-0 flex-1 flex-col justify-center">
-        <span className="truncate font-serif text-[14px] text-cream">
+        <span className="font-serif text-[17px] leading-none text-crimson-bright">
+          {listing.price}
+        </span>
+        <span className="mt-1 truncate font-serif text-[14px] text-cream">
           {listing.title}
         </span>
         <span className="truncate font-sans text-[11px] text-cream-warm/60">
@@ -546,13 +565,8 @@ function ListingChip({
             ? `${listing.neighborhood}, ${listing.city}`
             : listing.city}
         </span>
-        <span className="mt-0.5 flex items-baseline gap-2">
-          <span className="font-serif text-[14px] text-crimson-bright">
-            {listing.price}
-          </span>
-          <span className="truncate font-sans text-[10px] uppercase tracking-[0.12em] text-cream-warm/45">
-            {meta}
-          </span>
+        <span className="mt-0.5 truncate font-sans text-[10px] uppercase tracking-[0.12em] text-cream-warm/45">
+          {meta}
         </span>
       </span>
     </Link>
@@ -624,5 +638,23 @@ function TypingDots() {
         />
       ))}
     </div>
+  );
+}
+
+/** On-brand "live" indicator: a crimson dot with a slow expanding halo.
+ *  Replaces the generic green status dot. Respects reduced motion. */
+function PulseDot() {
+  const reduce = useReducedMotion();
+  return (
+    <span className="relative grid h-1.5 w-1.5 place-items-center">
+      {!reduce && (
+        <motion.span
+          className="absolute inset-0 rounded-full bg-crimson-bright"
+          animate={{ scale: [1, 2.6], opacity: [0.55, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+        />
+      )}
+      <span className="relative h-1.5 w-1.5 rounded-full bg-crimson-bright" />
+    </span>
   );
 }
