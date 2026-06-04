@@ -42,6 +42,9 @@ export interface ConciergeReply {
   chips?: string[];
   /** When set, the UI renders the inline "connect with Matt" lead form. */
   cta?: "lead" | null;
+  /** Every matching listing id (not just the 3 shown) — lets the map plot
+   *  the full result set the same brain produced for the chat. */
+  matchedIds?: string[];
 }
 
 type Filters = {
@@ -84,11 +87,11 @@ function parseMoney(raw: string): number | undefined {
 const MONEY = String.raw`\$?\s?\d[\d,]*\.?\d*\s?(?:k|m|thousand|grand|million|mil)?`;
 
 function detectType(text: string): ListingType | undefined {
-  if (/\b(commercial|office|retail|industrial|investment|nnn|warehouse|storefront)\b/.test(text))
+  if (/\b(commercial|office(s)?|retail|industrial|investment|nnn|warehouse(s)?|storefront(s)?)\b/.test(text))
     return "commercial";
-  if (/\b(land|acre|acreage|lot|tract|pasture|farm)\b/.test(text)) return "land";
-  if (/\b(rent|rental|renting|lease|leasing)\b/.test(text)) return "rental";
-  if (/\b(home|house|residential|condo|cottage|ranch|colonial|estate|3 ?bed|buy a)\b/.test(text))
+  if (/\b(land|acre(s|age)?|lot(s)?|tract(s)?|pasture(s)?|farm(s)?)\b/.test(text)) return "land";
+  if (/\b(rent|rental(s)?|renting|lease|leasing)\b/.test(text)) return "rental";
+  if (/\b(home(s)?|house(s)?|residential|condo(s)?|cottage(s)?|ranch(es)?|colonial(s)?|estate(s)?|\d ?bed(room)?(s)?|buy a)\b/.test(text))
     return "residential";
   return undefined;
 }
@@ -363,7 +366,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
 
   // Property search.
   if (hasSearchSignal(filters) || /\b(home|house|listing|listings|buy|looking|find|show me|property)\b/.test(text)) {
-    const results = await getListings({
+    const all = await getListings({
       type: filters.type ?? "all",
       city: filters.city,
       priceMin: filters.priceMin,
@@ -371,8 +374,9 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
       bedsMin: filters.bedsMin,
       status: "active",
       sort: "newest",
-      limit: 3,
     });
+    const results = all.slice(0, 3);
+    const matchedIds = all.map((l) => l.id);
 
     const summary = describeFilters(filters);
 
@@ -409,6 +413,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
         top.address.neighborhood ?? top.address.city
       } is a strong spot. Want a closer look or a showing?`,
       listings: results.map(toCard),
+      matchedIds,
       chips: [
         filters.city ? "Anywhere in Cenla" : "Only Alexandria",
         filters.priceMax ? "Stretch the budget" : "Under $300k",

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   AnimatePresence,
   motion,
@@ -55,6 +56,7 @@ export function openAskRitchie() {
 }
 
 export function AskRitchie() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<UIMessage[]>([GREETING]);
   const [input, setInput] = useState("");
@@ -255,6 +257,10 @@ export function AskRitchie() {
   );
 
   const dur = reduce ? 0 : 0.42;
+
+  // The /explore page is itself a full concierge experience — don't stack a
+  // second floating launcher on top of it.
+  if (pathname === "/explore") return null;
 
   return (
     <>

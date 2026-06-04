@@ -7,6 +7,7 @@ import { LogoWordmarkImage } from "@/components/brand/Logo";
 import { cn } from "@/lib/cn";
 
 const NAV = [
+  { href: "/explore", label: "Map" },
   { href: "/listings", label: "Buy" },
   { href: "/sell", label: "Sell" },
   { href: "/listings?type=commercial", label: "Commercial" },

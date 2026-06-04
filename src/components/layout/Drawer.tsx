@@ -6,6 +6,7 @@ import { LogoWordmarkImage } from "@/components/brand/Logo";
 import { duration, ease, stagger } from "@/lib/motion";
 
 const ITEMS = [
+  { href: "/explore", label: "Map Search" },
   { href: "/listings", label: "Buy a Home" },
   { href: "/sell", label: "Sell a Home" },
   { href: "/listings?type=commercial", label: "Commercial" },
