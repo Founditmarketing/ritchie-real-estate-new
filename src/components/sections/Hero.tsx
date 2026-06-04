@@ -148,7 +148,7 @@ export function Hero() {
       {/* THE STATEMENT --------------------------------------------- */}
       <motion.div
         style={{ opacity: copyOpacity, y: copyY }}
-        className="relative z-10 mx-auto mt-auto w-full max-w-[1440px] px-6 pb-24 sm:pb-28 lg:px-12 lg:pb-32"
+        className="relative z-10 mx-auto mt-auto w-full max-w-[1440px] px-6 pb-[104px] sm:pb-28 lg:px-12 lg:pb-32"
       >
         {/*
           Type sized to fit Cormorant Garamond at every breakpoint without
@@ -222,7 +222,7 @@ export function Hero() {
               opens "Ask Ritchie" — talk to someone who knows the ground
               before you ever browse a grid. Browsing is the quieter,
               secondary path beneath it. */}
-          <div className="flex flex-col items-start gap-4 md:items-end">
+          <div className="flex w-full flex-col items-stretch gap-3 md:w-auto md:items-end">
             <MagneticButton
               href="#ask-ritchie"
               onClick={(e) => {
@@ -232,7 +232,7 @@ export function Hero() {
               role="button"
               aria-haspopup="dialog"
               data-cursor-label="Ask"
-              className="group inline-flex items-center gap-4 self-start bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream shadow-[0_18px_40px_-12px_oklch(0.40_0.17_20/0.6)] transition-colors hover:bg-crimson-deep md:self-end"
+              className="group inline-flex w-full items-center justify-center gap-4 bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream shadow-[0_18px_40px_-12px_oklch(0.40_0.17_20/0.6)] transition-colors hover:bg-crimson-deep md:w-auto md:justify-start md:self-end"
               strength={32}
             >
               <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
@@ -248,7 +248,7 @@ export function Hero() {
             <Link
               href="/listings"
               data-cursor-label="Search"
-              className="group inline-flex items-center gap-3 self-start font-sans text-[11px] uppercase tracking-[0.2em] text-cream-warm/80 transition-colors hover:text-cream md:self-end"
+              className="group inline-flex w-full items-center justify-center gap-3 border border-cream/25 px-6 py-3.5 font-sans text-[11px] uppercase tracking-[0.2em] text-cream-warm/85 transition duration-150 ease-out hover:border-cream/50 hover:text-cream active:scale-[0.98] md:w-auto md:justify-end md:border-0 md:px-0 md:py-0 md:text-cream-warm/80 md:active:scale-100 md:self-end"
             >
               Or browse what&rsquo;s on the market
               <span

@@ -5,7 +5,56 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 export function Broker() {
   return (
     <section id="broker" className="bg-navy-ink text-paper">
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_1.05fr]">
+      {/* MOBILE — full-bleed portrait as a profile header, name + creds
+          overlaid, condensed story beneath. */}
+      <div className="md:hidden">
+        <div className="relative h-[80svh] min-h-[520px]">
+          <Image
+            src="/team/matt-ritchie.png"
+            alt="Matt Ritchie, broker and owner of Ritchie Real Estate, on the cover of REALTOR Magazine's CREATE"
+            fill
+            sizes="100vw"
+            className="object-cover object-top"
+            priority={false}
+          />
+          <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-navy-ink/70 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-navy-ink via-navy-ink/75 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 px-7 pb-9">
+            <Eyebrow variant="stamp" tone="cream">
+              The broker
+            </Eyebrow>
+            <div className="mt-3 font-serif text-[40px] italic leading-[1] text-paper drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+              Matt Ritchie
+            </div>
+            <div className="mt-1.5 font-sans text-[10.5px] uppercase tracking-[0.18em] text-crimson-bright">
+              Broker &middot; Owner
+            </div>
+            <p className="mt-5 border-t border-cream/20 pt-4 font-sans text-[10.5px] uppercase tracking-[0.12em] text-cream-warm/85">
+              CCIM <span className="text-crimson-bright">&middot;</span> Louisiana
+              REALTOR&reg; of the Year{" "}
+              <span className="text-crimson-bright">&middot;</span> Cenla&rsquo;s Best
+            </p>
+          </div>
+        </div>
+        <div className="px-7 py-12">
+          <h2 className="font-serif text-[30px] leading-[1.08] tracking-[-0.015em] text-paper">
+            It started with one belief.{" "}
+            <em className="not-italic italic text-crimson-bright">Know the ground.</em>
+          </h2>
+          <p className="mt-5 font-serif text-[17px] italic leading-[1.6] text-cream-warm">
+            Anybody can pull a listing off the MLS. Knowing what a Garden
+            District lot really trades for, or which commercial corridor is
+            about to turn: that takes a lifetime in Cenla.
+          </p>
+          <p className="mt-6 inline-flex items-center gap-3 font-sans text-[10.5px] uppercase tracking-[0.18em] text-mute">
+            <span className="h-px w-6 bg-crimson-bright" />
+            Cover, REALTOR&reg; Magazine&rsquo;s CREATE &middot; Fall 2022
+          </p>
+        </div>
+      </div>
+
+      {/* DESKTOP — editorial two-column */}
+      <div className="hidden md:grid md:grid-cols-[1fr_1.05fr]">
         {/* Mobile height tightened from 420 \u2192 320: at 420px the photo alone
             consumed >60% of a phone viewport, creating the "scroll through
             nothing then content" feel. */}

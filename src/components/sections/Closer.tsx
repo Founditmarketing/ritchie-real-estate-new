@@ -19,7 +19,7 @@ export function Closer() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden bg-navy-ink py-24 text-paper md:py-32"
+      className="relative overflow-hidden bg-navy-ink py-16 text-paper md:py-32"
     >
       {/* Crimson ember glow behind the CTA */}
       <div
@@ -50,12 +50,12 @@ export function Closer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.7, ease: ease.out, delay: 0.1 }}
-          className="mt-9 inline-block"
+          className="mt-9 block w-full md:inline-block md:w-auto"
         >
           <MagneticButton
             href="/contact"
             data-cursor-label="Call"
-            className="group inline-flex items-center gap-4 bg-crimson px-12 py-5 text-[13px] font-medium uppercase tracking-[0.22em] text-cream shadow-[0_24px_60px_-16px_oklch(0.40_0.17_20/0.65)] transition-colors hover:bg-crimson-deep"
+            className="group inline-flex w-full items-center justify-center gap-4 bg-crimson px-8 py-5 text-[13px] font-medium uppercase tracking-[0.22em] text-cream shadow-[0_24px_60px_-16px_oklch(0.40_0.17_20/0.65)] transition-colors hover:bg-crimson-deep md:w-auto md:px-12"
             strength={36}
           >
             Talk to Ritchie

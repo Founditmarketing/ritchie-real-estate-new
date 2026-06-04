@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { cn } from "@/lib/cn";
 
 const PRICE_OPTIONS = [
   { label: "Any price", min: undefined, max: undefined },
@@ -75,69 +76,202 @@ export function SearchBar() {
           </p>
         </div>
 
-        <form
-          onSubmit={submit}
-          className="grid grid-cols-1 gap-x-0 gap-y-3 border-t border-b border-cream/15 py-6 md:grid-cols-[1.4fr_1.4fr_0.9fr_1fr_auto] md:items-end md:gap-x-8 md:gap-y-0"
-        >
-          <Field label="I want">
-            <select
-              value={intent}
-              onChange={(e) => setIntent(e.target.value)}
-              className="w-full border-none bg-transparent font-serif text-[18px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
+        <form onSubmit={submit}>
+          {/* MOBILE — native app controls: segmented intent, chip rows,
+              one full-width action. No dropdowns. */}
+          <div className="space-y-6 border-t border-cream/15 pt-7 md:hidden">
+            <div>
+              <Legend>I want</Legend>
+              <div className="mt-2.5 grid grid-cols-2 gap-2">
+                {INTENTS.map((i) => (
+                  <Seg
+                    key={i.v}
+                    active={intent === i.v}
+                    onClick={() => setIntent(i.v)}
+                  >
+                    {i.label}
+                  </Seg>
+                ))}
+              </div>
+            </div>
+
+            <label className="block">
+              <Legend>In</Legend>
+              <input
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Alexandria, Pineville…"
+                className="mt-2.5 w-full rounded-[3px] border border-cream/15 bg-navy px-4 py-3.5 font-serif text-[18px] text-paper outline-none placeholder:text-mute/55 focus:border-crimson/55"
+              />
+            </label>
+
+            <div>
+              <Legend>Beds</Legend>
+              <div className="mt-2.5 flex gap-2">
+                {BEDS.map((b) => (
+                  <Chip
+                    key={b.v || "any"}
+                    active={beds === b.v}
+                    onClick={() => setBeds(b.v)}
+                    className="flex-1"
+                  >
+                    {b.label}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <Legend>Up to</Legend>
+              <div className="-mx-6 mt-2.5 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {PRICE_OPTIONS.map((p, i) => (
+                  <Chip
+                    key={p.label}
+                    active={priceIdx === i}
+                    onClick={() => setPriceIdx(i)}
+                    className="shrink-0 whitespace-nowrap"
+                  >
+                    {p.label}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="flex w-full items-center justify-center gap-3 bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition duration-150 ease-out hover:bg-crimson-deep active:scale-[0.98]"
             >
-              {INTENTS.map((i) => (
-                <option key={i.v} value={i.v}>
-                  {i.label}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label="In" border>
-            <input
-              type="text"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="Alexandria"
-              className="w-full border-none bg-transparent font-serif text-[18px] text-paper placeholder:text-mute/60 outline-none"
-            />
-          </Field>
-          <Field label="Beds" border>
-            <select
-              value={beds}
-              onChange={(e) => setBeds(e.target.value)}
-              className="w-full border-none bg-transparent font-serif text-[18px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
+              Search Cenla
+              <span aria-hidden>&rarr;</span>
+            </button>
+          </div>
+
+          {/* DESKTOP — editorial hairline grid */}
+          <div className="hidden border-t border-b border-cream/15 py-6 md:grid md:grid-cols-[1.4fr_1.4fr_0.9fr_1fr_auto] md:items-end md:gap-x-8">
+            <Field label="I want">
+              <select
+                value={intent}
+                onChange={(e) => setIntent(e.target.value)}
+                className="w-full border-none bg-transparent font-serif text-[18px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
+              >
+                {INTENTS.map((i) => (
+                  <option key={i.v} value={i.v}>
+                    {i.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="In" border>
+              <input
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Alexandria"
+                className="w-full border-none bg-transparent font-serif text-[18px] text-paper placeholder:text-mute/60 outline-none"
+              />
+            </Field>
+            <Field label="Beds" border>
+              <select
+                value={beds}
+                onChange={(e) => setBeds(e.target.value)}
+                className="w-full border-none bg-transparent font-serif text-[18px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
+              >
+                {BEDS.map((b) => (
+                  <option key={b.v || "any"} value={b.v}>
+                    {b.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Up to" border>
+              <select
+                value={priceIdx}
+                onChange={(e) => setPriceIdx(Number(e.target.value))}
+                className="w-full border-none bg-transparent font-serif text-[18px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
+              >
+                {PRICE_OPTIONS.map((p, i) => (
+                  <option key={p.label} value={i}>
+                    {p.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <button
+              type="submit"
+              data-cursor-label="Go"
+              className="inline-flex items-center justify-center gap-3 self-stretch bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition-colors hover:bg-crimson-deep"
             >
-              {BEDS.map((b) => (
-                <option key={b.v || "any"} value={b.v}>
-                  {b.label}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label="Up to" border>
-            <select
-              value={priceIdx}
-              onChange={(e) => setPriceIdx(Number(e.target.value))}
-              className="w-full border-none bg-transparent font-serif text-[18px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
-            >
-              {PRICE_OPTIONS.map((p, i) => (
-                <option key={p.label} value={i}>
-                  {p.label}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <button
-            type="submit"
-            data-cursor-label="Go"
-            className="mt-3 inline-flex items-center justify-center gap-3 self-stretch bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition-colors hover:bg-crimson-deep md:mt-0"
-          >
-            Search Cenla
-            <span aria-hidden>&rarr;</span>
-          </button>
+              Search Cenla
+              <span aria-hidden>&rarr;</span>
+            </button>
+          </div>
         </form>
       </div>
     </section>
+  );
+}
+
+function Legend({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="font-sans text-[10.5px] font-medium uppercase tracking-[0.22em] text-crimson-bright">
+      {children}
+    </span>
+  );
+}
+
+function Seg({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={cn(
+        "rounded-[3px] border px-4 py-3 text-center font-serif text-[16px] transition duration-150 ease-out active:scale-[0.97]",
+        active
+          ? "border-crimson bg-crimson text-cream"
+          : "border-cream/15 text-cream-warm hover:border-crimson/45 hover:text-paper",
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Chip({
+  active,
+  onClick,
+  children,
+  className,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={cn(
+        "rounded-full border px-4 py-2.5 font-sans text-[12.5px] tracking-wide transition duration-150 ease-out active:scale-[0.95]",
+        active
+          ? "border-crimson bg-crimson text-cream"
+          : "border-cream/15 text-cream-warm hover:border-crimson/45 hover:text-paper",
+        className,
+      )}
+    >
+      {children}
+    </button>
   );
 }
 

@@ -6,6 +6,7 @@ import { RouteTransitions } from "@/components/motion/RouteTransitions";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AskRitchie } from "@/components/chat/AskRitchie";
+import { MobileDock } from "@/components/layout/MobileDock";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -45,6 +46,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <AskRitchie />
+        <MobileDock />
       </body>
     </html>
   );

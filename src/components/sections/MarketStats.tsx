@@ -56,11 +56,11 @@ const STATS: Stat[] = [
 
 export function MarketStats() {
   return (
-    <section className="relative overflow-hidden bg-navy-deep py-24 text-paper md:py-32">
+    <section className="relative overflow-hidden bg-navy-deep py-16 text-paper md:py-32">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_0%,oklch(0.55_0.20_24/0.22),transparent_60%)]" />
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12">
-        <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">
+        <div className="mb-10 flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between md:gap-10">
           <Reveal>
             <Eyebrow variant="stamp" tone="crimson-bright">
               The Cenla market, right now
@@ -79,7 +79,7 @@ export function MarketStats() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 gap-px bg-cream/15 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-px bg-cream/15 lg:grid-cols-4">
           {STATS.map((s, i) => (
             <StatTile key={s.label} stat={s} index={i} />
           ))}
@@ -101,34 +101,34 @@ function StatTile({ stat, index }: { stat: Stat; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.5 }}
       transition={{ duration: 0.7, ease: ease.outExpo, delay: index * 0.08 }}
-      className="bg-navy-ink px-6 pt-8 pb-9 md:px-7 md:pb-10 md:pt-10"
+      className="bg-navy-ink px-4 pb-6 pt-6 md:px-7 md:pb-10 md:pt-10"
     >
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-2">
         <span className="text-[10px] uppercase tracking-[0.22em] text-crimson-bright">
           {String(index + 1).padStart(2, "0")}
         </span>
         <DeltaBadge value={stat.delta} good={colorIsGood} />
       </div>
 
-      <div className="mt-7 flex items-baseline gap-1 font-serif leading-none">
-        <span className="text-[clamp(54px,5vw,80px)] font-semibold tracking-[-0.02em] text-paper">
+      <div className="mt-5 flex items-baseline gap-1 font-serif leading-none md:mt-7">
+        <span className="text-[clamp(38px,11vw,80px)] font-semibold tracking-[-0.02em] text-paper">
           {stat.prefix}
           <Counter to={stat.value} />
         </span>
         {stat.suffix ? (
-          <span className="text-[clamp(22px,2vw,32px)] font-light text-crimson-bright">
+          <span className="text-[clamp(16px,4vw,32px)] font-light text-crimson-bright">
             {stat.suffix}
           </span>
         ) : null}
       </div>
 
-      <Sparkline values={stat.spark} good={colorIsGood} className="mt-5" />
+      <Sparkline values={stat.spark} good={colorIsGood} className="mt-4 md:mt-5" />
 
-      <div className="mt-6 border-t border-cream/15 pt-4">
-        <div className="text-[12px] font-medium uppercase tracking-[0.16em] text-cream">
+      <div className="mt-5 border-t border-cream/15 pt-4 md:mt-6">
+        <div className="text-[11.5px] font-medium uppercase tracking-[0.14em] text-cream md:text-[12px] md:tracking-[0.16em]">
           {stat.label}
         </div>
-        <div className="mt-1.5 text-[12px] font-light text-cream-warm/65">
+        <div className="mt-1.5 text-[11.5px] font-light text-cream-warm/65 md:text-[12px]">
           {stat.sub}
         </div>
       </div>

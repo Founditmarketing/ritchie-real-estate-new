@@ -45,7 +45,7 @@ export function Sell() {
   }
 
   return (
-    <section id="sell" className="relative isolate overflow-hidden bg-navy-ink py-24 md:py-32">
+    <section id="sell" className="relative isolate overflow-hidden bg-navy-ink py-16 md:py-32">
       {/* Ghost serif "Worth." sits behind everything as ambient watermark */}
       <span
         aria-hidden
@@ -55,8 +55,9 @@ export function Sell() {
       </span>
 
       <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 gap-12 px-6 lg:grid-cols-[1fr_2fr] lg:gap-20 lg:px-12">
-        {/* LEFT — single architectural detail, treated as fine art ---- */}
-        <Reveal className="relative">
+        {/* LEFT — single architectural detail, treated as fine art.
+            Hidden on phones so the valuation form leads, app-style. */}
+        <Reveal className="relative hidden lg:block">
           <figure className="relative">
             <div className="relative aspect-[3/4] w-full max-w-[360px] overflow-hidden">
               <Image
@@ -161,7 +162,7 @@ export function Sell() {
             <button
               type="submit"
               disabled={status === "sending" || submitted}
-              className="group relative whitespace-nowrap bg-crimson px-7 py-4 text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-crimson-deep disabled:opacity-60"
+              className="group relative whitespace-nowrap bg-crimson px-7 py-4 text-[11px] uppercase tracking-[0.18em] text-cream transition duration-150 ease-out hover:bg-crimson-deep active:scale-[0.99] disabled:opacity-60"
             >
               <span className="relative z-10">
                 {submitted

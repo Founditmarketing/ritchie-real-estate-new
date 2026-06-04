@@ -4,6 +4,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
 import { PlateImage } from "@/components/listing/PlateImage";
 import { TiltCard } from "@/components/listing/TiltCard";
+import { FeaturedCarousel } from "@/components/sections/FeaturedCarousel";
 import { getListings, formatPrice, formatSqft, type Listing } from "@/lib/listings";
 
 /**
@@ -21,7 +22,7 @@ export async function FeaturedListings() {
   const rest = items.filter((l) => l.id !== feat.id).slice(0, 3);
 
   return (
-    <section className="relative bg-navy-deep py-24 md:py-32">
+    <section className="relative bg-navy-deep py-16 md:py-32">
       <span
         aria-hidden
         className="pointer-events-none absolute -right-4 top-24 hidden font-serif italic font-medium text-[14vw] leading-[0.8] text-paper/[0.04] lg:block"
@@ -31,7 +32,7 @@ export async function FeaturedListings() {
 
       <div className="relative mx-auto max-w-[1440px] px-6 lg:px-12">
         <Reveal>
-          <div className="mb-14 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between md:gap-10">
+          <div className="mb-9 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between md:gap-10">
             <div>
               <Eyebrow variant="numbered" num="01" tone="crimson-bright">
                 Now on the market
@@ -56,21 +57,27 @@ export async function FeaturedListings() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.05}>
-          <FeaturePlate listing={feat} />
-        </Reveal>
+        {/* MOBILE — native swipe carousel with pagination dots */}
+        <FeaturedCarousel items={[feat, ...rest]} />
 
-        <Reveal delay={0.08}>
-          <ul className="mt-20 grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-            {rest.map((l, i) => (
-              <PortraitPlate
-                key={l.id}
-                listing={l}
-                num={String(i + 2).padStart(2, "0")}
-              />
-            ))}
-          </ul>
-        </Reveal>
+        {/* DESKTOP — editorial spread */}
+        <div className="hidden md:block">
+          <Reveal delay={0.05}>
+            <FeaturePlate listing={feat} />
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <ul className="mt-20 grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+              {rest.map((l, i) => (
+                <PortraitPlate
+                  key={l.id}
+                  listing={l}
+                  num={String(i + 2).padStart(2, "0")}
+                />
+              ))}
+            </ul>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

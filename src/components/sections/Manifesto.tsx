@@ -30,7 +30,7 @@ export function Manifesto() {
   return (
     <section
       ref={ref}
-      className="relative isolate overflow-hidden bg-navy-deep py-28 md:py-44"
+      className="relative isolate overflow-hidden bg-navy-deep py-20 md:py-44"
     >
       {/* Crimson ember wash, low and central, lighting the type from below */}
       <div
@@ -89,7 +89,7 @@ export function Manifesto() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.8, ease: ease.outExpo, delay: 0.15 }}
-          className="mx-auto mt-12 max-w-[52ch] text-center font-serif text-[clamp(17px,1.4vw,22px)] font-normal italic leading-[1.55] text-cream-warm"
+          className="mx-auto mt-9 max-w-[52ch] text-center font-serif text-[clamp(17px,1.4vw,22px)] font-normal italic leading-[1.55] text-cream-warm md:mt-12"
         >
           Anybody can pull a listing off the MLS. Knowing what a Garden
           District lot really trades for, or which commercial corridor is
