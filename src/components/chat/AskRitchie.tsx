@@ -277,7 +277,7 @@ export function AskRitchie() {
             exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 12 }}
             transition={{ duration: reduce ? 0 : 0.32, ease: [0.16, 1, 0.3, 1] }}
             data-cursor="grow"
-            className="group fixed bottom-[calc(80px+env(safe-area-inset-bottom))] right-4 z-[80] flex items-center gap-3 rounded-full border border-cream/15 bg-navy-deep/90 py-2.5 pl-2.5 pr-5 shadow-[0_18px_48px_-12px_rgba(0,0,0,0.7)] backdrop-blur-md transition-colors hover:border-crimson/50 md:bottom-7 md:right-7"
+            className="group fixed bottom-5 right-5 z-[80] hidden items-center gap-3 rounded-full border border-cream/15 bg-navy-deep/90 py-2.5 pl-2.5 pr-5 shadow-[0_18px_48px_-12px_rgba(0,0,0,0.7)] backdrop-blur-md transition-colors hover:border-crimson/50 md:bottom-7 md:right-7 md:flex"
           >
             <span className="relative grid h-10 w-10 place-items-center rounded-full bg-navy">
               <LogoMark tone="light" size={26} />
