@@ -5,14 +5,13 @@ import { useRef } from "react";
 import { ease } from "@/lib/motion";
 
 /**
- * A type-only section break. One massive italic word does the heavy
- * lifting; one quiet supporting line earns the breath. No image, no
- * card, no eyebrow rule. Inserts between the navy hero and the navy
- * market band so the page rhythm goes dark / light / dark.
+ * A type-only section break on the dark canvas. Two words carry the whole
+ * brand: "Ritchie knows." No image, no card. Sits between the hero and the
+ * market band, a held breath before the data.
  *
- * Scroll-driven choreography: the word "Local" enters from the left
- * as you scroll, while "matters." trails behind from the right. Both
- * arrive at full size and centered by the time the section is in view.
+ * Scroll-driven choreography: "Ritchie" drifts in from the left while
+ * "knows." trails from the right; both settle centered as the section
+ * enters view.
  */
 export function Manifesto() {
   const ref = useRef<HTMLElement>(null);
@@ -31,8 +30,13 @@ export function Manifesto() {
   return (
     <section
       ref={ref}
-      className="relative isolate overflow-hidden bg-cream py-28 md:py-44"
+      className="relative isolate overflow-hidden bg-navy-deep py-28 md:py-44"
     >
+      {/* Crimson ember wash, low and central, lighting the type from below */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_120%,oklch(0.50_0.19_24/0.28)_0%,transparent_65%)]"
+      />
       {/* Ghost diamond mark, mid-left, distant scale  */}
       <div
         aria-hidden
@@ -42,9 +46,9 @@ export function Manifesto() {
           <polygon
             points="60,4 116,70 60,136 4,70"
             fill="none"
-            stroke="oklch(0.50 0.18 22)"
+            stroke="oklch(0.64 0.21 24)"
             strokeWidth="0.8"
-            opacity="0.18"
+            opacity="0.22"
           />
         </svg>
       </div>
@@ -55,29 +59,28 @@ export function Manifesto() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.7, ease: ease.outExpo }}
-          className="block text-center font-sans text-[11px] uppercase tracking-[0.32em] text-crimson"
+          className="block text-center font-sans text-[11px] uppercase tracking-[0.32em] text-crimson-bright"
         >
-          A belief, not a tagline
+          The whole pitch, two words
         </motion.span>
 
         {/*
-          Clamp floor must accommodate the longest word ("matters.") inside
-          the container at the smallest expected viewport (320\u2013375px). At
-          48px italic Cormorant, "matters." is ~165px wide \u2014 fits even with
-          ~22px scroll drift inside a 280px - 48px container.
+          Clamp floor accommodates the longest word ("Ritchie") inside the
+          container at the smallest viewport. Cormorant italic at 48px keeps
+          well inside a 280px-48px container even with ~22px scroll drift.
         */}
-        <h2 className="mt-10 select-none text-center font-serif font-medium leading-[0.92] tracking-[-0.045em] text-navy-ink">
+        <h2 className="mt-10 select-none text-center font-serif font-medium leading-[0.92] tracking-[-0.045em] text-paper [text-shadow:0_4px_70px_oklch(0.08_0.03_264/0.7)]">
           <motion.span
             style={{ x: w1X }}
             className="block text-[clamp(48px,18vw,360px)] italic"
           >
-            Local
+            Ritchie
           </motion.span>
           <motion.span
             style={{ x: w2X }}
-            className="block text-[clamp(48px,18vw,360px)] italic text-crimson"
+            className="block text-[clamp(48px,18vw,360px)] italic text-crimson-bright"
           >
-            matters.
+            knows.
           </motion.span>
         </h2>
 
@@ -86,7 +89,7 @@ export function Manifesto() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.8, ease: ease.outExpo, delay: 0.15 }}
-          className="mx-auto mt-12 max-w-[52ch] text-center font-serif text-[clamp(17px,1.4vw,22px)] font-normal italic leading-[1.55] text-ink-soft"
+          className="mx-auto mt-12 max-w-[52ch] text-center font-serif text-[clamp(17px,1.4vw,22px)] font-normal italic leading-[1.55] text-cream-warm"
         >
           Anybody can pull a listing off the MLS. Knowing what a Garden
           District lot really trades for, or which commercial corridor is
@@ -98,9 +101,9 @@ export function Manifesto() {
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 1.2, ease: ease.outExpo, delay: 0.3 }}
-          className="mx-auto mt-14 h-px w-24 origin-left bg-crimson"
+          className="mx-auto mt-14 h-px w-24 origin-left bg-crimson-bright"
         />
-        <p className="mt-5 text-center font-sans text-[10.5px] uppercase tracking-[0.28em] text-ink-soft">
+        <p className="mt-5 text-center font-sans text-[10.5px] uppercase tracking-[0.28em] text-mute">
           Matt Ritchie &mdash; Broker, Owner
         </p>
       </div>

@@ -39,7 +39,7 @@ export function Header() {
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-[background,box-shadow,backdrop-filter] duration-500",
           scrolled
-            ? "bg-cream/95 backdrop-blur shadow-[0_1px_0_var(--color-line)]"
+            ? "bg-navy-ink/80 backdrop-blur-md shadow-[0_1px_0_var(--color-line)]"
             : "bg-transparent",
         )}
       >
@@ -61,13 +61,12 @@ export function Header() {
             className="inline-block"
           >
             <LogoWordmarkImage
+              light
               width={150}
               priority
               className={cn(
                 "h-auto w-[120px] transition-[filter] duration-500 md:w-[150px]",
-                scrolled
-                  ? "drop-shadow-none"
-                  : "[filter:drop-shadow(0_1px_2px_rgba(0,0,0,0.5))_drop-shadow(0_8px_24px_rgba(0,0,0,0.35))]",
+                "[filter:drop-shadow(0_1px_2px_rgba(0,0,0,0.55))_drop-shadow(0_8px_24px_rgba(0,0,0,0.4))]",
               )}
             />
           </Link>
@@ -78,9 +77,8 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative text-[13.5px] tracking-wide transition-colors hover:text-crimson",
-                  "after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-crimson after:transition-[width] after:duration-300 hover:after:w-full",
-                  scrolled ? "text-ink" : "text-cream",
+                  "relative text-[13.5px] tracking-wide text-cream/90 transition-colors hover:text-crimson-bright",
+                  "after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-crimson-bright after:transition-[width] after:duration-300 hover:after:w-full",
                 )}
               >
                 {item.label}
@@ -92,7 +90,7 @@ export function Header() {
                 "border px-5 py-2.5 text-[11.5px] tracking-[0.12em] uppercase font-medium transition-colors",
                 scrolled
                   ? "bg-crimson text-cream border-crimson hover:bg-crimson-deep"
-                  : "border-cream text-cream hover:bg-cream hover:text-navy",
+                  : "border-cream/60 text-cream hover:bg-crimson hover:border-crimson",
               )}
             >
               318&middot;449&middot;8919
@@ -108,20 +106,20 @@ export function Header() {
           >
             <span
               className={cn(
-                "h-0.5 w-6 transition-all duration-300 origin-center",
-                open ? "translate-y-[7px] rotate-45 bg-cream" : scrolled ? "bg-ink" : "bg-cream",
+                "h-0.5 w-6 bg-cream transition-all duration-300 origin-center",
+                open && "translate-y-[7px] rotate-45",
               )}
             />
             <span
               className={cn(
-                "h-0.5 w-6 transition-all duration-300",
-                open ? "opacity-0" : scrolled ? "bg-ink" : "bg-cream",
+                "h-0.5 w-6 bg-cream transition-all duration-300",
+                open && "opacity-0",
               )}
             />
             <span
               className={cn(
-                "h-0.5 w-6 transition-all duration-300 origin-center",
-                open ? "-translate-y-[7px] -rotate-45 bg-cream" : scrolled ? "bg-ink" : "bg-cream",
+                "h-0.5 w-6 bg-cream transition-all duration-300 origin-center",
+                open && "-translate-y-[7px] -rotate-45",
               )}
             />
           </button>

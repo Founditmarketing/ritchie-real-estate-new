@@ -42,6 +42,9 @@ scripts/shots/
 # temp commit message file
 .commit-msg.tmp
 
+# captured leads (prototype storage)
+/data/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

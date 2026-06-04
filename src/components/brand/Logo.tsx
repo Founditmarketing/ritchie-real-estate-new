@@ -123,15 +123,18 @@ export function LogoWordmarkImage({
   width = 240,
   height,
   priority = false,
+  light = false,
 }: {
   className?: string;
   width?: number;
   height?: number;
   priority?: boolean;
+  /** Use the bone-white wordmark variant for dark backgrounds. */
+  light?: boolean;
 }) {
   return (
     <Image
-      src="/brand/ritchie-logo.png"
+      src={light ? "/brand/ritchie-logo-light.png" : "/brand/ritchie-logo.png"}
       alt="Ritchie Real Estate"
       width={width}
       height={height ?? Math.round(width / 2.07)}

@@ -19,11 +19,11 @@ export function ListingDescription({ listing }: { listing: Listing }) {
   const restText = restChars.join("");
 
   return (
-    <section className="bg-paper py-24 md:py-32 lg:py-36">
+    <section className="bg-navy-deep py-24 md:py-32 lg:py-36">
       <div className="mx-auto grid max-w-[1440px] grid-cols-12 gap-x-6 gap-y-14 px-6 lg:px-12">
         {/* LEFT — narrative + features */}
         <div className="col-span-12 md:col-span-8">
-          <Eyebrow variant="numbered" num="01" tone="crimson">
+          <Eyebrow variant="numbered" num="01" tone="crimson-bright">
             About this {headingNoun}
           </Eyebrow>
 
@@ -32,7 +32,7 @@ export function ListingDescription({ listing }: { listing: Listing }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.7, ease: ease.outExpo }}
-            className="mt-5 font-serif text-[clamp(32px,3.6vw,52px)] leading-[1.04] tracking-[-0.015em] text-navy-ink"
+            className="mt-5 font-serif text-[clamp(32px,3.6vw,52px)] leading-[1.04] tracking-[-0.015em] text-paper"
           >
             Notes from the broker.
           </motion.h2>
@@ -44,8 +44,8 @@ export function ListingDescription({ listing }: { listing: Listing }) {
             transition={{ duration: 0.9, ease: ease.outExpo, delay: 0.1 }}
             className="mt-8 max-w-[58ch]"
           >
-            <p className="font-serif text-[18px] leading-[1.72] text-navy-ink">
-              <span className="float-left mr-3 mt-1 font-serif text-[80px] italic font-medium leading-[0.78] text-crimson">
+            <p className="font-serif text-[18px] leading-[1.72] text-cream">
+              <span className="float-left mr-3 mt-1 font-serif text-[80px] italic font-medium leading-[0.78] text-crimson-bright">
                 {firstChar}
               </span>
               {restText}
@@ -54,7 +54,7 @@ export function ListingDescription({ listing }: { listing: Listing }) {
 
           {listing.features.length ? (
             <div className="mt-14">
-              <Eyebrow variant="italic" tone="crimson">
+              <Eyebrow variant="italic" tone="crimson-bright">
                 What stands out
               </Eyebrow>
               <ol className="mt-6 grid grid-cols-1 gap-x-10 gap-y-1 sm:grid-cols-2">
@@ -67,10 +67,10 @@ export function ListingDescription({ listing }: { listing: Listing }) {
                     transition={{ duration: 0.6, ease: ease.outExpo, delay: i * 0.05 }}
                     className="flex items-baseline gap-4 border-b border-line py-4 text-[16px]"
                   >
-                    <span className="font-serif text-[13px] italic font-medium text-crimson">
+                    <span className="font-serif text-[13px] italic font-medium text-crimson-bright">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="font-serif text-navy-ink">{f}</span>
+                    <span className="font-serif text-cream">{f}</span>
                   </motion.li>
                 ))}
               </ol>
@@ -81,15 +81,15 @@ export function ListingDescription({ listing }: { listing: Listing }) {
         {/* RIGHT — contact rail */}
         <aside className="col-span-12 md:col-span-4 md:pl-6">
           <div className="md:sticky md:top-32">
-            <Eyebrow variant="stamp" tone="crimson">
+            <Eyebrow variant="stamp" tone="crimson-bright">
               Tour it
             </Eyebrow>
-            <h3 className="mt-5 font-serif text-[clamp(26px,2.4vw,34px)] leading-[1.08] tracking-[-0.015em] text-navy-ink">
+            <h3 className="mt-5 font-serif text-[clamp(26px,2.4vw,34px)] leading-[1.08] tracking-[-0.015em] text-paper">
               The fastest way to{" "}
-              <em className="not-italic italic text-crimson">walk through</em>{" "}
+              <em className="not-italic italic text-crimson-bright">walk through</em>{" "}
               this one is to call.
             </h3>
-            <p className="mt-4 max-w-[36ch] text-[14px] font-light leading-[1.65] text-ink-soft">
+            <p className="mt-4 max-w-[36ch] text-[14px] font-light leading-[1.65] text-cream-warm">
               Matt or a Ritchie agent will meet you at the curb, on your
               schedule. Same-day tours when we can.
             </p>
@@ -108,18 +108,18 @@ export function ListingDescription({ listing }: { listing: Listing }) {
               <a
                 href="/contact"
                 data-cursor-label="Write"
-                className="inline-flex items-center justify-between gap-3 border border-navy-ink/20 px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-navy-ink transition-colors hover:border-navy-ink hover:bg-navy-ink hover:text-cream"
+                className="inline-flex items-center justify-between gap-3 border border-cream/25 px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:border-cream hover:bg-cream hover:text-navy-ink"
               >
                 Schedule a tour
                 <span aria-hidden>&rarr;</span>
               </a>
             </div>
 
-            <div className="mt-9 border-t border-line pt-5 text-[11.5px] font-light leading-[1.6] text-ink-soft">
-              <span className="block font-sans text-[10px] uppercase tracking-[0.22em] text-crimson">
+            <div className="mt-9 border-t border-line pt-5 text-[11.5px] font-light leading-[1.6] text-mute">
+              <span className="block font-sans text-[10px] uppercase tracking-[0.22em] text-crimson-bright">
                 Listed by
               </span>
-              <span className="mt-2 block font-serif text-[18px] italic text-navy-ink">
+              <span className="mt-2 block font-serif text-[18px] italic text-paper">
                 Matt Ritchie
               </span>
               <span className="block">CCIM &middot; Broker &middot; Owner</span>

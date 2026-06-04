@@ -36,13 +36,13 @@ const PATHS = [
 
 export function Paths() {
   return (
-    <section className="bg-cream py-24 md:py-32">
+    <section className="bg-navy-ink py-24 md:py-32">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
         <Reveal>
-          <Eyebrow variant="italic" tone="crimson">However you move</Eyebrow>
-          <h2 className="mt-4 font-serif text-[clamp(34px,4.4vw,58px)] leading-[1.03] tracking-[-0.015em]">
+          <Eyebrow variant="italic" tone="crimson-bright">However you move</Eyebrow>
+          <h2 className="mt-4 font-serif text-[clamp(34px,4.4vw,58px)] leading-[1.03] tracking-[-0.015em] text-paper">
             <HeadlineReveal>
-              {["Three ways we put", <>Cenla to <em className="not-italic italic text-crimson">work.</em></>]}
+              {["Three ways we put", <>Cenla to <em className="not-italic italic text-crimson-bright">work.</em></>]}
             </HeadlineReveal>
           </h2>
         </Reveal>
@@ -56,25 +56,25 @@ export function Paths() {
               viewport={{ once: true, amount: 0.25 }}
               transition={{ duration: 0.7, ease: ease.out, delay: i * 0.08 }}
               whileHover={{ y: -6 }}
-              className={`group relative border-t-2 border-transparent px-9 py-11 transition-colors hover:bg-paper hover:border-t-crimson ${
+              className={`group relative border-t-2 border-transparent px-9 py-11 transition-colors hover:bg-navy hover:border-t-crimson-bright ${
                 i < PATHS.length - 1 ? "md:border-r md:border-line" : ""
               }`}
             >
               <Link href={p.href} className="block">
-                <span className="font-serif italic text-[14px] text-crimson">
+                <span className="font-serif italic text-[14px] text-crimson-bright">
                   {p.num} &mdash; {p.audience}
                 </span>
-                <h3 className="mt-9 font-serif text-[34px] leading-[1.04]">
+                <h3 className="mt-9 font-serif text-[34px] leading-[1.04] text-paper">
                   {p.title.map((line) => (
                     <span key={line} className="block">
                       {line}
                     </span>
                   ))}
                 </h3>
-                <p className="mt-3 max-w-[36ch] text-[14px] font-light leading-[1.64] text-ink-soft">
+                <p className="mt-3 max-w-[36ch] text-[14px] font-light leading-[1.64] text-cream-warm">
                   {p.body}
                 </p>
-                <span className="mt-6 inline-flex items-center gap-2.5 text-[11.5px] font-medium uppercase tracking-[0.14em] text-crimson">
+                <span className="mt-6 inline-flex items-center gap-2.5 text-[11.5px] font-medium uppercase tracking-[0.14em] text-crimson-bright">
                   {p.link}
                   <span aria-hidden className="transition-transform group-hover:translate-x-1.5">
                     &rarr;

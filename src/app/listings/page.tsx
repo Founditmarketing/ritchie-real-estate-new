@@ -19,6 +19,44 @@ type SearchParams = Promise<{
   sort?: string;
 }>;
 
+/**
+ * Front-matter copy keyed to the active type filter, so a commercial or
+ * land view never describes its inventory as "homes."
+ */
+const TYPE_COPY: Record<
+  string,
+  { eyebrow: string; noun: [string, string]; tail: string; blurb: string }
+> = {
+  commercial: {
+    eyebrow: "Cenla commercial",
+    noun: ["property", "properties"],
+    tail: "on the market.",
+    blurb:
+      "CCIM-credentialed. Every plate below is an active commercial listing across Central Louisiana \u2014 retail, office, industrial, and investment.",
+  },
+  land: {
+    eyebrow: "Cenla land",
+    noun: ["tract", "tracts"],
+    tail: "for sale.",
+    blurb:
+      "Every plate below is available land across Central Louisiana \u2014 homesites, acreage, and development ground.",
+  },
+  rental: {
+    eyebrow: "Cenla rentals",
+    noun: ["rental", "rentals"],
+    tail: "available now.",
+    blurb:
+      "Every plate below is an active rental across Central Louisiana, managed by people who pick up the phone.",
+  },
+  default: {
+    eyebrow: "Cenla listings",
+    noun: ["home", "homes"],
+    tail: "on the market.",
+    blurb:
+      "Curated by Ritchie Real Estate. Every plate below is an active listing across Rapides Parish \u2014 residential, commercial, and land.",
+  },
+};
+
 export default async function ListingsPage({
   searchParams,
 }: {
@@ -36,31 +74,32 @@ export default async function ListingsPage({
     sort: (sp.sort as "newest" | "price-asc" | "price-desc") ?? "newest",
   });
 
+  const copy = TYPE_COPY[sp.type ?? ""] ?? TYPE_COPY.default;
+  const noun = copy.noun[items.length === 1 ? 0 : 1];
+
   return (
-    <div className="bg-cream pt-[130px] pb-32">
+    <div className="bg-navy-ink pt-[130px] pb-32">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
         {/* Front matter — like the opening page of a catalog */}
         <header className="grid grid-cols-12 gap-x-6 gap-y-10 pb-16">
           <div className="col-span-12 md:col-span-7">
-            <Eyebrow variant="numbered" num="01" tone="crimson">
-              Cenla listings
+            <Eyebrow variant="numbered" num="01" tone="crimson-bright">
+              {copy.eyebrow}
             </Eyebrow>
-            <h1 className="mt-5 font-serif text-[clamp(48px,7vw,108px)] leading-[0.92] tracking-[-0.025em] text-navy-ink">
+            <h1 className="mt-5 font-serif text-[clamp(48px,7vw,108px)] leading-[0.92] tracking-[-0.025em] text-paper">
               <span className="block">
-                {items.length} home{items.length === 1 ? "" : "s"}
+                {items.length} {noun}
               </span>
               <span className="block">
-                <em className="not-italic italic text-crimson">on the market.</em>
+                <em className="not-italic italic text-crimson-bright">{copy.tail}</em>
               </span>
             </h1>
           </div>
           <aside className="col-span-12 md:col-span-4 md:col-start-9 md:pt-10">
-            <p className="font-serif text-[18px] italic leading-[1.55] text-ink-soft">
-              Curated by Ritchie Real Estate. Every plate below is an active
-              listing across Rapides Parish &mdash; residential, commercial,
-              and land.
+            <p className="font-serif text-[18px] italic leading-[1.55] text-cream-warm">
+              {copy.blurb}
             </p>
-            <p className="mt-5 font-sans text-[11px] uppercase tracking-[0.22em] text-crimson">
+            <p className="mt-5 font-sans text-[11px] uppercase tracking-[0.22em] text-crimson-bright">
               Filters write the URL. Share a search.
             </p>
           </aside>

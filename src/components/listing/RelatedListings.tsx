@@ -27,22 +27,22 @@ export async function RelatedListings({ current }: { current: Listing }) {
   if (items.length === 0) return null;
 
   return (
-    <section className="bg-cream py-24 md:py-32 lg:py-36">
+    <section className="bg-navy-ink py-24 md:py-32 lg:py-36">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
         <div className="mb-12 flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">
           <div>
-            <Eyebrow variant="italic" tone="crimson">
+            <Eyebrow variant="italic" tone="crimson-bright">
               Also worth seeing
             </Eyebrow>
-            <h2 className="mt-3 font-serif text-[clamp(30px,3.6vw,52px)] leading-[1.04] tracking-[-0.015em] text-navy-ink">
+            <h2 className="mt-3 font-serif text-[clamp(30px,3.6vw,52px)] leading-[1.04] tracking-[-0.015em] text-paper">
               More from{" "}
-              <em className="not-italic italic text-crimson">{current.address.city}.</em>
+              <em className="not-italic italic text-crimson-bright">{current.address.city}.</em>
             </h2>
           </div>
           <Link
             href="/listings"
             data-cursor-label="All"
-            className="group inline-flex items-center gap-3 self-start text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson md:self-end"
+            className="group inline-flex items-center gap-3 self-start text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright md:self-end"
           >
             <span className="border-b border-current pb-1">Back to all listings</span>
             <span
@@ -76,13 +76,13 @@ function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
         data-cursor-label="View"
         className="group block"
       >
-        <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink-soft">
-          <span className="font-serif text-[14px] italic font-medium text-crimson">
+        <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-mute">
+          <span className="font-serif text-[14px] italic font-medium text-crimson-bright">
             {num}
           </span>
           <span>{listing.type}</span>
         </div>
-        <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
+        <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-navy sm:aspect-[4/5]">
           <PlateImage listing={listing} sizes="(min-width: 768px) 28vw, 100vw" />
           <FavoriteHeart listing={listing} />
           <div
@@ -93,26 +93,26 @@ function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
           </div>
         </TiltCard>
         <div className="mt-5">
-          <h3 className="font-serif text-[22px] leading-[1.12] text-navy-ink transition-colors group-hover:text-crimson">
+          <h3 className="font-serif text-[22px] leading-[1.12] text-paper transition-colors group-hover:text-crimson-bright">
             {listing.title}
           </h3>
-          <p className="mt-1.5 text-[12.5px] font-light text-ink-soft">
+          <p className="mt-1.5 text-[12.5px] font-light text-mute">
             {listing.address.street}, {listing.address.city}
           </p>
         </div>
-        <div className="mt-5 border-t border-navy-ink/15 pt-3.5">
+        <div className="mt-5 border-t border-cream/15 pt-3.5">
           <div className="flex items-baseline justify-between gap-3">
-            <span className="font-serif text-[24px] font-semibold leading-none tracking-[-0.015em] text-navy-ink">
+            <span className="font-serif text-[24px] font-semibold leading-none tracking-[-0.015em] text-paper">
               {formatPrice(listing.price)}
             </span>
             {listing.sqft > 0 ? (
-              <span className="font-serif text-[12px] italic text-ink-soft">
+              <span className="font-serif text-[12px] italic text-mute">
                 ${Math.round(listing.price / listing.sqft).toLocaleString()}/sqft
               </span>
             ) : null}
           </div>
           {facts.length ? (
-            <div className="mt-2.5 text-[11.5px] tracking-[0.04em] text-ink-soft">
+            <div className="mt-2.5 text-[11.5px] tracking-[0.04em] text-mute">
               {facts.slice(0, 3).join("  \u00b7  ")}
             </div>
           ) : null}

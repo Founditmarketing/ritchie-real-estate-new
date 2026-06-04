@@ -47,23 +47,23 @@ export function ListingsFilters() {
   );
 
   return (
-    <div className="flex flex-col gap-6 border-t border-b border-navy-ink/15 py-6 md:flex-row md:items-center md:gap-10">
+    <div className="flex flex-col gap-6 border-t border-b border-cream/15 py-6 md:flex-row md:items-center md:gap-10">
       {/* Type — text-based tabs joined by middle-dots */}
       <div className="flex flex-1 flex-wrap items-baseline gap-x-1.5 gap-y-1.5 text-[12px]">
-        <span className="mr-2 font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink-soft">
+        <span className="mr-2 font-sans text-[10.5px] uppercase tracking-[0.22em] text-mute">
           Type
         </span>
         {TYPES.map((t, i) => (
           <span key={t.v} className="flex items-baseline">
-            {i > 0 ? <span className="mx-1.5 text-ink-soft/40">&middot;</span> : null}
+            {i > 0 ? <span className="mx-1.5 text-mute/40">&middot;</span> : null}
             <button
               type="button"
               onClick={() => update({ type: t.v })}
               data-cursor-label={t.label}
-              className={`font-serif text-[15px] transition-colors hover:text-crimson ${
+              className={`font-serif text-[15px] transition-colors hover:text-crimson-bright ${
                 current.type === t.v
-                  ? "italic font-medium text-crimson"
-                  : "text-navy-ink"
+                  ? "italic font-medium text-crimson-bright"
+                  : "text-cream"
               }`}
             >
               {t.label}
@@ -73,27 +73,27 @@ export function ListingsFilters() {
       </div>
 
       {/* City — serif input under a small label */}
-      <div className="flex items-baseline gap-3 md:border-l md:border-navy-ink/15 md:pl-9">
-        <label className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink-soft">
+      <div className="flex items-baseline gap-3 md:border-l md:border-cream/15 md:pl-9">
+        <label className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-mute">
           City
         </label>
         <input
           defaultValue={current.city}
           onBlur={(e) => update({ city: e.target.value })}
           placeholder="Any"
-          className="w-[14ch] border-b border-transparent bg-transparent py-1 font-serif text-[16px] outline-none transition-colors placeholder:text-ink-soft/45 focus:border-crimson"
+          className="w-[14ch] border-b border-transparent bg-transparent py-1 font-serif text-[16px] text-paper outline-none transition-colors placeholder:text-mute/55 focus:border-crimson-bright"
         />
       </div>
 
       {/* Sort */}
-      <div className="flex items-baseline gap-3 md:border-l md:border-navy-ink/15 md:pl-9">
-        <label className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-ink-soft">
+      <div className="flex items-baseline gap-3 md:border-l md:border-cream/15 md:pl-9">
+        <label className="font-sans text-[10.5px] uppercase tracking-[0.22em] text-mute">
           Sort
         </label>
         <select
           value={current.sort}
           onChange={(e) => update({ sort: e.target.value })}
-          className="bg-transparent font-serif text-[16px] text-navy-ink outline-none"
+          className="bg-transparent font-serif text-[16px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
         >
           {SORTS.map((s) => (
             <option key={s.v} value={s.v}>
@@ -104,7 +104,7 @@ export function ListingsFilters() {
       </div>
 
       {pending ? (
-        <span className="font-sans text-[10.5px] uppercase tracking-[0.18em] text-crimson">
+        <span className="font-sans text-[10.5px] uppercase tracking-[0.18em] text-crimson-bright">
           updating&hellip;
         </span>
       ) : null}

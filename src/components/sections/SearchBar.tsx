@@ -57,19 +57,19 @@ export function SearchBar() {
   }
 
   return (
-    <section className="bg-cream pb-24 pt-4 md:pb-32 md:pt-8">
+    <section className="bg-navy-ink pb-24 pt-16 md:pb-32 md:pt-20">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
         <div className="mb-9 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between md:gap-10">
           <div>
-            <Eyebrow variant="numbered" num="03" tone="crimson">
+            <Eyebrow variant="numbered" num="03" tone="crimson-bright">
               Start the search
             </Eyebrow>
-            <h2 className="mt-4 font-serif text-[clamp(28px,3.4vw,48px)] leading-[1.04] tracking-[-0.02em] text-navy-ink">
+            <h2 className="mt-4 font-serif text-[clamp(28px,3.4vw,48px)] leading-[1.04] tracking-[-0.02em] text-paper">
               Show me{" "}
-              <em className="not-italic italic text-crimson">what&rsquo;s out there.</em>
+              <em className="not-italic italic text-crimson-bright">what&rsquo;s out there.</em>
             </h2>
           </div>
-          <p className="max-w-[34ch] font-serif text-[15px] italic leading-[1.55] text-ink-soft">
+          <p className="max-w-[34ch] font-serif text-[15px] italic leading-[1.55] text-cream-warm">
             Four fields, every Cenla listing. Filters write the URL so you can
             share a search with anyone.
           </p>
@@ -77,13 +77,13 @@ export function SearchBar() {
 
         <form
           onSubmit={submit}
-          className="grid grid-cols-1 gap-x-0 gap-y-3 border-t border-b border-navy-ink/15 py-6 md:grid-cols-[1.4fr_1.4fr_0.9fr_1fr_auto] md:items-end md:gap-x-8 md:gap-y-0"
+          className="grid grid-cols-1 gap-x-0 gap-y-3 border-t border-b border-cream/15 py-6 md:grid-cols-[1.4fr_1.4fr_0.9fr_1fr_auto] md:items-end md:gap-x-8 md:gap-y-0"
         >
           <Field label="I want">
             <select
               value={intent}
               onChange={(e) => setIntent(e.target.value)}
-              className="w-full border-none bg-transparent font-serif text-[18px] text-navy-ink outline-none"
+              className="w-full border-none bg-transparent font-serif text-[18px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
             >
               {INTENTS.map((i) => (
                 <option key={i.v} value={i.v}>
@@ -98,14 +98,14 @@ export function SearchBar() {
               value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="Alexandria"
-              className="w-full border-none bg-transparent font-serif text-[18px] text-navy-ink placeholder:text-ink-soft/50 outline-none"
+              className="w-full border-none bg-transparent font-serif text-[18px] text-paper placeholder:text-mute/60 outline-none"
             />
           </Field>
           <Field label="Beds" border>
             <select
               value={beds}
               onChange={(e) => setBeds(e.target.value)}
-              className="w-full border-none bg-transparent font-serif text-[18px] text-navy-ink outline-none"
+              className="w-full border-none bg-transparent font-serif text-[18px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
             >
               {BEDS.map((b) => (
                 <option key={b.v || "any"} value={b.v}>
@@ -118,7 +118,7 @@ export function SearchBar() {
             <select
               value={priceIdx}
               onChange={(e) => setPriceIdx(Number(e.target.value))}
-              className="w-full border-none bg-transparent font-serif text-[18px] text-navy-ink outline-none"
+              className="w-full border-none bg-transparent font-serif text-[18px] text-paper outline-none [&>option]:bg-navy-ink [&>option]:text-paper"
             >
               {PRICE_OPTIONS.map((p, i) => (
                 <option key={p.label} value={i}>
@@ -153,10 +153,10 @@ function Field({
   return (
     <label
       className={`flex flex-col gap-1.5 py-2 md:py-0 ${
-        border ? "md:border-l md:border-navy-ink/15 md:pl-8" : ""
+        border ? "md:border-l md:border-cream/15 md:pl-8" : ""
       }`}
     >
-      <span className="font-sans text-[10.5px] font-medium uppercase tracking-[0.22em] text-crimson">
+      <span className="font-sans text-[10.5px] font-medium uppercase tracking-[0.22em] text-crimson-bright">
         {label}
       </span>
       {children}

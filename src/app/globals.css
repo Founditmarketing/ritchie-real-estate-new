@@ -1,29 +1,37 @@
 @import "tailwindcss";
 
 /*
-  Ritchie design tokens.
-  Brand reality: navy + crimson + cream. Pulled from the existing
-  RRE diamond logo (deep royal navy border + red diamond + white R).
-  All color values OKLCH so neutrals carry warm brand tint.
+  Ritchie design tokens — dark cinematic system.
+  The canvas is a near-black royal navy pulled from the CREATE-cover
+  warehouse photograph (cool steel + warm sodium). Crimson is the single
+  live accent; bone-white is the type. Warm-steel hairlines, never gold.
+  All values OKLCH so neutrals carry the brand's navy/warm tint.
 */
 @theme {
-  /* Brand */
-  --color-navy: oklch(0.32 0.12 262);
-  --color-navy-deep: oklch(0.22 0.10 262);
-  --color-navy-soft: oklch(0.42 0.12 262);
-  --color-navy-ink: oklch(0.16 0.07 262);
+  /* Dark navy canvas (deepest -> raised) */
+  --color-navy-ink: oklch(0.145 0.030 264);   /* base / deepest */
+  --color-navy-deep: oklch(0.190 0.040 264);  /* section panel */
+  --color-navy: oklch(0.255 0.048 264);        /* raised surface */
+  --color-navy-soft: oklch(0.340 0.050 264);   /* hover / lifted */
 
-  --color-crimson: oklch(0.50 0.18 22);
-  --color-crimson-bright: oklch(0.62 0.20 24);
-  --color-crimson-deep: oklch(0.40 0.17 20);
+  /* Crimson — the only saturated accent */
+  --color-crimson: oklch(0.52 0.19 22);
+  --color-crimson-bright: oklch(0.64 0.21 24);
+  --color-crimson-deep: oklch(0.42 0.17 20);
 
-  /* Neutrals tinted warm (toward brand cream) */
-  --color-cream: oklch(0.95 0.018 78);
-  --color-cream-warm: oklch(0.89 0.025 72);
-  --color-paper: oklch(0.97 0.012 80);
-  --color-ink: oklch(0.20 0.020 262);  /* navy-tinted black */
-  --color-ink-soft: oklch(0.46 0.025 262);
-  --color-line: oklch(0.20 0.020 262 / 0.13);
+  /* Bone-white type + warm-steel neutrals (on dark) */
+  --color-paper: oklch(0.965 0.008 85);   /* brightest — headings */
+  --color-cream: oklch(0.925 0.013 80);   /* primary body text */
+  --color-cream-warm: oklch(0.840 0.022 68); /* secondary text */
+  --color-mute: oklch(0.660 0.022 262);   /* muted / captions on dark */
+  --color-steel: oklch(0.740 0.025 245);  /* warm-steel hairline accent */
+
+  /* Ink for the rare light inset */
+  --color-ink: oklch(0.180 0.020 264);
+  --color-ink-soft: oklch(0.640 0.024 262);
+
+  --color-line: oklch(0.92 0.010 80 / 0.12);      /* hairline on dark */
+  --color-line-strong: oklch(0.92 0.010 80 / 0.22);
 
   /* Type families */
   --font-sans: var(--font-sans);
@@ -52,8 +60,8 @@ html {
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
-  background-color: var(--color-cream);
-  color: var(--color-ink);
+  background-color: var(--color-navy-ink);
+  color: var(--color-cream);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   overscroll-behavior-x: none;
@@ -69,15 +77,16 @@ h1, h2, h3, .serif {
   color: var(--color-paper);
 }
 
-/* Film grain */
+/* Film grain — a touch heavier on the dark canvas for cinematic texture */
 .grain::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.35;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
 /* Eyebrow rule */
@@ -86,7 +95,7 @@ h1, h2, h3, .serif {
   letter-spacing: 0.26em;
   text-transform: uppercase;
   font-weight: 500;
-  color: var(--color-crimson);
+  color: var(--color-crimson-bright);
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;

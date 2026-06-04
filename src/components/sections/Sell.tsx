@@ -18,11 +18,11 @@ export function Sell() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <section id="sell" className="relative isolate overflow-hidden bg-paper py-24 md:py-32">
+    <section id="sell" className="relative isolate overflow-hidden bg-navy-ink py-24 md:py-32">
       {/* Ghost serif "Worth." sits behind everything as ambient watermark */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-6 top-1/2 -translate-y-1/2 font-serif italic font-medium text-[28vw] leading-[0.8] text-navy/[0.04] select-none"
+        className="pointer-events-none absolute -right-6 top-1/2 -translate-y-1/2 font-serif italic font-medium text-[28vw] leading-[0.8] text-paper/[0.04] select-none"
       >
         Worth.
       </span>
@@ -41,10 +41,10 @@ export function Sell() {
               />
             </div>
             {/* Editorial caption block under the photo */}
-            <figcaption className="mt-4 flex items-start gap-3 text-[11px] uppercase tracking-[0.24em] text-ink-soft">
-              <span className="mt-1 inline-block h-px w-6 bg-crimson" />
+            <figcaption className="mt-4 flex items-start gap-3 text-[11px] uppercase tracking-[0.24em] text-mute">
+              <span className="mt-1 inline-block h-px w-6 bg-crimson-bright" />
               <span>
-                Plate 04 &mdash; <span className="italic text-crimson">Garden District</span>
+                Plate 04 &mdash; <span className="italic text-crimson-bright">Garden District</span>
                 <br />
                 Porch detail, west elevation
               </span>
@@ -57,26 +57,26 @@ export function Sell() {
         {/* RIGHT — type-led valuation moment --------------------------- */}
         <div className="flex flex-col justify-center">
           <Reveal>
-            <span className="font-sans text-[10.5px] uppercase tracking-[0.28em] text-crimson">
+            <span className="font-sans text-[10.5px] uppercase tracking-[0.28em] text-crimson-bright">
               Chapter 03 / For sellers
             </span>
           </Reveal>
 
           <Reveal delay={0.06}>
-            <h2 className="mt-5 font-serif font-medium tracking-[-0.025em] text-navy-ink">
+            <h2 className="mt-5 font-serif font-medium tracking-[-0.025em] text-paper">
               <span className="block text-[clamp(42px,5.5vw,84px)] leading-[0.95]">
                 Find out
               </span>
               <span className="block text-[clamp(42px,5.5vw,84px)] leading-[0.95]">
                 what it&rsquo;s{" "}
-                <em className="not-italic italic text-crimson">worth.</em>
+                <em className="not-italic italic text-crimson-bright">worth.</em>
               </span>
             </h2>
           </Reveal>
 
           <Reveal delay={0.12}>
             {/* Roman body, not italic \u2014 reserved for accent words. */}
-            <p className="mt-6 max-w-[46ch] font-serif text-[18px] leading-[1.55] text-ink-soft">
+            <p className="mt-6 max-w-[46ch] font-serif text-[18px] leading-[1.55] text-cream-warm">
               A complimentary valuation built from real Cenla comparables and
               current market data, not a Zillow algorithm. Takes about thirty
               seconds.
@@ -93,10 +93,10 @@ export function Sell() {
               setSubmitted(true);
               /* TODO: wire to a server action that emails via Resend */
             }}
-            className="mt-10 flex max-w-[560px] flex-col border-t-2 border-b border-navy-ink/15 bg-transparent sm:flex-row sm:items-stretch"
+            className="mt-10 flex max-w-[560px] flex-col border-t-2 border-b border-cream/15 bg-transparent sm:flex-row sm:items-stretch"
           >
             <label className="flex flex-1 flex-col gap-1.5 px-2 py-5">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-crimson">
+              <span className="text-[10px] uppercase tracking-[0.22em] text-crimson-bright">
                 Your home address
               </span>
               <input
@@ -104,7 +104,7 @@ export function Sell() {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="88 Riverbend Rd, Alexandria"
-                className="border-none bg-transparent font-serif text-[20px] outline-none placeholder:text-ink-soft/45"
+                className="border-none bg-transparent font-serif text-[20px] text-paper outline-none placeholder:text-mute/55"
               />
             </label>
             <button
@@ -118,9 +118,9 @@ export function Sell() {
           </motion.form>
 
           <Reveal delay={0.28}>
-            <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 text-[11.5px] font-light text-ink-soft">
+            <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 text-[11.5px] font-light text-mute">
               <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-crimson" />
+                <span className="h-1.5 w-1.5 rounded-full bg-crimson-bright" />
                 {submitted
                   ? "Thanks. Ritchie will reach you within one business day."
                   : "No pressure. No spam."}

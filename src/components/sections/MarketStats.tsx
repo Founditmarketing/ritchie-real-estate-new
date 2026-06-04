@@ -56,8 +56,8 @@ const STATS: Stat[] = [
 
 export function MarketStats() {
   return (
-    <section className="relative overflow-hidden bg-navy-ink py-24 text-paper md:py-32">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_0%,oklch(0.50_0.18_22/0.20),transparent_60%)]" />
+    <section className="relative overflow-hidden bg-navy-deep py-24 text-paper md:py-32">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_0%,oklch(0.55_0.20_24/0.22),transparent_60%)]" />
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12">
         <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">

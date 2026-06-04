@@ -89,9 +89,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-y-12 md:grid-cols-[2fr_1fr_1fr_1.1fr] md:gap-x-12">
           {/* Brand column */}
           <div>
-            <span className="inline-block bg-cream px-5 py-4">
-              <LogoWordmarkImage width={200} className="h-auto w-[200px]" />
-            </span>
+            <LogoWordmarkImage light width={210} className="h-auto w-[210px]" />
             <p className="mt-6 max-w-[33ch] text-[13.5px] font-light leading-[1.7]">
               Ritchie Real Estate, LLC. 1268 Dorchester Dr, Alexandria, LA
               71303. Representing buyers, sellers, and investors across
@@ -155,7 +153,7 @@ export function Footer() {
         <div className="mt-16 grid grid-cols-2 gap-y-8 border-t border-cream/12 pt-12 md:grid-cols-4 md:gap-x-12">
           <Lockup
             mark="R"
-            title="REALTOR\u00ae"
+            title="REALTOR®"
             sub="National Association"
           />
           <Lockup
@@ -171,7 +169,7 @@ export function Footer() {
           <Lockup
             mark="MLS"
             title="Cenla MLS"
-            sub="Member, Active 2003\u2013"
+            sub="Member, Active 2003–"
           />
         </div>
 

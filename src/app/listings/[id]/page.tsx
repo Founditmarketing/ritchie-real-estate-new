@@ -75,14 +75,14 @@ export default async function ListingDetail(
 
       <ListingHero listing={l} />
 
-      {/* Breadcrumb / back link, on its own cream band so it sits below the
+      {/* Breadcrumb / back link, on its own dark band so it sits below the
           cinematic hero without competing with the type. */}
-      <nav className="bg-cream pt-7">
+      <nav className="bg-navy-ink pt-7">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
           <Link
             href="/listings"
             data-cursor-label="Back"
-            className="inline-flex items-baseline gap-2 font-serif text-[14px] italic text-ink-soft hover:text-crimson"
+            className="inline-flex items-baseline gap-2 font-serif text-[14px] italic text-mute hover:text-crimson-bright"
           >
             <span aria-hidden>&larr;</span> Back to all listings
           </Link>

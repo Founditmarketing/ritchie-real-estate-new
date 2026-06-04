@@ -19,13 +19,18 @@ export function Closer() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden bg-navy py-24 text-paper md:py-32"
+      className="relative overflow-hidden bg-navy-ink py-24 text-paper md:py-32"
     >
+      {/* Crimson ember glow behind the CTA */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_50%_50%,oklch(0.50_0.19_24/0.20)_0%,transparent_65%)]"
+      />
       {/* faint giant wordmark */}
       <motion.span
         aria-hidden
         style={{ x: wordX }}
-        className="pointer-events-none absolute inset-0 flex items-center justify-center font-serif text-[28vw] font-semibold leading-none tracking-tight text-cream/[0.045] whitespace-nowrap"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center font-serif text-[28vw] font-semibold leading-none tracking-tight text-cream/[0.05] whitespace-nowrap"
       >
         Ritchie.
       </motion.span>

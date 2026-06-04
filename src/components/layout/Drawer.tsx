@@ -27,8 +27,8 @@ export function Drawer({ open, onClose }: DrawerProps) {
           exit={{ opacity: 0 }}
           transition={{ duration: duration.fast, ease: ease.out }}
         >
-          {/* Canonical wordmark on a cream nameplate so the navy + maroon
-              colors render naturally on the dark drawer background. */}
+          {/* Bone-white wordmark variant reads cleanly on the dark drawer
+              without a nameplate box. */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -38,9 +38,9 @@ export function Drawer({ open, onClose }: DrawerProps) {
               href="/"
               onClick={onClose}
               aria-label="Ritchie Real Estate, home"
-              className="inline-block bg-cream px-5 py-3.5"
+              className="inline-block"
             >
-              <LogoWordmarkImage width={180} className="h-auto w-[180px]" />
+              <LogoWordmarkImage light width={180} className="h-auto w-[180px]" />
             </Link>
           </motion.div>
 

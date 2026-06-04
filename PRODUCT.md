@@ -37,7 +37,7 @@ Think the cover of a Cenla family\u2019s membership envelope.
    are the proof point. Treat the broker page as primary, not boilerplate.
 2. **Inventory is the proof.** Listings must feel curated and beautiful even
    when there are only 6 of them, not pretend to be a national portal.
-3. **Local matters.** Area guides, market stats, and the Cenla map exist to
+3. **Ritchie knows.** Area guides, market stats, and the Cenla map exist to
    demonstrate, not decorate. Real data, real neighborhoods, real opinion.
 4. **Calm density.** A page can carry information without feeling cluttered.
    Editorial grid + serif/sans contrast + earned whitespace.

@@ -5,6 +5,7 @@ import { CustomCursor } from "@/components/motion/CustomCursor";
 import { RouteTransitions } from "@/components/motion/RouteTransitions";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { AskRitchie } from "@/components/chat/AskRitchie";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ export default function RootLayout({
       lang="en"
       className={`${serif.variable} ${sans.variable} h-full antialiased`}
     >
-      <body className="grain min-h-full flex flex-col bg-cream text-ink">
+      <body className="grain min-h-full flex flex-col bg-navy-ink text-cream">
         <SmoothScroll />
         <CustomCursor />
         <Header />
@@ -43,6 +44,7 @@ export default function RootLayout({
           <RouteTransitions>{children}</RouteTransitions>
         </main>
         <Footer />
+        <AskRitchie />
       </body>
     </html>
   );

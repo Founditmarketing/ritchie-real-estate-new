@@ -26,10 +26,10 @@ export function ListingsCatalog({ listings }: { listings: Listing[] }) {
   if (listings.length === 0) {
     return (
       <div className="mt-16 border-t border-line py-24 text-center">
-        <p className="font-serif text-[clamp(24px,3vw,40px)] italic text-navy-ink/70">
+        <p className="font-serif text-[clamp(24px,3vw,40px)] italic text-paper/70">
           Nothing matches.
         </p>
-        <p className="mt-4 text-[13px] text-ink-soft">
+        <p className="mt-4 text-[13px] text-mute">
           Clear a filter or two and try again.
         </p>
       </div>
@@ -109,7 +109,7 @@ function FeatureRow({ listing, num }: { listing: Listing; num: string }) {
     >
       <PlateMeta num={num} type={listing.type} />
       <div className="mt-4 grid grid-cols-12 gap-x-6 gap-y-8">
-        <div className="relative col-span-12 aspect-[16/9] overflow-hidden bg-cream-warm md:col-span-8 md:aspect-[16/10]">
+        <div className="relative col-span-12 aspect-[16/9] overflow-hidden bg-navy md:col-span-8 md:aspect-[16/10]">
           <PlateImage listing={listing} sizes="(min-width: 768px) 66vw, 100vw" />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
           <FavoriteHeart listing={listing} />
@@ -117,15 +117,15 @@ function FeatureRow({ listing, num }: { listing: Listing; num: string }) {
         </div>
         <div className="col-span-12 flex flex-col justify-between gap-7 md:col-span-4">
           <div>
-            <h3 className="font-serif text-[clamp(26px,2.8vw,40px)] leading-[1.04] tracking-[-0.015em] text-navy-ink transition-colors group-hover:text-crimson">
+            <h3 className="font-serif text-[clamp(26px,2.8vw,40px)] leading-[1.04] tracking-[-0.015em] text-paper transition-colors group-hover:text-crimson-bright">
               {listing.title}
             </h3>
-            <p className="mt-2.5 text-[13px] font-light leading-[1.55] text-ink-soft">
+            <p className="mt-2.5 text-[13px] font-light leading-[1.55] text-mute">
               {listing.address.street}
               <br />
               {listing.address.city}, LA{" "}
               {listing.address.neighborhood ? (
-                <span className="italic text-ink-soft/75">
+                <span className="italic text-mute/75">
                   &middot; {listing.address.neighborhood}
                 </span>
               ) : null}
@@ -147,7 +147,7 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
         className="group block"
       >
         <PlateMeta num={num} type={listing.type} />
-        <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm sm:aspect-[4/5]">
+        <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-navy sm:aspect-[4/5]">
           <PlateImage
             listing={listing}
             sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 100vw"
@@ -157,10 +157,10 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
           <ScheduleTourAffordance />
         </TiltCard>
         <div className="mt-5">
-          <h3 className="font-serif text-[22px] leading-[1.12] text-navy-ink transition-colors group-hover:text-crimson">
+          <h3 className="font-serif text-[22px] leading-[1.12] text-paper transition-colors group-hover:text-crimson-bright">
             {listing.title}
           </h3>
-          <p className="mt-1.5 text-[12.5px] font-light text-ink-soft">
+          <p className="mt-1.5 text-[12.5px] font-light text-mute">
             {listing.address.street}, {listing.address.city}
           </p>
         </div>
@@ -201,7 +201,7 @@ function WidePlate({ listing, num }: { listing: Listing; num: string }) {
       className="group block"
     >
       <PlateMeta num={num} type={listing.type} />
-      <div className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-cream-warm">
+      <div className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-navy">
         <PlateImage listing={listing} sizes="(min-width: 1024px) 60vw, 100vw" />
         {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
         <FavoriteHeart listing={listing} />
@@ -209,10 +209,10 @@ function WidePlate({ listing, num }: { listing: Listing; num: string }) {
       </div>
       <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-7">
         <div>
-          <h3 className="font-serif text-[clamp(22px,2.4vw,30px)] leading-[1.1] text-navy-ink transition-colors group-hover:text-crimson">
+          <h3 className="font-serif text-[clamp(22px,2.4vw,30px)] leading-[1.1] text-paper transition-colors group-hover:text-crimson-bright">
             {listing.title}
           </h3>
-          <p className="mt-1.5 text-[12.5px] font-light text-ink-soft">
+          <p className="mt-1.5 text-[12.5px] font-light text-mute">
             {listing.address.street}, {listing.address.city}
           </p>
         </div>
@@ -230,16 +230,16 @@ function ColumnPlate({ listing, num }: { listing: Listing; num: string }) {
       className="group block"
     >
       <PlateMeta num={num} type={listing.type} />
-      <h3 className="mt-3.5 font-serif text-[clamp(24px,2.4vw,34px)] leading-[1.05] text-navy-ink transition-colors group-hover:text-crimson">
+      <h3 className="mt-3.5 font-serif text-[clamp(24px,2.4vw,34px)] leading-[1.05] text-paper transition-colors group-hover:text-crimson-bright">
         {listing.title}
       </h3>
-      <p className="mt-2 text-[13px] font-light leading-[1.6] text-ink-soft">
+      <p className="mt-2 text-[13px] font-light leading-[1.6] text-mute">
         {listing.address.street}, {listing.address.city}
       </p>
       <motion.div
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.5, ease: ease.outExpo }}
-        className="relative mt-5 aspect-[5/6] overflow-hidden bg-cream-warm"
+        className="relative mt-5 aspect-[5/6] overflow-hidden bg-navy"
       >
         <PlateImage listing={listing} sizes="(min-width: 1024px) 30vw, 100vw" />
         <FavoriteHeart listing={listing} />
@@ -254,10 +254,10 @@ function ColumnPlate({ listing, num }: { listing: Listing; num: string }) {
 
 function PlateMeta({ num, type }: { num: string; type: string }) {
   return (
-    <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink-soft">
+    <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-mute">
       {/* "Plate" word dropped \u2014 the italic number alone reads as
           editorial without adding noise to scannable property cards. */}
-      <span className="font-serif text-[14px] italic font-medium text-crimson">
+      <span className="font-serif text-[14px] italic font-medium text-crimson-bright">
         {num}
       </span>
       <span>{type}</span>
@@ -303,19 +303,19 @@ function PriceAnchor({
         : "text-[24px]";
 
   return (
-    <div className={`border-t border-navy-ink/15 pt-3.5 ${className ?? ""}`}>
+    <div className={`border-t border-cream/15 pt-3.5 ${className ?? ""}`}>
       <div className="flex items-baseline justify-between gap-3">
         <span
-          className={`font-serif ${priceSize} font-semibold leading-none tracking-[-0.015em] text-navy-ink`}
+          className={`font-serif ${priceSize} font-semibold leading-none tracking-[-0.015em] text-paper`}
         >
           {formatPrice(listing.price)}
         </span>
         {psf ? (
-          <span className="font-serif text-[12px] italic text-ink-soft">{psf}</span>
+          <span className="font-serif text-[12px] italic text-mute">{psf}</span>
         ) : null}
       </div>
       {factLine ? (
-        <div className="mt-2.5 text-[11.5px] tracking-[0.04em] text-ink-soft">
+        <div className="mt-2.5 text-[11.5px] tracking-[0.04em] text-mute">
           {factLine}
         </div>
       ) : null}

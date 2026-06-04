@@ -102,11 +102,16 @@ export function Hero() {
           sits. The lower-left vignette is tightened to focus only the
           area immediately behind the type.
         */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,transparent_40%,oklch(0.10_0.05_262/0.35)_65%,oklch(0.10_0.05_262/0.82)_88%,oklch(0.10_0.05_262/0.95)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_22%_82%,oklch(0.10_0.05_262/0.60)_0%,transparent_70%)]" />
-        {/* Warm sunset cast on the upper third \u2014 amplifies the photo's
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,oklch(0.10_0.04_264/0.25)_0%,transparent_32%,oklch(0.10_0.04_264/0.45)_62%,oklch(0.09_0.04_264/0.88)_86%,oklch(0.085_0.04_264/0.98)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_20%_84%,oklch(0.09_0.04_264/0.70)_0%,transparent_70%)]" />
+        {/* Warm sodium cast on the upper third \u2014 amplifies the photo's
             existing warmth without changing exposure */}
-        <div className="absolute inset-x-0 top-0 h-[42%] bg-[linear-gradient(180deg,oklch(0.65_0.12_30/0.15)_0%,transparent_100%)] mix-blend-soft-light" />
+        <div className="absolute inset-x-0 top-0 h-[42%] bg-[linear-gradient(180deg,oklch(0.65_0.12_36/0.16)_0%,transparent_100%)] mix-blend-soft-light" />
+        {/* Crimson ember glow rising from the lower-left, where the headline
+            sits \u2014 a faint live-accent halo that makes the type smolder. */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_42%_40%_at_18%_92%,oklch(0.55_0.20_24/0.30)_0%,transparent_62%)] mix-blend-screen" />
+        {/* Edge cinematic vignette */}
+        <div className="absolute inset-0 shadow-[inset_0_0_220px_60px_oklch(0.08_0.03_264/0.85)]" />
       </motion.div>
 
       {/* TOP SLATE \u2014 film-style timestamp + brand mark watermark.

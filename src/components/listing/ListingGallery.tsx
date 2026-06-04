@@ -32,20 +32,20 @@ export function ListingGallery({ images }: { images: Img[] }) {
   if (!active) return null;
 
   return (
-    <section className="relative bg-cream pb-4 pt-2">
+    <section className="relative bg-navy-ink pb-4 pt-2">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
         <div className="mb-5 flex items-baseline justify-between gap-4">
-          <Eyebrow variant="italic" tone="crimson">
+          <Eyebrow variant="italic" tone="crimson-bright">
             Photographs
           </Eyebrow>
-          <span className="font-serif text-[14px] italic text-ink-soft">
-            <span className="text-navy-ink">{String(i + 1).padStart(2, "0")}</span>
-            <span className="mx-1.5 text-ink-soft/50">/</span>
+          <span className="font-serif text-[14px] italic text-mute">
+            <span className="text-paper">{String(i + 1).padStart(2, "0")}</span>
+            <span className="mx-1.5 text-mute/50">/</span>
             <span>{String(count).padStart(2, "0")}</span>
           </span>
         </div>
 
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-cream-warm">
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-navy">
           <AnimatePresence mode="wait">
             <motion.div
               key={active.src}
@@ -92,7 +92,7 @@ export function ListingGallery({ images }: { images: Img[] }) {
                 className={cn(
                   "relative aspect-[4/3] overflow-hidden transition",
                   k === i
-                    ? "outline outline-2 outline-crimson outline-offset-2"
+                    ? "outline outline-2 outline-crimson-bright outline-offset-2"
                     : "opacity-65 hover:opacity-100",
                 )}
               >

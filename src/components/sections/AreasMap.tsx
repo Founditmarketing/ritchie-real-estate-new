@@ -20,24 +20,24 @@ export function AreasMap() {
   const area = areas.find((a) => a.slug === active) ?? areas[0];
 
   return (
-    <section id="areas" className="bg-cream py-24 md:py-32">
+    <section id="areas" className="bg-navy-deep py-24 md:py-32">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
         <Reveal>
           <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">
             <div>
-              <Eyebrow variant="numbered" num="05" tone="crimson">
+              <Eyebrow variant="numbered" num="05" tone="crimson-bright">
                 Know the area
               </Eyebrow>
-              <h2 className="mt-5 font-serif text-[clamp(36px,5vw,72px)] leading-[0.98] tracking-[-0.02em] text-navy-ink">
+              <h2 className="mt-5 font-serif text-[clamp(36px,5vw,72px)] leading-[0.98] tracking-[-0.02em] text-paper">
                 <HeadlineReveal>
-                  {["Where Central", <>Louisiana <em className="not-italic italic text-crimson">lives.</em></>]}
+                  {["Where Central", <>Louisiana <em className="not-italic italic text-crimson-bright">lives.</em></>]}
                 </HeadlineReveal>
               </h2>
             </div>
             <Link
               href="/areas"
               data-cursor-label="Guides"
-              className="group inline-flex items-center gap-3 self-start text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson md:self-end"
+              className="group inline-flex items-center gap-3 self-start text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright md:self-end"
             >
               <span className="border-b border-current pb-1">All area guides</span>
               <span
@@ -67,26 +67,26 @@ export function AreasMap() {
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: duration.base, ease: ease.out }}
                 >
-                  <Eyebrow variant="italic" tone="crimson">
+                  <Eyebrow variant="italic" tone="crimson-bright">
                     {area.tagline}
                   </Eyebrow>
-                  <div className="mt-3 font-serif text-[clamp(44px,5vw,72px)] font-semibold leading-[0.95] tracking-[-0.02em] text-navy-ink">
+                  <div className="mt-3 font-serif text-[clamp(44px,5vw,72px)] font-semibold leading-[0.95] tracking-[-0.02em] text-paper">
                     {area.name}
-                    <span className="ml-3 font-serif text-[18px] font-normal italic text-ink-soft">
+                    <span className="ml-3 font-serif text-[18px] font-normal italic text-mute">
                       LA
                     </span>
                   </div>
-                  <p className="mt-5 max-w-[40ch] text-[15px] font-light leading-[1.7] text-ink-soft">
+                  <p className="mt-5 max-w-[40ch] text-[15px] font-light leading-[1.7] text-cream-warm">
                     {area.description}
                   </p>
 
                   <div className="mt-9 flex flex-wrap gap-x-10 gap-y-5 border-t border-line pt-7">
                     {area.stats.map((s) => (
                       <div key={s.label}>
-                        <b className="block font-serif text-[30px] font-semibold leading-none text-crimson">
+                        <b className="block font-serif text-[30px] font-semibold leading-none text-crimson-bright">
                           {s.value}
                         </b>
-                        <span className="mt-2 block text-[10.5px] uppercase tracking-[0.16em] text-ink-soft">
+                        <span className="mt-2 block text-[10.5px] uppercase tracking-[0.16em] text-mute">
                           {s.label}
                         </span>
                       </div>
@@ -96,7 +96,7 @@ export function AreasMap() {
                   <Link
                     href={`/areas/${area.slug}`}
                     data-cursor-label="Explore"
-                    className="group mt-9 inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson"
+                    className="group mt-9 inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright"
                   >
                     <span className="border-b border-current pb-1">
                       Explore {area.name}

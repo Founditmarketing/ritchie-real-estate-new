@@ -27,7 +27,7 @@ export function ListingCard({ listing, size = "small", className }: ListingCardP
       >
         <div
           className={cn(
-            "relative overflow-hidden bg-cream-warm",
+            "relative overflow-hidden bg-navy",
             size === "feat" ? "aspect-[16/12]" : "aspect-[16/10]",
           )}
         >
@@ -99,14 +99,14 @@ export function ListingCard({ listing, size = "small", className }: ListingCardP
         <div className="pt-4">
           <h3
             className={cn(
-              "font-serif font-semibold leading-tight transition-colors group-hover:text-crimson",
+              "font-serif font-semibold leading-tight text-paper transition-colors group-hover:text-crimson-bright",
               size === "feat" ? "text-[23px]" : "text-[20px]",
             )}
           >
             {listing.title}
           </h3>
-          <div className="mt-1 flex items-center gap-2 text-[12.5px] font-light text-ink-soft">
-            <span className="h-px w-3 bg-crimson" />
+          <div className="mt-1 flex items-center gap-2 text-[12.5px] font-light text-mute">
+            <span className="h-px w-3 bg-crimson-bright" />
             {listing.address.street}, {listing.address.city}
           </div>
         </div>
