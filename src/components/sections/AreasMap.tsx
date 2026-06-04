@@ -313,9 +313,16 @@ function CenlaMap({
               tabIndex={0}
               role="button"
               aria-label={`Show ${a.name}`}
+              aria-pressed={on}
               onMouseEnter={() => onSelect(a.slug)}
               onFocus={() => onSelect(a.slug)}
               onClick={() => onSelect(a.slug)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSelect(a.slug);
+                }
+              }}
               className="cursor-pointer outline-none"
             >
               {on ? (

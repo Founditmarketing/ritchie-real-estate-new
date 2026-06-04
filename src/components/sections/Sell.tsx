@@ -13,9 +13,36 @@ const PORCH_IMG =
 
 /* A scanned signature aesthetic — supports the "earned trust" angle. */
 
+type SellStatus = "idle" | "sending" | "done" | "error";
+
 export function Sell() {
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<SellStatus>("idle");
+  const submitted = status === "done";
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (status === "sending") return;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim() || "Seller",
+          contact: contact.trim(),
+          message: `Valuation request for ${address.trim()}`,
+          source: "sell-form",
+        }),
+      });
+      const data = await res.json();
+      setStatus(res.ok && data?.ok ? "done" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <section id="sell" className="relative isolate overflow-hidden bg-navy-ink py-24 md:py-32">
@@ -88,12 +115,8 @@ export function Sell() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.7, ease: ease.outExpo, delay: 0.2 }}
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSubmitted(true);
-              /* TODO: wire to a server action that emails via Resend */
-            }}
-            className="mt-10 flex max-w-[560px] flex-col border-t-2 border-b border-cream/15 bg-transparent sm:flex-row sm:items-stretch"
+            onSubmit={handleSubmit}
+            className="mt-10 flex max-w-[560px] flex-col border-t-2 border-b border-cream/15 bg-transparent"
           >
             <label className="flex flex-1 flex-col gap-1.5 px-2 py-5">
               <span className="text-[10px] uppercase tracking-[0.22em] text-crimson-bright">
@@ -107,12 +130,45 @@ export function Sell() {
                 className="border-none bg-transparent font-serif text-[20px] text-paper outline-none placeholder:text-mute/55"
               />
             </label>
+            <div className="flex flex-col border-t border-cream/12 sm:flex-row">
+              <label className="flex flex-1 flex-col gap-1.5 px-2 py-4 sm:border-r sm:border-cream/12">
+                <span className="text-[10px] uppercase tracking-[0.22em] text-crimson-bright">
+                  Your name
+                </span>
+                <input
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="name"
+                  placeholder="Matt Ritchie"
+                  className="border-none bg-transparent font-serif text-[16px] text-paper outline-none placeholder:text-mute/55"
+                />
+              </label>
+              <label className="flex flex-1 flex-col gap-1.5 px-2 py-4">
+                <span className="text-[10px] uppercase tracking-[0.22em] text-crimson-bright">
+                  Phone or email
+                </span>
+                <input
+                  required
+                  value={contact}
+                  onChange={(e) => setContact(e.target.value)}
+                  autoComplete="email tel"
+                  placeholder="318-449-8919"
+                  className="border-none bg-transparent font-serif text-[16px] text-paper outline-none placeholder:text-mute/55"
+                />
+              </label>
+            </div>
             <button
               type="submit"
-              className="group relative whitespace-nowrap bg-crimson px-7 text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-crimson-deep sm:self-stretch"
+              disabled={status === "sending" || submitted}
+              className="group relative whitespace-nowrap bg-crimson px-7 py-4 text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-crimson-deep disabled:opacity-60"
             >
               <span className="relative z-10">
-                {submitted ? "On the way" : "Value it"}
+                {submitted
+                  ? "On the way"
+                  : status === "sending"
+                    ? "Sending\u2026"
+                    : "Value it"}
               </span>
             </button>
           </motion.form>
@@ -123,7 +179,9 @@ export function Sell() {
                 <span className="h-1.5 w-1.5 rounded-full bg-crimson-bright" />
                 {submitted
                   ? "Thanks. Ritchie will reach you within one business day."
-                  : "No pressure. No spam."}
+                  : status === "error"
+                    ? "Something glitched \u2014 call Matt at 318-449-8919."
+                    : "No pressure. No spam."}
               </span>
               <span>Average response: under 4 hours.</span>
               <span className="italic">Signed by the broker, not a bot.</span>

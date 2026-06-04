@@ -45,6 +45,15 @@ const GREETING: UIMessage = {
 let idSeq = 0;
 const nextId = () => `m${++idSeq}-${Date.now()}`;
 
+const OPEN_EVENT = "ask-ritchie:open";
+
+/** Open the concierge from anywhere on the page (e.g. the hero CTA). */
+export function openAskRitchie() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent(OPEN_EVENT));
+  }
+}
+
 export function AskRitchie() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<UIMessage[]>([GREETING]);
@@ -59,7 +68,49 @@ export function AskRitchie() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
+
+  const restoreFocus = useRef(false);
+  const close = useCallback(() => {
+    // The launcher is unmounted while the dialog is open, so we can't focus it
+    // synchronously here — defer until it re-mounts (see effect below).
+    restoreFocus.current = true;
+    setOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (!open && restoreFocus.current) {
+      restoreFocus.current = false;
+      requestAnimationFrame(() => launcherRef.current?.focus());
+    }
+  }, [open]);
+
+  // Keep focus inside the dialog while it's open (modal trap).
+  const onTrapKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key !== "Tab") return;
+    const root = dialogRef.current;
+    if (!root) return;
+    const focusables = root.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const activeEl = document.activeElement as HTMLElement | null;
+    if (e.shiftKey && activeEl === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && activeEl === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }, []);
+
+  // The most recent assistant line, announced politely to screen readers.
+  const lastAssistant = [...messages]
+    .reverse()
+    .find((m) => m.role === "assistant")?.content;
 
   const scrollToEnd = useCallback(() => {
     requestAnimationFrame(() => {
@@ -81,18 +132,25 @@ export function AskRitchie() {
     if (open) scrollToEnd();
   }, [messages, loading, open, scrollToEnd]);
 
+  // Open on demand from elsewhere (hero CTA, etc.).
+  useEffect(() => {
+    const onOpen = () => {
+      setOpen(true);
+      setUnread(false);
+    };
+    window.addEventListener(OPEN_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_EVENT, onOpen);
+  }, []);
+
   // Esc to close.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpen(false);
-        launcherRef.current?.focus();
-      }
+      if (e.key === "Escape") close();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, close]);
 
   const send = useCallback(
     async (raw: string) => {
@@ -164,6 +222,7 @@ export function AskRitchie() {
             name,
             contact,
             message: note,
+            source: "ask-ritchie",
             intent: messages.filter((m) => m.role === "user").slice(-1)[0]?.content,
           }),
         });
@@ -243,14 +302,16 @@ export function AskRitchie() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: reduce ? 0 : 0.25 }}
-              onClick={() => setOpen(false)}
+              onClick={close}
               aria-hidden
             />
 
             <motion.div
+              ref={dialogRef}
               role="dialog"
               aria-modal="true"
               aria-labelledby={titleId}
+              onKeyDown={onTrapKeyDown}
               initial={
                 reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }
               }
@@ -283,7 +344,7 @@ export function AskRitchie() {
                 </span>
                 <button
                   type="button"
-                  onClick={() => setOpen(false)}
+                  onClick={close}
                   aria-label="Close chat"
                   data-cursor="grow"
                   className="ml-auto grid h-9 w-9 place-items-center rounded-full text-cream-warm/70 transition-colors hover:bg-cream/10 hover:text-cream"
@@ -311,10 +372,15 @@ export function AskRitchie() {
                     onChip={send}
                     leadState={leadState}
                     onLeadSubmit={submitLead}
-                    onCloseAfterNav={() => setOpen(false)}
+                    onCloseAfterNav={close}
                   />
                 ))}
                 {loading && <TypingDots />}
+              </div>
+
+              {/* Polite screen-reader announcer for incoming replies */}
+              <div aria-live="polite" role="status" className="sr-only">
+                {loading ? "Ritchie is typing…" : lastAssistant}
               </div>
 
               {/* Composer */}

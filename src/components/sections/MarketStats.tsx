@@ -73,8 +73,8 @@ export function MarketStats() {
           </Reveal>
           <Reveal delay={0.1}>
             <div className="flex flex-col gap-1 text-[11px] uppercase tracking-[0.22em] text-cream-warm/70 md:text-right">
-              <span className="text-crimson-bright">Live snapshot</span>
-              <span>Updated May 2026 &middot; Source: Cenla MLS</span>
+              <span className="text-crimson-bright">Market snapshot</span>
+              <span>Compiled from Cenla MLS &middot; May 2026</span>
             </div>
           </Reveal>
         </div>

@@ -3,8 +3,10 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { LogoMark } from "@/components/brand/Logo";
 import { MagneticButton } from "@/components/motion/MagneticButton";
+import { openAskRitchie } from "@/components/chat/AskRitchie";
 import { ease } from "@/lib/motion";
 
 /**
@@ -216,21 +218,45 @@ export function Hero() {
             </p>
           </div>
 
-          {/* Primary action: filled crimson on cream label, the loudest
-              moment on the hero. Outline rationale was "editorial restraint"
-              but it under-cued the most important click on the page. */}
-          <MagneticButton
-            href="/listings"
-            data-cursor-label="Search"
-            className="group inline-flex items-center gap-4 self-start bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream shadow-[0_18px_40px_-12px_oklch(0.40_0.17_20/0.6)] transition-colors hover:bg-crimson-deep md:self-end"
-            strength={32}
-          >
-            See what&rsquo;s on the market
-            <span
-              aria-hidden
-              className="inline-block h-px w-10 bg-current transition-[width] duration-500 ease-out group-hover:w-16"
-            />
-          </MagneticButton>
+          {/* Primary action: the concierge. The loudest moment on the hero
+              opens "Ask Ritchie" — talk to someone who knows the ground
+              before you ever browse a grid. Browsing is the quieter,
+              secondary path beneath it. */}
+          <div className="flex flex-col items-start gap-4 md:items-end">
+            <MagneticButton
+              href="#ask-ritchie"
+              onClick={(e) => {
+                e.preventDefault();
+                openAskRitchie();
+              }}
+              role="button"
+              aria-haspopup="dialog"
+              data-cursor-label="Ask"
+              className="group inline-flex items-center gap-4 self-start bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream shadow-[0_18px_40px_-12px_oklch(0.40_0.17_20/0.6)] transition-colors hover:bg-crimson-deep md:self-end"
+              strength={32}
+            >
+              <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cream/70" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-cream" />
+              </span>
+              Ask Ritchie
+              <span
+                aria-hidden
+                className="inline-block h-px w-10 bg-current transition-[width] duration-500 ease-out group-hover:w-16"
+              />
+            </MagneticButton>
+            <Link
+              href="/listings"
+              data-cursor-label="Search"
+              className="group inline-flex items-center gap-3 self-start font-sans text-[11px] uppercase tracking-[0.2em] text-cream-warm/80 transition-colors hover:text-cream md:self-end"
+            >
+              Or browse what&rsquo;s on the market
+              <span
+                aria-hidden
+                className="inline-block h-px w-7 bg-crimson-bright transition-[width] duration-500 ease-out group-hover:w-12"
+              />
+            </Link>
+          </div>
         </motion.div>
       </motion.div>
 

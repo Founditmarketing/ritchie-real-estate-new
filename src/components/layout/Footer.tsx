@@ -169,7 +169,7 @@ export function Footer() {
           <Lockup
             mark="MLS"
             title="Cenla MLS"
-            sub="Member, Active 2003–"
+            sub="Member since 2003"
           />
         </div>
 
