@@ -11,10 +11,10 @@ export function Broker() {
         <div className="relative h-[80svh] min-h-[520px]">
           <Image
             src="/team/matt-ritchie.png"
-            alt="Matt Ritchie, broker and owner of Ritchie Real Estate, on the cover of REALTOR Magazine's CREATE"
+            alt="Matt Ritchie, broker and owner of Ritchie Real Estate"
             fill
             sizes="100vw"
-            className="object-cover object-top"
+            className="object-cover object-[50%_top]"
             priority={false}
           />
           <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-navy-ink/70 to-transparent" />
@@ -59,15 +59,15 @@ export function Broker() {
             consumed >60% of a phone viewport, creating the "scroll through
             nothing then content" feel. */}
         <div className="relative min-h-[440px] md:min-h-[720px]">
-          {/* object-top pins the frame to the top edge of the portrait so
-              Matt's head is never cropped at any container height; only the
-              lower body trims on shorter (mobile) viewports. */}
+          {/* Landscape studio headshot: bias the crop slightly above center
+              so Matt's face stays in frame in the tall column without
+              cropping his head. */}
           <Image
             src="/team/matt-ritchie.png"
-            alt="Matt Ritchie, broker and owner of Ritchie Real Estate, on the cover of REALTOR Magazine's CREATE"
+            alt="Matt Ritchie, broker and owner of Ritchie Real Estate"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover object-top"
+            className="object-cover object-[50%_top]"
             priority={false}
           />
           {/* Navy washes so the full-body portrait reads as part of the
