@@ -20,12 +20,22 @@ export default function HomePage() {
           breathing room as its own product moment. */}
       <SearchBar />
       <MarketStats />
-      <Paths />
+      {/* Hidden on mobile to keep the phone flow under ~9 sections.
+          Paths duplicate the header nav, Testimonials and the Cenla map
+          (now its own /explore experience) are the most cuttable on a
+          small screen. All three remain on tablet/desktop. */}
+      <div className="hidden md:block">
+        <Paths />
+      </div>
       <FeaturedListings />
       <Broker />
-      <Testimonials />
+      <div className="hidden md:block">
+        <Testimonials />
+      </div>
       <Sell />
-      <AreasMap />
+      <div className="hidden md:block">
+        <AreasMap />
+      </div>
       <Closer />
     </>
   );
