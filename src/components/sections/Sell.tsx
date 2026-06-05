@@ -86,18 +86,20 @@ export function Sell() {
         <div className="flex flex-col justify-center">
           <Reveal>
             <span className="font-sans text-[10.5px] uppercase tracking-[0.28em] text-crimson-bright">
-              Chapter 03 / For sellers
+              For sellers
             </span>
           </Reveal>
 
           <Reveal delay={0.06}>
-            <h2 className="mt-5 font-serif font-medium tracking-[-0.025em] text-paper">
-              <span className="block text-[clamp(42px,5.5vw,84px)] leading-[0.95]">
-                Find out
+            {/* Scale-contrast headline: a quiet setup line over an oversized
+                payoff word. A different device from the editorial sections'
+                italic-accent formula. */}
+            <h2 className="mt-5 font-serif font-medium tracking-[-0.03em] text-paper">
+              <span className="block text-[clamp(22px,2.8vw,36px)] font-normal leading-[1.1] text-cream-warm">
+                What&rsquo;s your home
               </span>
-              <span className="block text-[clamp(42px,5.5vw,84px)] leading-[0.95]">
-                what it&rsquo;s{" "}
-                <em className="not-italic italic text-crimson-bright">worth.</em>
+              <span className="block text-[clamp(64px,8.5vw,120px)] leading-[0.86]">
+                worth?
               </span>
             </h2>
           </Reveal>

@@ -62,17 +62,16 @@ export function SearchBar() {
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
         <div className="mb-9 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between md:gap-10">
           <div>
-            <Eyebrow variant="numbered" num="03" tone="crimson-bright">
-              Start the search
-            </Eyebrow>
-            <h2 className="mt-4 font-serif text-[clamp(28px,3.4vw,48px)] leading-[1.04] tracking-[-0.02em] text-paper">
-              Show me{" "}
-              <em className="not-italic italic text-crimson-bright">what&rsquo;s out there.</em>
+            <span className="font-sans text-[10.5px] font-medium uppercase tracking-[0.28em] text-crimson-bright">
+              Find your place
+            </span>
+            <h2 className="mt-4 font-serif text-[clamp(30px,3.6vw,52px)] leading-[1.04] tracking-[-0.02em] text-paper">
+              Search every Cenla listing.
             </h2>
           </div>
-          <p className="max-w-[34ch] font-serif text-[15px] italic leading-[1.55] text-cream-warm">
-            Four fields, every Cenla listing. Filters write the URL so you can
-            share a search with anyone.
+          <p className="max-w-[34ch] font-sans text-[13px] leading-[1.6] text-cream-warm/75">
+            Set the type, beds, and budget. Filters write the URL, so any search
+            is one tap to share.
           </p>
         </div>
 
