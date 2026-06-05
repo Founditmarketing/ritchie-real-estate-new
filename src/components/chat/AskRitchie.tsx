@@ -125,7 +125,18 @@ export function AskRitchie() {
     if (open) {
       setUnread(false);
       scrollToEnd();
-      const t = setTimeout(() => inputRef.current?.focus(), 280);
+      // On phones the panel is a full sheet and auto-focusing the composer
+      // pops the on-screen keyboard instantly — hiding the UI before anyone
+      // can take it in. So only auto-focus the input on desktop; on mobile we
+      // move focus to the dialog itself (keeps the a11y trap/Esc working) and
+      // let the visitor tap the field when they're ready to type.
+      const isDesktop =
+        typeof window !== "undefined" &&
+        window.matchMedia("(min-width: 768px)").matches;
+      const t = setTimeout(() => {
+        if (isDesktop) inputRef.current?.focus();
+        else dialogRef.current?.focus();
+      }, 280);
       return () => clearTimeout(t);
     }
   }, [open, scrollToEnd]);
@@ -317,6 +328,7 @@ export function AskRitchie() {
               role="dialog"
               aria-modal="true"
               aria-labelledby={titleId}
+              tabIndex={-1}
               onKeyDown={onTrapKeyDown}
               initial={
                 reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }
@@ -325,7 +337,7 @@ export function AskRitchie() {
               exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }}
               transition={{ duration: dur, ease: [0.16, 1, 0.3, 1] }}
               className={cn(
-                "fixed z-[80] flex flex-col overflow-hidden border border-cream/12 bg-navy-deep shadow-[0_40px_120px_-20px_rgba(0,0,0,0.85)]",
+                "fixed z-[80] flex flex-col overflow-hidden border border-cream/12 bg-navy-deep shadow-[0_40px_120px_-20px_rgba(0,0,0,0.85)] outline-none",
                 // Mobile: full sheet. Desktop: docked card.
                 "inset-0 rounded-none",
                 "md:inset-auto md:bottom-7 md:right-7 md:h-[640px] md:max-h-[calc(100vh-3.5rem)] md:w-[412px] md:rounded-[4px]",
