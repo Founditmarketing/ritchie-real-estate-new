@@ -10,7 +10,7 @@ const ITEMS = [
   { href: "/listings", label: "Buy a Home" },
   { href: "/sell", label: "Sell a Home" },
   { href: "/listings?type=commercial", label: "Commercial" },
-  { href: "/about", label: "Our Agents" },
+  { href: "/team", label: "Our Agents" },
   { href: "/areas", label: "Cenla Guides" },
 ] as const;
 
