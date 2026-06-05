@@ -31,9 +31,13 @@ export function MobileDock() {
       aria-label="Quick actions"
       className="fixed inset-x-0 bottom-0 z-[70] md:hidden"
     >
-      {/* top hairline glow so the dark bar reads as a distinct surface */}
-      <div className="pointer-events-none absolute inset-x-0 -top-8 h-8 bg-gradient-to-t from-navy-ink to-transparent" />
-      <div className="border-t border-cream/12 bg-navy-ink/95 backdrop-blur-md">
+      {/* soft fade so scrolling content dissolves into the bar instead of
+          hard-cutting at its edge */}
+      <div className="pointer-events-none absolute inset-x-0 -top-10 h-10 bg-gradient-to-t from-navy-ink to-transparent" />
+      {/* Solid (not translucent) on purpose: a blurred bar smears the busy
+          dark photography scrolling behind it and flickers during momentum
+          scroll. Opaque surface + separation shadow reads cleaner. */}
+      <div className="border-t border-cream/10 bg-navy-ink shadow-[0_-12px_32px_-12px_rgba(0,0,0,0.8)]">
         <ul className="mx-auto grid max-w-md grid-cols-5 items-end px-1.5 pb-[max(0.45rem,env(safe-area-inset-bottom))] pt-1.5">
           <DockItem
             href="/listings"
