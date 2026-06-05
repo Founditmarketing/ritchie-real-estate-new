@@ -17,7 +17,36 @@ import { ease } from "@/lib/motion";
  */
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const reduced = useReducedMotion() ?? false;
+
+  // iOS autoplay is finicky: it requires the muted *property* (React only
+  // reflects the attribute, which isn't enough) plus inline playback, and it
+  // often won't start until we explicitly call play(). Set everything
+  // imperatively and retry on canplay / when the tab returns to foreground.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || reduced) return;
+    v.muted = true;
+    v.defaultMuted = true;
+    v.setAttribute("muted", "");
+    v.setAttribute("webkit-playsinline", "true");
+    v.playsInline = true;
+    const tryPlay = () => {
+      const p = v.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+    tryPlay();
+    v.addEventListener("canplay", tryPlay);
+    const onVis = () => {
+      if (!document.hidden) tryPlay();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      v.removeEventListener("canplay", tryPlay);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [reduced]);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -71,28 +100,26 @@ export function Hero() {
               className="object-cover object-[60%_38%]"
             />
           ) : (
-            /* Explicit <source type="..."> with the avc1 codec string
-               helps iOS Safari pick the right decoder immediately, which
-               is what was making the video render less crisply on iPhone
-               than Android. `disablePictureInPicture` + `disableRemotePlayback`
+            /* Load the file via a plain `src` (not a typed <source>): iOS
+               Safari strictly validates a <source>'s codecs string and will
+               silently skip it — falling back to just the poster — if it
+               doesn't match the file exactly, which is what broke autoplay on
+               iPhone. `disablePictureInPicture` + `disableRemotePlayback`
                prevent iOS from showing a tap-to-AirPlay overlay on the hero. */
             <video
+              ref={videoRef}
+              src="/hero/hero.mp4"
               poster="/hero/hero-poster.jpg"
               autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="auto"
               disablePictureInPicture
               disableRemotePlayback
               aria-hidden
               className="absolute inset-0 h-full w-full object-cover object-[60%_38%]"
-            >
-              <source
-                src="/hero/hero.mp4"
-                type='video/mp4; codecs="avc1.4D4028"'
-              />
-            </video>
+            />
           )}
         </motion.div>
 
