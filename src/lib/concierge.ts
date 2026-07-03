@@ -17,6 +17,7 @@
 
 import { getListings, formatPrice, type ListingType } from "@/lib/listings";
 import { areas } from "@/content/areas";
+import { fieldNoteFor } from "@/content/field-notes";
 
 export type ChatRole = "user" | "assistant";
 
@@ -302,9 +303,15 @@ function marketSummary(city?: string): string {
     if (a) {
       const stat = (label: string) =>
         a.stats.find((s) => s.label.toLowerCase().includes(label))?.value ?? "—";
+      // Ground the answer in a street-level field note when one exists —
+      // the concierge quoting Matt's margin notes is the whole point of them.
+      const fieldNote = fieldNoteFor(a.name);
+      const noteLine = fieldNote
+        ? ` One thing Matt flags near ${fieldNote.place}: “${fieldNote.note}”`
+        : "";
       return `${a.name}: ${a.tagline} Median sale ${stat("median")}, about ${stat(
         "dom",
-      )} on market, ${stat("active")} active right now. ${a.description}`;
+      )} on market, ${stat("active")} active right now. ${a.description}${noteLine}`;
     }
   }
   const lines = areas.map((a) => {

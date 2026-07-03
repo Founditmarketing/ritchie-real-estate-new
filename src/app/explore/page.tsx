@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
 import { getListings, formatPrice } from "@/lib/listings";
+import { fieldNotes } from "@/content/field-notes";
 import { ExploreClient, type ExploreListing } from "@/components/explore/ExploreClient";
 
 export const metadata: Metadata = {
   title: "Explore the Map",
   description:
-    "Every active Central Louisiana listing on one map. Ask Ritchie to filter it for you.",
+    "Ritchie’s Cenla listings on one map, with Matt’s street-level field notes. Ask Ritchie to filter it for you.",
 };
 
-export default async function ExplorePage() {
-  const items = await getListings({ sort: "newest" });
+export default async function ExplorePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ focus?: string }>;
+}) {
+  const [items, sp] = await Promise.all([
+    getListings({ sort: "newest" }),
+    searchParams,
+  ]);
 
   const listings: ExploreListing[] = items.map((l) => ({
     id: l.id,
@@ -29,5 +37,11 @@ export default async function ExplorePage() {
     status: l.status,
   }));
 
-  return <ExploreClient listings={listings} />;
+  // /explore?focus={id} deep links (e.g. the listing page's slate strip)
+  // land with that pin active. Validate against real inventory.
+  const focus = sp.focus && items.some((l) => l.id === sp.focus) ? sp.focus : null;
+
+  return (
+    <ExploreClient listings={listings} notes={fieldNotes} initialFocusId={focus} />
+  );
 }

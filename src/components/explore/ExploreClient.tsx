@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { LogoMark } from "@/components/brand/Logo";
 import { PhoneIcon } from "@/components/layout/MobileDock";
 import type { ConciergeReply } from "@/lib/concierge";
+import type { FieldNote } from "@/content/field-notes";
 import type { ListingType } from "@/lib/listings";
 import type { MapListing } from "./CenlaLiveMap";
 
@@ -76,19 +77,34 @@ function withPhoneLink(text: string): React.ReactNode {
   );
 }
 
-export function ExploreClient({ listings }: { listings: ExploreListing[] }) {
+export function ExploreClient({
+  listings,
+  notes = [],
+  initialFocusId = null,
+}: {
+  listings: ExploreListing[];
+  notes?: FieldNote[];
+  initialFocusId?: string | null;
+}) {
   const [typeFilter, setTypeFilter] = useState<ListingType | "all">("all");
   const [aiIds, setAiIds] = useState<string[] | null>(null);
   const [aiReply, setAiReply] = useState<string | null>(null);
   const [aiChips, setAiChips] = useState<string[]>([]);
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(initialFocusId);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [mobileView, setMobileView] = useState<"list" | "map">("list");
+  // A /explore?focus={id} deep link (e.g. the listing page's slate strip)
+  // lands with the pin already active — on phones, open on the map so the
+  // payoff is visible.
+  const [mobileView, setMobileView] = useState<"list" | "map">(
+    initialFocusId ? "map" : "list",
+  );
   const [cta, setCta] = useState<"lead" | null>(null);
   const [leadState, setLeadState] = useState<"idle" | "submitting" | "done">(
     "idle",
   );
+  const [showNotes, setShowNotes] = useState(true);
+  const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
 
   const histRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
@@ -131,11 +147,28 @@ export function ExploreClient({ listings }: { listings: ExploreListing[] }) {
   const activeListing = activeId
     ? displayed.find((l) => l.id === activeId) ?? null
     : null;
+  const activeNote = activeNoteId
+    ? notes.find((n) => n.id === activeNoteId) ?? null
+    : null;
 
   const activate = useCallback((id: string) => {
     setActiveId(id);
+    setActiveNoteId(null);
     const card = cardRefs.current.get(id);
     card?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, []);
+
+  const activateNote = useCallback((id: string) => {
+    setActiveNoteId(id);
+    setActiveId(null);
+  }, []);
+
+  // A deep-linked pin needs its list card in view once the list renders.
+  useEffect(() => {
+    if (!initialFocusId) return;
+    const card = cardRefs.current.get(initialFocusId);
+    card?.scrollIntoView({ block: "nearest" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const ask = useCallback(
@@ -229,6 +262,7 @@ export function ExploreClient({ listings }: { listings: ExploreListing[] }) {
     setAiReply(null);
     setAiChips([]);
     setActiveId(null);
+    setActiveNoteId(null);
     setTypeFilter("all");
     setCta(null);
     setLeadState("idle");
@@ -399,7 +433,10 @@ export function ExploreClient({ listings }: { listings: ExploreListing[] }) {
                   key={l.id}
                   listing={l}
                   active={l.id === activeId}
-                  onActivate={() => setActiveId(l.id)}
+                  onActivate={() => {
+                    setActiveId(l.id);
+                    setActiveNoteId(null);
+                  }}
                   registerRef={(el) => {
                     if (el) cardRefs.current.set(l.id, el);
                     else cardRefs.current.delete(l.id);
@@ -421,7 +458,42 @@ export function ExploreClient({ listings }: { listings: ExploreListing[] }) {
             listings={mapListings}
             activeId={activeId}
             onActivate={activate}
+            notes={notes}
+            showNotes={showNotes}
+            activeNoteId={activeNoteId}
+            onNoteActivate={activateNote}
           />
+
+          {/* Field-notes layer toggle — warm-steel, quiet, top-right so it
+              stays clear of Leaflet's zoom control. */}
+          {notes.length > 0 && (
+            <button
+              type="button"
+              aria-pressed={showNotes}
+              data-cursor-label="Notes"
+              onClick={() => {
+                setShowNotes((v) => {
+                  if (v) setActiveNoteId(null);
+                  return !v;
+                });
+              }}
+              className={cn(
+                "absolute right-3 top-3 z-[500] inline-flex items-center gap-2 rounded-full border bg-navy-deep/90 px-3.5 py-2 font-sans text-[10.5px] font-medium uppercase tracking-[0.16em] shadow-[0_10px_28px_-10px_oklch(0.08_0.03_264/0.8)] transition-colors",
+                showNotes
+                  ? "border-steel/60 text-cream"
+                  : "border-cream/15 text-mute hover:text-cream",
+              )}
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "inline-block h-2 w-2 rotate-45 border transition-colors",
+                  showNotes ? "border-steel bg-steel/70" : "border-mute",
+                )}
+              />
+              Field notes
+            </button>
+          )}
 
           {/* Active listing preview card over the map. On phones it sits
               above the fixed bottom action cluster (~44px pill + its
@@ -432,6 +504,14 @@ export function ExploreClient({ listings }: { listings: ExploreListing[] }) {
                 listing={activeListing}
                 onClose={() => setActiveId(null)}
               />
+            </div>
+          )}
+
+          {/* Field-note card — same slot as the listing preview; the two
+              are mutually exclusive by state. */}
+          {activeNote && !activeListing && (
+            <div className="pointer-events-none absolute inset-x-3 bottom-[max(76px,calc(env(safe-area-inset-bottom)+3.5rem))] z-[500] flex justify-center lg:bottom-3 lg:left-4 lg:right-auto lg:justify-start">
+              <NoteCard note={activeNote} onClose={() => setActiveNoteId(null)} />
             </div>
           )}
         </div>
@@ -585,6 +665,38 @@ function ExploreLeadForm({
         {state === "submitting" ? "Sending…" : "Send to Matt"}
       </button>
     </form>
+  );
+}
+
+/** Matt's street-level margin note, staged like a card pulled from a field
+ *  notebook — steel hairlines, serif italic, signed. */
+function NoteCard({ note, onClose }: { note: FieldNote; onClose: () => void }) {
+  return (
+    <div className="pointer-events-auto relative w-full max-w-[340px] overflow-hidden rounded-[6px] border border-steel/40 bg-navy-deep p-4 shadow-[0_24px_60px_-16px_oklch(0.08_0.03_264/0.85)]">
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Close field note"
+        className="absolute right-1.5 top-1.5 z-10 grid h-6 w-6 place-items-center rounded-full bg-navy-ink/70 text-cream-warm/80 transition-colors hover:text-cream"
+      >
+        <svg width="12" height="12" viewBox="0 0 16 16" aria-hidden>
+          <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
+      </button>
+      <p className="flex items-center gap-2 font-sans text-[9.5px] font-medium uppercase tracking-[0.22em] text-steel">
+        <span aria-hidden className="inline-block h-1.5 w-1.5 rotate-45 border border-steel bg-steel/60" />
+        Field note · {note.category}
+      </p>
+      <p className="mt-2 font-serif text-[16px] font-medium leading-tight text-paper">
+        {note.place}
+      </p>
+      <p className="mt-2 font-serif text-[15px] italic leading-[1.6] text-cream-warm">
+        {note.note}
+      </p>
+      <p className="mt-3 border-t border-line pt-2.5 font-serif text-[15px] italic text-crimson-bright">
+        — M.R.
+      </p>
+    </div>
   );
 }
 

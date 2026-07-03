@@ -152,6 +152,31 @@ h1, h2, h3, .serif {
   }
 }
 
+/* ---------------------------------------------------------------- */
+/* "Scene Not Found" — the 404 clapperboard's single clap            */
+/* ---------------------------------------------------------------- */
+@keyframes slate-clap {
+  from {
+    transform: rotate(-14deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+/* Top jaw of the 404 film slate: server-rendered open (fill-mode both),
+   claps shut exactly once. Origin sits on the hinge pin — 18px in from
+   the left, on the jaw's bottom edge. The global reduced-motion clamp
+   collapses the duration and the nested rule drops the delay, so
+   reduced-motion users land instantly on the closed end state. */
+.slate-clap {
+  transform-origin: 18px 100%;
+  animation: slate-clap 0.65s var(--ease-out-expo) 0.25s both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-delay: 0s;
+  }
+}
+
 /* Route transitions live in components/motion/RouteTransitions
    (enter-only Motion tween) — no View Transitions CSS needed. */
 
@@ -189,6 +214,41 @@ h1, h2, h3, .serif {
   z-index: 1001 !important;
   box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-crimson) 50%, transparent),
     0 6px 18px -4px oklch(0.08 0.03 264 / 0.8);
+}
+
+/* Field-note pins — Matt's street-level margin notes on the map.
+   A small warm-steel diamond (the one place the steel token leads),
+   quiet beside the crimson price pins; crimson only when active. */
+.rre-note {
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.rre-note-diamond {
+  /* block, not inline — width/height collapse on an inline span */
+  display: block;
+  width: 11px;
+  height: 11px;
+  transform: rotate(45deg);
+  background: color-mix(in oklch, var(--color-navy-deep) 82%, transparent);
+  border: 1.5px solid var(--color-steel);
+  box-shadow: 0 2px 8px -2px oklch(0.08 0.03 264 / 0.7);
+  transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+.rre-note:hover .rre-note-diamond {
+  transform: rotate(45deg) scale(1.25);
+  border-color: var(--color-cream);
+}
+.rre-note.is-active .rre-note-diamond {
+  background: var(--color-crimson);
+  border-color: var(--color-cream);
+  transform: rotate(45deg) scale(1.3);
+}
+.rre-note:focus-visible {
+  outline: 2px solid var(--color-paper);
+  outline-offset: 3px;
 }
 
 /* Dark-theme the Leaflet chrome to match the brand */

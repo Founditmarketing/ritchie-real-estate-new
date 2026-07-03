@@ -14,6 +14,26 @@ export interface MapListing {
   srLabel?: string;
 }
 
+export interface MapNote {
+  id: string;
+  place: string;
+  lat: number;
+  lng: number;
+}
+
+/** The zoom level at which Matt's field notes surface — parish overview
+ *  keeps them visible; only far-out views hide them. */
+const NOTE_MIN_ZOOM = 11;
+
+function buildNoteIcon(active: boolean) {
+  return L.divIcon({
+    html: '<span class="rre-note-diamond" aria-hidden="true"></span>',
+    className: `rre-note${active ? " is-active" : ""}`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 11],
+  });
+}
+
 function buildIcon(label: string, active: boolean) {
   // Width estimated from label length so the pill is centered on the point.
   const w = Math.max(46, label.length * 8 + 22);
@@ -40,10 +60,18 @@ export default function CenlaLiveMap({
   listings,
   activeId,
   onActivate,
+  notes = [],
+  showNotes = false,
+  activeNoteId = null,
+  onNoteActivate,
 }: {
   listings: MapListing[];
   activeId: string | null;
   onActivate: (id: string) => void;
+  notes?: MapNote[];
+  showNotes?: boolean;
+  activeNoteId?: string | null;
+  onNoteActivate?: (id: string) => void;
 }) {
   const elRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -52,6 +80,22 @@ export default function CenlaLiveMap({
   const pointsRef = useRef<L.LatLngExpression[]>([]);
   const onActivateRef = useRef(onActivate);
   onActivateRef.current = onActivate;
+  const noteLayerRef = useRef<L.LayerGroup | null>(null);
+  const noteMarkersRef = useRef<Map<string, L.Marker>>(new Map());
+  const showNotesRef = useRef(showNotes);
+  showNotesRef.current = showNotes;
+  const onNoteActivateRef = useRef(onNoteActivate);
+  onNoteActivateRef.current = onNoteActivate;
+
+  /** Notes surface at street-ish zoom and stand down when the map is far
+   *  out or the layer is toggled off. */
+  const syncNoteVisibility = (map: L.Map) => {
+    const layer = noteLayerRef.current;
+    if (!layer) return;
+    const shouldShow = showNotesRef.current && map.getZoom() >= NOTE_MIN_ZOOM;
+    if (shouldShow && !map.hasLayer(layer)) layer.addTo(map);
+    else if (!shouldShow && map.hasLayer(layer)) layer.remove();
+  };
 
   const fitToPoints = (map: L.Map) => {
     const pts = pointsRef.current;
@@ -80,6 +124,8 @@ export default function CenlaLiveMap({
       },
     ).addTo(map);
     mapRef.current = map;
+    noteLayerRef.current = L.layerGroup();
+    map.on("zoomend", () => syncNoteVisibility(map));
     // Container may mount at 0 height inside flex/grid; nudge Leaflet.
     setTimeout(() => map.invalidateSize(), 100);
 
@@ -107,8 +153,46 @@ export default function CenlaLiveMap({
       map.remove();
       mapRef.current = null;
       markersRef.current.clear();
+      noteLayerRef.current = null;
+      noteMarkersRef.current.clear();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Build the field-note markers when the note set changes.
+  useEffect(() => {
+    const map = mapRef.current;
+    const layer = noteLayerRef.current;
+    if (!map || !layer) return;
+
+    layer.clearLayers();
+    noteMarkersRef.current.clear();
+
+    notes.forEach((n) => {
+      const marker = L.marker([n.lat, n.lng], {
+        icon: buildNoteIcon(n.id === activeNoteId),
+        // Accessible name + hover tooltip for the otherwise-glyph-only pin.
+        title: `Field note — ${n.place}`,
+      });
+      marker.on("click", () => onNoteActivateRef.current?.(n.id));
+      marker.addTo(layer);
+      noteMarkersRef.current.set(n.id, marker);
+    });
+
+    syncNoteVisibility(map);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notes]);
+
+  // Toggle the layer on/off and restyle the active diamond.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    syncNoteVisibility(map);
+    noteMarkersRef.current.forEach((marker, id) => {
+      marker.setIcon(buildNoteIcon(id === activeNoteId));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showNotes, activeNoteId]);
 
   // Rebuild markers when the listing set changes.
   useEffect(() => {

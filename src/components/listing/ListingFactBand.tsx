@@ -1,10 +1,13 @@
 import { formatPrice, formatSqft, type Listing } from "@/lib/listings";
+import { ListingSlate } from "@/components/listing/ListingSlate";
 
 /**
  * Typographic facts strip immediately below the cinematic hero. Price is
  * the dominant typographic moment; the other facts sit alongside as a
  * proper dl with serif numerals and small-caps labels, separated by
- * hairline rules. No card, no panel \u2014 just type on cream.
+ * hairline rules. No card, no panel \u2014 just type on cream. The band
+ * closes on the "Miles From Our Door" film-slate line when the listing
+ * has coordinates.
  */
 export function ListingFactBand({ listing }: { listing: Listing }) {
   const facts: { label: string; value: string }[] = [];
@@ -51,6 +54,15 @@ export function ListingFactBand({ listing }: { listing: Listing }) {
             ))}
           </dl>
         </div>
+
+        {/* The band ends on the slate line — full-width, hairline-ruled.
+            ListingSlate renders nothing without coords, so gate the row
+            too or the empty rule would hang below the dl. */}
+        {listing.coords ? (
+          <div className="col-span-12 mt-2 border-t border-cream/15 pt-5">
+            <ListingSlate listing={listing} />
+          </div>
+        ) : null}
       </div>
     </section>
   );
