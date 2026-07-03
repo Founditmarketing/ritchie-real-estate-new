@@ -1,8 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+} from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Stars } from "@/components/ui/Stars";
@@ -17,8 +22,10 @@ import { ease } from "@/lib/motion";
  *     so the section has visual weight even before the body kicks in.
  *   - Pulls the quote bigger and gives the avatar/name a left rail.
  *   - Surfaces the property + transaction value beneath the role line,
- *     turning "review" into "case study" \u2014 each quote anchored to a
- *     real Cenla property with a real number.
+ *     turning "review" into "case study" \u2014 each quote anchored to a named
+ *     property and figure. NOTE: the current quotes are placeholder content
+ *     (see src/content/testimonials.ts) \u2014 replace with permissioned real
+ *     reviews before the client domain launches.
  *   - Stars are SVG (see ui/Stars) so they read as designed marks
  *     instead of Unicode placeholder asterisks.
  *   - Cross-fades in-place without `mode="wait"` so the slide area
@@ -26,18 +33,42 @@ import { ease } from "@/lib/motion";
  */
 export function Testimonials() {
   const [i, setI] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [userPicked, setUserPicked] = useState(false);
+  const reduced = useReducedMotion() ?? false;
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { amount: 0.35 });
   const t = testimonials[i];
 
+  /*
+    Auto-advance runs only while the section is actually being watched
+    (WCAG 2.2.2): paused on hover/focus, skipped under reduced motion,
+    idle off-screen, and stopped for good once the reader picks a slide
+    — a dot click signals intent to read, so autoplay never steals the
+    slide back. `i` in the deps restarts a full 8s window after every
+    advance.
+  */
   useEffect(() => {
+    if (reduced || paused || userPicked || !inView) return;
     const id = window.setInterval(
       () => setI((v) => (v + 1) % testimonials.length),
       8000,
     );
     return () => window.clearInterval(id);
-  }, []);
+  }, [reduced, paused, userPicked, inView, i]);
+
+  const pauseProps = {
+    onPointerEnter: () => setPaused(true),
+    onPointerLeave: () => setPaused(false),
+    onFocusCapture: () => setPaused(true),
+    onBlurCapture: () => setPaused(false),
+  };
 
   return (
-    <section className="relative isolate overflow-hidden bg-navy-deep py-24 md:py-32">
+    <section
+      ref={ref}
+      className="relative isolate overflow-hidden bg-navy-deep py-24 md:py-32"
+    >
       {/* Giant ghost open-quote, anchored upper-left, ambient. */}
       <span
         aria-hidden
@@ -55,12 +86,15 @@ export function Testimonials() {
             <h2 className="mt-3 font-serif text-[clamp(34px,4.4vw,58px)] leading-[1.04] text-paper">
               Cenla doesn&rsquo;t just hire Ritchie.
               <br />
-              It <em className="not-italic italic text-crimson-bright">refers</em> us.
+              It <em className="italic">refers</em> us.
             </h2>
           </div>
         </Reveal>
 
-        <div className="relative mx-auto min-h-[420px] max-w-[960px] md:min-h-[360px]">
+        <div
+          {...pauseProps}
+          className="relative mx-auto min-h-[420px] max-w-[960px] md:min-h-[360px]"
+        >
           <AnimatePresence initial={false}>
             <motion.figure
               key={t.name}
@@ -90,7 +124,7 @@ export function Testimonials() {
                   {t.role}
                 </div>
                 {t.property ? (
-                  <div className="mt-5 max-w-[28ch] border-t border-line pt-4 font-serif text-[14px] italic leading-[1.5] text-mute md:max-w-none">
+                  <div className="mt-5 max-w-[28ch] border-t border-line pt-4 font-serif text-[16px] italic leading-[1.5] text-mute md:max-w-none">
                     {t.property}
                     {t.transaction ? (
                       <span className="ml-2 font-sans text-[11px] not-italic uppercase tracking-[0.2em] text-cream">
@@ -118,14 +152,18 @@ export function Testimonials() {
           </AnimatePresence>
         </div>
 
-        <div className="mt-12 flex justify-center gap-2.5">
+        <div {...pauseProps} className="mt-12 flex justify-center gap-2.5">
           {testimonials.map((_, n) => (
             <button
               key={n}
               type="button"
-              aria-label={`Show testimonial ${n + 1}`}
+              aria-label={`Show testimonial ${n + 1} of ${testimonials.length}`}
+              aria-current={n === i ? "true" : undefined}
               data-cursor-label={`${n + 1}/${testimonials.length}`}
-              onClick={() => setI(n)}
+              onClick={() => {
+                setI(n);
+                setUserPicked(true);
+              }}
               className={`h-2.5 w-2.5 rounded-full transition ${
                 n === i ? "scale-125 bg-crimson-bright" : "bg-cream/25"
               }`}

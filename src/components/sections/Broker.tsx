@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
@@ -23,7 +24,7 @@ export function Broker() {
             <Eyebrow variant="stamp" tone="cream">
               The broker
             </Eyebrow>
-            <div className="mt-3 font-serif text-[40px] italic leading-[1] text-paper drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+            <div className="mt-3 font-serif text-[40px] italic leading-[1] text-paper drop-shadow-[0_2px_10px_oklch(0.08_0.03_264/0.6)]">
               Matt Ritchie
             </div>
             <div className="mt-1.5 font-sans text-[10.5px] uppercase tracking-[0.18em] text-crimson-bright">
@@ -39,17 +40,37 @@ export function Broker() {
         <div className="px-7 py-12">
           <h2 className="font-serif text-[30px] leading-[1.08] tracking-[-0.015em] text-paper">
             It started with one belief.{" "}
-            <em className="not-italic italic text-crimson-bright">Know the ground.</em>
+            <em className="italic text-crimson-bright">Know the ground.</em>
           </h2>
           <p className="mt-5 font-serif text-[17px] italic leading-[1.6] text-cream-warm">
             Anybody can pull a listing off the MLS. Knowing what a Garden
             District lot really trades for, or which commercial corridor is
             about to turn: that takes a lifetime in Cenla.
           </p>
-          <p className="mt-6 inline-flex items-center gap-3 font-sans text-[10.5px] uppercase tracking-[0.18em] text-mute">
+          <p className="mt-6 inline-flex items-center gap-3 font-sans text-[10.5px] uppercase tracking-[0.12em] text-mute">
             <span className="h-px w-6 bg-crimson-bright" />
             Cover, REALTOR&reg; Magazine&rsquo;s CREATE &middot; Fall 2022
           </p>
+          {/* The proof point earns a next step — don't leave the reader
+              at a narrative dead end. */}
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <a
+              href="tel:+13184498919"
+              className="group inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright"
+            >
+              <span className="border-b border-current pb-1">Talk to Matt</span>
+              <span
+                aria-hidden
+                className="inline-block h-px w-7 bg-current transition-[width] duration-500 ease-out group-hover:w-12"
+              />
+            </a>
+            <Link
+              href="/team"
+              className="text-[11.5px] font-medium uppercase tracking-[0.18em] text-cream-warm/80 transition-colors hover:text-cream"
+            >
+              Meet the whole team
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -76,7 +97,7 @@ export function Broker() {
           <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-navy-ink/75 to-transparent" />
           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-navy-ink to-transparent md:block" />
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy-ink via-navy-ink/50 to-transparent" />
-          <div className="absolute bottom-8 left-8 font-serif text-[22px] italic text-crimson-bright drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+          <div className="absolute bottom-8 left-8 font-serif text-[22px] italic text-crimson-bright drop-shadow-[0_2px_8px_oklch(0.08_0.03_264/0.6)]">
             &ldquo;Ritchie knows.&rdquo;
           </div>
         </div>
@@ -90,7 +111,7 @@ export function Broker() {
               It started with one
               <br />
               belief.{" "}
-              <em className="not-italic italic text-crimson-bright">Know the ground.</em>
+              <em className="italic text-crimson-bright">Know the ground.</em>
             </h2>
             <p className="mt-7 max-w-[44ch] font-serif text-[20px] italic leading-[1.6] text-cream-warm">
               Anybody can pull a listing off the MLS. Knowing what a Garden
@@ -116,6 +137,29 @@ export function Broker() {
               <small className="mt-1.5 block font-sans text-[10.5px] not-italic uppercase tracking-[0.16em] text-crimson-bright">
                 Broker &middot; Owner
               </small>
+            </div>
+
+            {/* The proof point earns a next step — don't leave the reader
+                at a narrative dead end. */}
+            <div className="mt-9 flex flex-wrap items-center gap-x-9 gap-y-4 border-t border-line pt-7">
+              <a
+                href="tel:+13184498919"
+                data-cursor-label="Call"
+                className="group inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright"
+              >
+                <span className="border-b border-current pb-1">Talk to Matt</span>
+                <span
+                  aria-hidden
+                  className="inline-block h-px w-7 bg-current transition-[width] duration-500 ease-out group-hover:w-12"
+                />
+              </a>
+              <Link
+                href="/team"
+                data-cursor-label="Team"
+                className="text-[11.5px] font-medium uppercase tracking-[0.18em] text-cream-warm/80 transition-colors hover:text-cream"
+              >
+                Meet the whole team
+              </Link>
             </div>
           </div>
         </Reveal>

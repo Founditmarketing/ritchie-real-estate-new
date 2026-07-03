@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Drawer } from "./Drawer";
 import { LogoWordmarkImage } from "@/components/brand/Logo";
 import { cn } from "@/lib/cn";
@@ -18,6 +18,8 @@ const NAV = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
 
   useEffect(() => {
     // Don't flip to the cream-background state until the user has
@@ -32,6 +34,16 @@ export function Header() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+  }, [open]);
+
+  // Return focus to the hamburger when the drawer closes (the button
+  // stays mounted above the drawer, so a plain focus call suffices).
+  useEffect(() => {
+    if (open) wasOpen.current = true;
+    else if (wasOpen.current) {
+      wasOpen.current = false;
+      hamburgerRef.current?.focus();
+    }
   }, [open]);
 
   return (
@@ -67,7 +79,7 @@ export function Header() {
               priority
               className={cn(
                 "h-auto w-[120px] transition-[filter] duration-500 md:w-[150px]",
-                "[filter:drop-shadow(0_1px_2px_rgba(0,0,0,0.55))_drop-shadow(0_8px_24px_rgba(0,0,0,0.4))]",
+                "[filter:drop-shadow(0_1px_2px_oklch(0.08_0.03_264/0.55))_drop-shadow(0_8px_24px_oklch(0.08_0.03_264/0.4))]",
               )}
             />
           </Link>
@@ -99,6 +111,7 @@ export function Header() {
           </div>
 
           <button
+            ref={hamburgerRef}
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}

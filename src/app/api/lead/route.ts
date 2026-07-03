@@ -1,38 +1,20 @@
-import { promises as fs } from "node:fs";
-import path from "node:path";
-import { deliverLead, type Lead } from "@/lib/lead-delivery";
+import { archiveLocally, deliverLead, type Lead } from "@/lib/lead-delivery";
 
 export const runtime = "nodejs";
 
 /**
- * Lead capture for the whole site (Ask Ritchie chat + the Sell valuation form).
+ * Lead capture for the whole site (Ask Ritchie chat + the Sell valuation form
+ * + the footer newsletter).
  *
  * Delivery: emails the lead to Matt via Resend (see lib/lead-delivery.ts).
  * Configure RESEND_API_KEY + LEAD_TO_EMAIL in your environment to turn it on.
- * Until then it falls back to a local JSON file + console log so nothing breaks
- * in development.
+ * Until then it falls back to a local JSON file + console log in development.
+ *
+ * Honesty contract: if the lead reached NEITHER an inbox nor the local
+ * archive (e.g. unconfigured email on a read-only serverless fs), we still
+ * accept the request but respond with `degraded: true` and a message that
+ * points the visitor at the phone — never a false "Matt will reach out."
  */
-
-const LEADS_FILE = path.join(process.cwd(), "data", "leads.json");
-
-/** Best-effort local archive — works in dev; silently no-ops on read-only
- *  serverless filesystems (Vercel), where email is the source of truth. */
-async function archiveLocally(lead: Lead) {
-  try {
-    await fs.mkdir(path.dirname(LEADS_FILE), { recursive: true });
-    let existing: unknown[] = [];
-    try {
-      const parsed = JSON.parse(await fs.readFile(LEADS_FILE, "utf8"));
-      if (Array.isArray(parsed)) existing = parsed;
-    } catch {
-      /* first lead */
-    }
-    existing.push(lead);
-    await fs.writeFile(LEADS_FILE, JSON.stringify(existing, null, 2), "utf8");
-  } catch {
-    /* read-only fs in production — ignore */
-  }
-}
 
 export async function POST(request: Request) {
   let body: Partial<Lead>;
@@ -61,9 +43,10 @@ export async function POST(request: Request) {
     receivedAt: new Date().toISOString(),
   };
 
-  await archiveLocally(lead);
+  const archived = await archiveLocally(lead);
 
   const delivery = await deliverLead(lead);
+  const emailed = delivery.ok && !delivery.skipped;
   if (delivery.ok && delivery.skipped) {
     console.log("[lead] captured (email not configured):", lead);
   } else if (delivery.ok) {
@@ -73,8 +56,19 @@ export async function POST(request: Request) {
     console.error("[lead] DELIVERY FAILED:", delivery.error, lead);
   }
 
+  const first = lead.name.split(" ")[0];
+
+  if (!emailed && !archived) {
+    // Nothing persisted anywhere — say so instead of promising a callback.
+    return Response.json({
+      ok: true,
+      degraded: true,
+      message: `Got it, ${first}. To be certain, call or text Matt at 318-449-8919.`,
+    });
+  }
+
   return Response.json({
     ok: true,
-    message: `Got it, ${lead.name.split(" ")[0]}. Matt will reach out personally.`,
+    message: `Got it, ${first}. Matt will reach out personally.`,
   });
 }

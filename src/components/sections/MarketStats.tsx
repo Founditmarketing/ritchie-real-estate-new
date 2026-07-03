@@ -5,58 +5,36 @@ import { Counter } from "@/components/motion/Counter";
 import { Reveal } from "@/components/motion/Reveal";
 import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { marketMeta, marketStats, type MarketStat } from "@/content/market";
 import { ease } from "@/lib/motion";
 
-type Stat = {
-  value: number;
-  prefix?: string;
-  suffix?: string;
-  label: string;
-  sub: string;
-  /** YoY delta in percent (positive or negative). */
-  delta: number;
-  /** Sparkline values, recent-most last. Auto-scaled. */
-  spark: number[];
-};
+/**
+ * The four headline numbers, sourced from src/content/market.ts. Trend
+ * deltas and sparklines were removed on purpose: the underlying data is
+ * placeholder, and inventing a curve would be a claims problem. When real
+ * MLS data is wired in (with `delta`/`spark` populated and `source` set),
+ * a trend treatment can return — crimson is a pure accent here, never a
+ * good/bad signal.
+ */
 
-const STATS: Stat[] = [
-  {
-    value: 248,
-    prefix: "$",
-    suffix: "k",
-    label: "Median Sale Price",
-    sub: "Across Rapides Parish",
-    delta: 4.8,
-    spark: [212, 220, 218, 228, 234, 240, 245, 248],
-  },
-  {
-    value: 39,
-    suffix: "d",
-    label: "Avg Days on Market",
-    sub: "From list to contract",
-    delta: -11.4,
-    spark: [56, 52, 50, 48, 45, 42, 41, 39],
-  },
-  {
-    value: 98,
-    suffix: "%",
-    label: "List-to-Sale Ratio",
-    sub: "Sellers near asking",
-    delta: 1.2,
-    spark: [94, 95, 96, 96, 97, 97, 98, 98],
-  },
-  {
-    value: 312,
-    label: "Homes Sold YTD",
-    sub: "And counting",
-    delta: 8.6,
-    spark: [180, 205, 232, 248, 268, 284, 300, 312],
-  },
-];
+/** "2026-05" → "May 2026". */
+function formatMonthYear(iso: string): string {
+  const [y, m] = iso.split("-").map(Number);
+  if (!y || !m) return iso;
+  return new Date(y, m - 1).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
+}
 
 export function MarketStats() {
+  const stampLabel = marketMeta.source
+    ? `Compiled from ${marketMeta.source}`
+    : "Market snapshot";
+
   return (
-    <section className="relative overflow-hidden bg-navy-deep py-16 text-paper md:py-32">
+    // Tighter than the showcase sections: a data band, not a destination.
+    <section className="relative overflow-hidden bg-navy-deep py-16 text-paper md:py-24">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_0%,oklch(0.55_0.20_24/0.22),transparent_60%)]" />
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12">
@@ -67,20 +45,20 @@ export function MarketStats() {
             </Eyebrow>
             <h2 className="mt-4 font-serif text-[clamp(30px,3.2vw,46px)] leading-[1.05] tracking-[-0.015em]">
               <HeadlineReveal>
-                {["We don\u2019t guess the market.", <>We <em className="not-italic italic text-crimson-bright">track</em> it.</>]}
+                {["We don’t guess the market.", <>We <em className="italic text-crimson-bright">track</em> it.</>]}
               </HeadlineReveal>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="flex flex-col gap-1 text-[11px] uppercase tracking-[0.22em] text-cream-warm/70 md:text-right">
-              <span className="text-crimson-bright">Market snapshot</span>
-              <span>Compiled from Cenla MLS &middot; May 2026</span>
+              <span className="text-crimson-bright">{stampLabel}</span>
+              <span>{formatMonthYear(marketMeta.lastUpdated)}</span>
             </div>
           </Reveal>
         </div>
 
         <div className="grid grid-cols-2 gap-px bg-cream/15 lg:grid-cols-4">
-          {STATS.map((s, i) => (
+          {marketStats.map((s, i) => (
             <StatTile key={s.label} stat={s} index={i} />
           ))}
         </div>
@@ -89,12 +67,7 @@ export function MarketStats() {
   );
 }
 
-function StatTile({ stat, index }: { stat: Stat; index: number }) {
-  const positive = stat.delta >= 0;
-  /* "down is good" for days-on-market — flip the visual cue */
-  const colorIsGood =
-    stat.label.toLowerCase().includes("days") ? !positive : positive;
-
+function StatTile({ stat, index }: { stat: MarketStat; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -103,12 +76,9 @@ function StatTile({ stat, index }: { stat: Stat; index: number }) {
       transition={{ duration: 0.7, ease: ease.outExpo, delay: index * 0.08 }}
       className="bg-navy-ink px-4 pb-6 pt-6 md:px-7 md:pb-10 md:pt-10"
     >
-      <div className="flex items-start justify-between gap-2">
-        <span className="text-[10px] uppercase tracking-[0.22em] text-crimson-bright">
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <DeltaBadge value={stat.delta} good={colorIsGood} />
-      </div>
+      <span className="text-[10px] uppercase tracking-[0.22em] text-crimson-bright">
+        {String(index + 1).padStart(2, "0")}
+      </span>
 
       <div className="mt-5 flex items-baseline gap-1 font-serif leading-none md:mt-7">
         <span className="text-[clamp(38px,11vw,80px)] font-semibold tracking-[-0.02em] text-paper">
@@ -122,8 +92,6 @@ function StatTile({ stat, index }: { stat: Stat; index: number }) {
         ) : null}
       </div>
 
-      <Sparkline values={stat.spark} good={colorIsGood} className="mt-4 md:mt-5" />
-
       <div className="mt-5 border-t border-cream/15 pt-4 md:mt-6">
         <div className="text-[11.5px] font-medium uppercase tracking-[0.14em] text-cream md:text-[12px] md:tracking-[0.16em]">
           {stat.label}
@@ -133,97 +101,5 @@ function StatTile({ stat, index }: { stat: Stat; index: number }) {
         </div>
       </div>
     </motion.div>
-  );
-}
-
-function DeltaBadge({ value, good }: { value: number; good: boolean }) {
-  const arrow = value >= 0 ? "\u2197" : "\u2198";
-  const cls = good
-    ? "text-crimson-bright border-crimson-bright/40"
-    : "text-cream-warm/70 border-cream/25";
-  return (
-    <span
-      className={`inline-flex items-center gap-1.5 border px-2 py-1 text-[10px] font-medium uppercase tracking-[0.14em] ${cls}`}
-    >
-      <span aria-hidden>{arrow}</span>
-      {Math.abs(value).toFixed(1)}% YoY
-    </span>
-  );
-}
-
-function Sparkline({
-  values,
-  good,
-  className,
-}: {
-  values: number[];
-  good: boolean;
-  className?: string;
-}) {
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-  const W = 200;
-  const H = 38;
-  const step = W / (values.length - 1);
-  const points = values.map((v, i) => {
-    const x = i * step;
-    const y = H - ((v - min) / range) * H;
-    return [x, y] as const;
-  });
-  const linePath = points
-    .map(([x, y], i) => `${i === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`)
-    .join(" ");
-  const areaPath = `${linePath} L ${W} ${H} L 0 ${H} Z`;
-  const stroke = good
-    ? "var(--color-crimson-bright)"
-    : "color-mix(in oklch, var(--color-cream) 60%, transparent)";
-  const lastX = points[points.length - 1][0];
-  const lastY = points[points.length - 1][1];
-
-  return (
-    <svg
-      viewBox={`0 0 ${W} ${H}`}
-      preserveAspectRatio="none"
-      className={`block h-9 w-full ${className ?? ""}`}
-      aria-hidden
-    >
-      <defs>
-        <linearGradient id="spark-fade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor={stroke} stopOpacity="0.22" />
-          <stop offset="1" stopColor={stroke} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <motion.path
-        d={areaPath}
-        fill="url(#spark-fade)"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.9, ease: ease.outExpo, delay: 0.25 }}
-      />
-      <motion.path
-        d={linePath}
-        fill="none"
-        stroke={stroke}
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.4, ease: ease.outExpo, delay: 0.1 }}
-      />
-      <motion.circle
-        cx={lastX}
-        cy={lastY}
-        r="2.4"
-        fill={stroke}
-        initial={{ opacity: 0, scale: 0 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: ease.outExpo, delay: 1.2 }}
-      />
-    </svg>
   );
 }

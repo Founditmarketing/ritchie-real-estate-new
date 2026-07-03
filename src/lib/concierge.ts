@@ -7,8 +7,12 @@
  * grounded helpers here (listing search, area stats) as tools. The contract —
  * messages in, a `ConciergeReply` out — never changes, so the UI is stable.
  *
- * Everything it says is grounded in the real `getListings` adapter and the
- * `areas` data. It never invents inventory or numbers.
+ * Everything it says is grounded in the `getListings` adapter and the
+ * `areas` data (currently placeholder seed content — see src/content/).
+ * It never invents inventory or numbers. Inventory claims in the copy are
+ * scoped to "every listing Ritchie represents" while the seed data is live;
+ * the stronger "every active listing in Cenla" copy can return once the
+ * live IDX feed is wired (see src/lib/listings.ts).
  */
 
 import { getListings, formatPrice, type ListingType } from "@/lib/listings";
@@ -67,6 +71,12 @@ const CITY_ALIASES: Record<string, string> = {
 /* ------------------------------------------------------------------ */
 /* Parsing                                                            */
 /* ------------------------------------------------------------------ */
+
+/** Lowercase + straighten curly apostrophes so the intent regexes (written
+ *  with ') keep matching rendered chip copy (written with ’). */
+function normalize(s: string): string {
+  return s.toLowerCase().replace(/[‘’]/g, "'").trim();
+}
 
 /** "300k" → 300000, "1.2m" → 1200000, "300,000" → 300000. */
 function parseMoney(raw: string): number | undefined {
@@ -170,7 +180,7 @@ function deriveFilters(messages: ChatMessage[]): Filters {
   const filters: Filters = {};
   for (const m of messages) {
     if (m.role !== "user") continue;
-    const t = m.content.toLowerCase();
+    const t = normalize(m.content);
     const type = detectType(t);
     if (type) filters.type = type;
     const city = detectCity(t);
@@ -302,16 +312,16 @@ function marketSummary(city?: string): string {
     const dom = a.stats.find((s) => s.label.toLowerCase().includes("dom"))?.value ?? "—";
     return `• ${a.name}: ${median} median, ${dom} DOM`;
   });
-  return `Here's the lay of the land across Cenla right now:\n${lines.join(
+  return `Here’s the lay of the land across Cenla right now:\n${lines.join(
     "\n",
-  )}\n\nWe don't guess the market, we track it. Want me to dig into one of these?`;
+  )}\n\nWe don’t guess the market, we track it. Want me to dig into one of these?`;
 }
 
 const GREETING_CHIPS = [
   "Find me a home",
   "Commercial space",
   "Land & acreage",
-  "How's the market?",
+  "How’s the market?",
   "Sell my house",
 ];
 
@@ -321,13 +331,13 @@ const GREETING_CHIPS = [
 
 export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeReply> {
   const lastUser = [...messages].reverse().find((m) => m.role === "user");
-  const text = (lastUser?.content ?? "").toLowerCase().trim();
+  const text = normalize(lastUser?.content ?? "");
 
   // Cold open.
   if (!text) {
     return {
       reply:
-        "I'm Matt's desk on the web. I know every active listing in Central Louisiana. Tell me what you're after: a home, commercial space, or land. Or ask what the market's doing.",
+        "I’m Matt’s desk on the web. I know the Cenla market cold and every listing Ritchie represents. Tell me what you’re after: a home, commercial space, or land. Or ask what the market’s doing.",
       chips: GREETING_CHIPS,
     };
   }
@@ -336,7 +346,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
   if (wantsToConnect(text)) {
     return {
       reply:
-        "Good. Let's get you on Matt's calendar. Drop your name and the best way to reach you, plus a line on what you're after, and he'll follow up personally. No call center, no drip campaign.",
+        "Good. Let’s get you on Matt’s calendar. Drop your name and the best way to reach you, plus a line on what you’re after, and he’ll follow up personally. No call center, no drip campaign.",
       cta: "lead",
     };
   }
@@ -348,8 +358,8 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
       reply:
         `Selling is where local knowledge actually pays. ${
           city ? marketSummary(city) + " " : ""
-        }Matt prices off real comps and a walk-through, not a Zestimate. Want a no-pressure valuation? Leave your details and he'll put a number together.`,
-      chips: ["Get a valuation", "How's the market?", "What sells fastest?"],
+        }Matt prices off real comps and a walk-through, not a Zestimate. Want a no-pressure valuation? Leave your details and he’ll put a number together.`,
+      chips: ["Get a valuation", "How’s the market?", "What sells fastest?"],
       cta: "lead",
     };
   }
@@ -389,14 +399,14 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
       });
       if (relaxed.length) {
         return {
-          reply: `Nothing active matches ${summary} this minute; Cenla inventory is tight. Here's the closest I'd show you instead. Want me to flag you the moment something fits?`,
+          reply: `Nothing active matches ${summary} this minute; Cenla inventory is tight. Here’s the closest I’d show you instead. Want me to flag you the moment something fits?`,
           listings: relaxed.map(toCard),
           chips: ["Notify me", "Widen the budget", "Talk to Matt"],
           cta: "lead",
         };
       }
       return {
-        reply: `I don't have anything active for ${summary} right now. Leave your details and Matt will reach out the moment one hits the market; he usually knows before it's listed.`,
+        reply: `I don’t have anything active for ${summary} right now. Leave your details and Matt will reach out the moment something fits; he often hears about them before they hit the market.`,
         cta: "lead",
       };
     }
@@ -409,7 +419,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
     const need = composeNeed(filters, count, inferredType);
 
     return {
-      reply: `Here ${count === 1 ? "is" : "are"} ${need} I'd put in front of you. I'd start with ${top.title}; ${
+      reply: `Here ${count === 1 ? "is" : "are"} ${need} I’d put in front of you. I’d start with ${top.title}; ${
         top.address.neighborhood ?? top.address.city
       } is a strong spot. Want a closer look or a showing?`,
       listings: results.map(toCard),
@@ -425,7 +435,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
   // Fallback — keep it in voice and steer back to something useful.
   return {
     reply:
-      "I'm built to do three things well: find you the right place in Cenla, tell you the truth about the market, and get you to Matt. Which one's it going to be?",
+      "I’m built to do three things well: find you the right place in Cenla, tell you the truth about the market, and get you to Matt. Which one’s it going to be?",
     chips: GREETING_CHIPS,
   };
 }

@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { getListings, type ListingType } from "@/lib/listings";
 import { ListingsCatalog } from "@/components/listing/ListingsCatalog";
 import { ListingsFilters } from "@/components/listing/ListingsFilters";
+import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
 export const metadata: Metadata = {
   title: "Listings",
-  description: "Active homes, commercial, and land across Central Louisiana.",
+  description: "Homes, commercial, and land across Central Louisiana.",
 };
 
 type SearchParams = Promise<{
@@ -32,28 +33,28 @@ const TYPE_COPY: Record<
     noun: ["property", "properties"],
     tail: "on the market.",
     blurb:
-      "CCIM-credentialed. Every plate below is an active commercial listing across Central Louisiana \u2014 retail, office, industrial, and investment.",
+      "CCIM-credentialed. Retail, office, industrial, and investment across Central Louisiana.",
   },
   land: {
     eyebrow: "Cenla land",
     noun: ["tract", "tracts"],
     tail: "for sale.",
     blurb:
-      "Every plate below is available land across Central Louisiana \u2014 homesites, acreage, and development ground.",
+      "Homesites, acreage, and development ground across Central Louisiana.",
   },
   rental: {
     eyebrow: "Cenla rentals",
     noun: ["rental", "rentals"],
     tail: "available now.",
     blurb:
-      "Every plate below is an active rental across Central Louisiana, managed by people who pick up the phone.",
+      "Rentals across Central Louisiana, managed by people who pick up the phone.",
   },
   default: {
     eyebrow: "Cenla listings",
     noun: ["home", "homes"],
     tail: "on the market.",
     blurb:
-      "Curated by Ritchie Real Estate. Every plate below is an active listing across Rapides Parish \u2014 residential, commercial, and land.",
+      "Curated by Ritchie Real Estate \u2014 residential, commercial, and land across Rapides Parish.",
   },
 };
 
@@ -87,12 +88,16 @@ export default async function ListingsPage({
               {copy.eyebrow}
             </Eyebrow>
             <h1 className="mt-5 font-serif text-[clamp(48px,7vw,108px)] leading-[0.92] tracking-[-0.025em] text-paper">
-              <span className="block">
-                {items.length} {noun}
-              </span>
-              <span className="block">
-                <em className="not-italic italic text-crimson-bright">{copy.tail}</em>
-              </span>
+              <HeadlineReveal>
+                {[
+                  <span key="l1">
+                    {items.length} {noun}
+                  </span>,
+                  <em key="l2" className="block italic text-crimson-bright">
+                    {copy.tail}
+                  </em>,
+                ]}
+              </HeadlineReveal>
             </h1>
           </div>
           <aside className="col-span-12 md:col-span-4 md:col-start-9 md:pt-10">

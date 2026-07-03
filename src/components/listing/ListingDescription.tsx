@@ -67,7 +67,7 @@ export function ListingDescription({ listing }: { listing: Listing }) {
                     transition={{ duration: 0.6, ease: ease.outExpo, delay: i * 0.05 }}
                     className="flex items-baseline gap-4 border-b border-line py-4 text-[16px]"
                   >
-                    <span className="font-serif text-[13px] italic font-medium text-crimson-bright">
+                    <span className="font-serif text-[16px] italic font-medium text-crimson-bright">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="font-serif text-cream">{f}</span>
@@ -86,7 +86,7 @@ export function ListingDescription({ listing }: { listing: Listing }) {
             </Eyebrow>
             <h3 className="mt-5 font-serif text-[clamp(26px,2.4vw,34px)] leading-[1.08] tracking-[-0.015em] text-paper">
               The fastest way to{" "}
-              <em className="not-italic italic text-crimson-bright">walk through</em>{" "}
+              <em className="italic text-crimson-bright">walk through</em>{" "}
               this one is to call.
             </h3>
             <p className="mt-4 max-w-[36ch] text-[14px] font-light leading-[1.65] text-cream-warm">
@@ -101,7 +101,7 @@ export function ListingDescription({ listing }: { listing: Listing }) {
                 className="group inline-flex items-center justify-between gap-3 bg-crimson px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-crimson-deep"
               >
                 Call Ritchie
-                <span aria-hidden className="font-serif text-[14px] italic">
+                <span aria-hidden className="font-serif text-[15px] italic">
                   318&middot;449&middot;8919
                 </span>
               </MagneticButton>
@@ -123,7 +123,8 @@ export function ListingDescription({ listing }: { listing: Listing }) {
                 Matt Ritchie
               </span>
               <span className="block">CCIM &middot; Broker &middot; Owner</span>
-              <span className="block">Lic. #LA-RE-998211</span>
+              {/* TODO(launch-blocker): add Matt's real LREC broker license
+                  number once verified at lrec.gov — never a placeholder */}
             </div>
           </div>
         </aside>

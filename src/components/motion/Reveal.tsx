@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "motion/react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 import { duration, ease } from "@/lib/motion";
 
@@ -34,6 +34,13 @@ export function Reveal({
   amount = 0.25,
 }: RevealProps) {
   const MotionTag = motion[as] as typeof motion.div;
+  // JS-driven tweens bypass the global CSS reduced-motion clamp, so the
+  // gate has to live here (see DESIGN.md's reduced-motion contract).
+  const reduced = useReducedMotion() ?? false;
+  if (reduced) {
+    const Tag = as;
+    return <Tag className={className}>{children}</Tag>;
+  }
   return (
     <MotionTag
       className={className}

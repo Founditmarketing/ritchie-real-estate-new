@@ -30,7 +30,7 @@ export function ListingFactBand({ listing }: { listing: Listing }) {
               {formatPrice(listing.price)}
             </span>
             {listing.sqft > 0 ? (
-              <span className="text-[14px] italic text-mute">
+              <span className="text-[15px] italic text-mute">
                 / {Math.round(listing.price / listing.sqft).toLocaleString()} per sq ft
               </span>
             ) : null}

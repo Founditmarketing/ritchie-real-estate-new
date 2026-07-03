@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
+import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { broker, agents, type TeamMember } from "@/content/team";
 
@@ -23,10 +24,14 @@ export default function TeamPage() {
                 The firm
               </Eyebrow>
               <h1 className="mt-5 font-serif text-[clamp(40px,6.5vw,104px)] leading-[0.94] tracking-[-0.025em] text-paper">
-                The team that knows{" "}
-                <em className="not-italic italic text-crimson-bright">
-                  the ground.
-                </em>
+                <HeadlineReveal>
+                  {[
+                    "The team that knows",
+                    <em key="l2" className="block italic text-crimson-bright">
+                      the ground.
+                    </em>,
+                  ]}
+                </HeadlineReveal>
               </h1>
             </div>
             <aside className="col-span-12 md:col-span-4 md:pt-6">
@@ -111,7 +116,7 @@ export default function TeamPage() {
           <div className="mt-20 flex flex-col items-start gap-5 border-t border-cream/12 pt-10 md:flex-row md:items-center md:justify-between">
             <p className="font-serif text-[clamp(22px,2.6vw,34px)] leading-[1.15] text-paper">
               Not sure who to ask for?{" "}
-              <em className="not-italic italic text-crimson-bright">
+              <em className="italic">
                 Start with the desk.
               </em>
             </p>
@@ -148,7 +153,7 @@ function TeamCard({
           style={{ objectPosition: member.objectPosition ?? "50% 22%" }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-ink/55 via-transparent to-transparent transition-opacity duration-500 group-hover:opacity-90" />
-        <span className="absolute left-3 top-3 font-serif text-[13px] italic text-crimson-bright drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">
+        <span className="absolute left-3 top-3 font-serif text-[16px] italic text-crimson-bright drop-shadow-[0_1px_6px_oklch(0.08_0.03_264/0.7)]">
           {String(index + 1).padStart(2, "0")}
         </span>
       </div>

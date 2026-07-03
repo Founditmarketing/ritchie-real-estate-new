@@ -65,8 +65,11 @@ export function SearchBar() {
             <span className="font-sans text-[10.5px] font-medium uppercase tracking-[0.28em] text-crimson-bright">
               Find your place
             </span>
+            {/* Scoped to Ritchie's own inventory while the seed data is live;
+                the stronger "every Cenla listing" claim can return once the
+                live IDX feed is wired (see src/lib/listings.ts). */}
             <h2 className="mt-4 font-serif text-[clamp(30px,3.6vw,52px)] leading-[1.04] tracking-[-0.02em] text-paper">
-              Search every Cenla listing.
+              Search Ritchie&rsquo;s Cenla listings.
             </h2>
           </div>
           <p className="max-w-[34ch] font-sans text-[13px] leading-[1.6] text-cream-warm/75">
@@ -101,7 +104,7 @@ export function SearchBar() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Alexandria, Pineville…"
-                className="mt-2.5 w-full rounded-[3px] border border-cream/15 bg-navy px-4 py-3.5 font-serif text-[18px] text-paper outline-none placeholder:text-mute/55 focus:border-crimson/55"
+                className="mt-2.5 w-full rounded-[3px] border border-cream/15 bg-navy px-4 py-3.5 font-serif text-[18px] text-paper placeholder:text-mute/75 focus:border-crimson/55"
               />
             </label>
 
@@ -167,7 +170,7 @@ export function SearchBar() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Alexandria"
-                className="w-full border-none bg-transparent font-serif text-[18px] text-paper placeholder:text-mute/60 outline-none"
+                className="w-full border-none bg-transparent font-serif text-[18px] text-paper placeholder:text-mute/75"
               />
             </Field>
             <Field label="Beds" border>

@@ -11,13 +11,18 @@ export type Area = {
   pinR?: number;
 };
 
+/*
+ * PLACEHOLDER — the stats below (median sale, avg DOM, active counts) are
+ * pitch-stage estimates, not compiled MLS data. Verify every figure before
+ * the client domain launches.
+ */
 export const areas: Area[] = [
   {
     slug: "alexandria",
     name: "Alexandria",
     tagline: "The Cenla seat.",
     description:
-      "Cenla's largest city. Garden District historics, MacArthur retail corridor, riverfront downtown reborn. Strongest commercial market in the region.",
+      "Cenla’s largest city. Garden District historics, MacArthur retail corridor, riverfront downtown reborn. Strongest commercial market in the region.",
     stats: [
       { label: "Median sale", value: "$255k" },
       { label: "Avg DOM", value: "37 days" },
@@ -45,7 +50,7 @@ export const areas: Area[] = [
     name: "Ball",
     tagline: "Where Cenla expands.",
     description:
-      "The fastest-growing zip in Rapides Parish. New construction off Highway 165 with country-feel acreage 10 minutes from Pineville schools.",
+      "Where Cenla’s new construction is going. New builds off Highway 165 with country-feel acreage 10 minutes from Pineville schools.",
     stats: [
       { label: "Median sale", value: "$268k" },
       { label: "Avg DOM", value: "29 days" },
@@ -73,7 +78,7 @@ export const areas: Area[] = [
     name: "Tioga",
     tagline: "Country, but close.",
     description:
-      "Acreage country with the best-rated K-12 schools in the parish. New custom builds on cleared pasture; Kisatchie National Forest on the back fence.",
+      "Acreage country with the schools Cenla families move for. New custom builds on cleared pasture; Kisatchie National Forest on the back fence.",
     stats: [
       { label: "Median sale", value: "$298k" },
       { label: "Avg DOM", value: "33 days" },

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
-import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
 import { PlateImage } from "@/components/listing/PlateImage";
 import { TiltCard } from "@/components/listing/TiltCard";
 import { formatPrice, formatSqft, type Listing } from "@/lib/listings";
@@ -23,15 +23,33 @@ import { ease } from "@/lib/motion";
  * so the page reads as one consistent system, not five different cards.
  */
 export function ListingsCatalog({ listings }: { listings: Listing[] }) {
+  const sp = useSearchParams();
+
   if (listings.length === 0) {
+    const hasFilters = sp.toString() !== "";
     return (
       <div className="mt-16 border-t border-line py-24 text-center">
         <p className="font-serif text-[clamp(24px,3vw,40px)] italic text-paper/70">
-          Nothing matches.
+          {describeEmpty(sp)}
         </p>
-        <p className="mt-4 text-[13px] text-mute">
-          Clear a filter or two and try again.
-        </p>
+        {hasFilters ? (
+          <>
+            <p className="mt-4 text-[13px] text-mute">
+              Start from every listing.
+            </p>
+            <Link
+              href="/listings"
+              data-cursor-label="Reset"
+              className="mt-4 inline-block px-4 py-3.5 font-sans text-[11px] uppercase tracking-[0.22em] text-crimson-bright transition-colors hover:text-crimson"
+            >
+              Clear all filters <span aria-hidden>&rarr;</span>
+            </Link>
+          </>
+        ) : (
+          <p className="mt-4 text-[13px] text-mute">
+            New listings land here first &mdash; check back soon.
+          </p>
+        )}
       </div>
     );
   }
@@ -112,7 +130,6 @@ function FeatureRow({ listing, num }: { listing: Listing; num: string }) {
         <div className="relative col-span-12 aspect-[16/9] overflow-hidden bg-navy md:col-span-8 md:aspect-[16/10]">
           <PlateImage listing={listing} sizes="(min-width: 768px) 66vw, 100vw" />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
-          <FavoriteHeart listing={listing} />
           <ScheduleTourAffordance />
         </div>
         <div className="col-span-12 flex flex-col justify-between gap-7 md:col-span-4">
@@ -125,7 +142,7 @@ function FeatureRow({ listing, num }: { listing: Listing; num: string }) {
               <br />
               {listing.address.city}, LA{" "}
               {listing.address.neighborhood ? (
-                <span className="italic text-mute/75">
+                <span className="italic">
                   &middot; {listing.address.neighborhood}
                 </span>
               ) : null}
@@ -153,7 +170,6 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
             sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 100vw"
           />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
-          <FavoriteHeart listing={listing} />
           <ScheduleTourAffordance />
         </TiltCard>
         <div className="mt-5">
@@ -204,7 +220,6 @@ function WidePlate({ listing, num }: { listing: Listing; num: string }) {
       <div className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-navy">
         <PlateImage listing={listing} sizes="(min-width: 1024px) 60vw, 100vw" />
         {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
-        <FavoriteHeart listing={listing} />
         <ScheduleTourAffordance />
       </div>
       <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-7">
@@ -242,7 +257,6 @@ function ColumnPlate({ listing, num }: { listing: Listing; num: string }) {
         className="relative mt-5 aspect-[5/6] overflow-hidden bg-navy"
       >
         <PlateImage listing={listing} sizes="(min-width: 1024px) 30vw, 100vw" />
-        <FavoriteHeart listing={listing} />
         <ScheduleTourAffordance />
       </motion.div>
       <PriceAnchor listing={listing} size="sm" className="mt-5" />
@@ -257,7 +271,7 @@ function PlateMeta({ num, type }: { num: string; type: string }) {
     <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-mute">
       {/* "Plate" word dropped \u2014 the italic number alone reads as
           editorial without adding noise to scannable property cards. */}
-      <span className="font-serif text-[14px] italic font-medium text-crimson-bright">
+      <span className="font-serif text-[16px] italic font-medium text-crimson-bright">
         {num}
       </span>
       <span>{type}</span>
@@ -311,7 +325,7 @@ function PriceAnchor({
           {formatPrice(listing.price)}
         </span>
         {psf ? (
-          <span className="font-serif text-[12px] italic text-mute">{psf}</span>
+          <span className="font-serif text-[15px] italic text-mute">{psf}</span>
         ) : null}
       </div>
       {factLine ? (
@@ -325,6 +339,24 @@ function PriceAnchor({
 
 function pad(n: number) {
   return String(n).padStart(2, "0");
+}
+
+/**
+ * Name the constraints that produced an empty catalog, so "0 homes" never
+ * reads as a mystery — e.g. "Nothing in Pineville under $200k with 3+ beds."
+ */
+function describeEmpty(sp: { get(name: string): string | null }): string {
+  const parts: string[] = [];
+  const city = sp.get("city");
+  if (city) parts.push(`in ${city}`);
+  const min = Number(sp.get("priceMin")) || 0;
+  const max = Number(sp.get("priceMax")) || 0;
+  if (min && max) parts.push(`between ${formatPrice(min)} and ${formatPrice(max)}`);
+  else if (max) parts.push(`under ${formatPrice(max)}`);
+  else if (min) parts.push(`over ${formatPrice(min)}`);
+  const beds = Number(sp.get("bedsMin")) || 0;
+  if (beds) parts.push(`with ${beds}+ beds`);
+  return parts.length ? `Nothing ${parts.join(" ")}.` : "Nothing matches.";
 }
 
 /**

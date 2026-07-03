@@ -18,10 +18,11 @@ diamond fill + white serif R monogram + RITCHIE wordmark with crimson
 underline**.
 
 - **`<LogoMark>`** — SVG diamond + R, recolorable (`tone` prop), header
-  and hero watermark.
-- **`<Logo>`** — mark + wordmark side by side. Default placement.
+  and hero watermark. Also the favicon (`app/icon.svg`), apple icon, and
+  OG card mark.
 - **`<LogoWordmarkImage>`** — the original PNG, pixel-perfect, for the
-  footer, OG image, and anywhere the canonical wordmark is required.
+  header, footer, drawer, and anywhere the canonical wordmark is
+  required.
 
 Logo source PNG lives at `public/brand/ritchie-logo.png`. Footer applies
 `brightness-0 invert` so the dark wordmark reads on the navy-ink band.
@@ -47,7 +48,12 @@ All values live in `src/app/globals.css` `@theme`, OKLCH:
 | `line` / `line-strong` | bone `@ 12% / 22%` alpha | Hairlines on dark |
 
 **Never:** `#000`, `#fff`, gradient text, side-stripe borders > 1px,
-glassmorphism, hero-metric template, identical card grids, gold.
+glassmorphism, hero-metric template, identical card grids, gold. Shadows
+are navy-tinted (`oklch(0.08 0.03 264 / α)`), never raw black.
+
+**The one drenched moment:** the homepage Closer is a full crimson-deep
+field (paper type, inverted paper CTA). Nothing else gets a crimson
+surface, which is what keeps the finale loud.
 
 ## Typography
 - **Serif:** Cormorant Garamond 400–700 + italics. Headlines, stat
@@ -55,8 +61,13 @@ glassmorphism, hero-metric template, identical card grids, gold.
 - **Sans:** Outfit 300–600. Body, navigation, eyebrows, labels.
 - **Body:** 14–16px, line-height 1.6–1.7, 65–75ch max.
 - **Italic emphasis** is the brand signature — "knows *Ritchie.*"
-  renders in `crimson-bright` on the dark canvas. Body copy stays upright
-  roman; italics are reserved for accent words.
+  renders in `crimson-bright` on the dark canvas. Budget: at most ONE
+  crimson italic accent per page/viewport-cluster (Hero, Manifesto, the
+  "We track it." brand line, Broker, and the Closer carry the homepage);
+  secondary emphasis uses plain serif italic in the headline color.
+- **Cormorant floor:** never below 15px (16px for italic numerals) on
+  the dark canvas — its hairline strokes and tiny x-height fail there.
+  Smaller annotations switch to Outfit caps.
 - **Eyebrows:** `.eyebrow` class — 11.5px, 0.26em tracking, uppercase,
   `crimson-bright`, leading hairline rule.
 
@@ -87,8 +98,9 @@ glassmorphism, hero-metric template, identical card grids, gold.
   `ease.out = [0.16, 1, 0.3, 1]`; `outExpo` for hero beats. No bounce.
 - Hero `Beat` mask-reveal is the signature motion (h1 only).
 - Body content uses `<Reveal>` (fade + rise). Stats use `<Counter>`.
-- Smooth scroll via Lenis. Route transitions via View Transitions API,
-  480ms ease-out-expo.
+- Smooth scroll via Lenis (no CSS `scroll-behavior` — they fight).
+  Route transitions are enter-only (320ms outExpo fade+rise in
+  `RouteTransitions`); exits never block navigation.
 - **Reduced-motion contract:** global CSS clamps animation/transition to
   1ms; Lenis is disabled; and every JS-driven tween (motion library)
   must opt in via `useReducedMotion` the way `Hero` does — the CSS
@@ -97,9 +109,9 @@ glassmorphism, hero-metric template, identical card grids, gold.
 
 ## Primitives
 `Reveal`, `Counter`, `MagneticButton` (cursor-tracked CTA, `strength`
-prop), `Marquee`, `SmoothScroll`, `CustomCursor` (disc + labels via
+prop), `SmoothScroll`, `CustomCursor` (disc + labels via
 `data-cursor-label`), `HeadlineReveal`, `TiltCard`, `PlateImage`,
-route-level `RouteTransitions`.
+`ScrollProgress` (global top hairline), route-level `RouteTransitions`.
 
 ## Explore / concierge surfaces
 - `/explore` is a dark-themed Leaflet map app: `.rre-pin` crimson price
@@ -110,16 +122,22 @@ route-level `RouteTransitions`.
 
 ## Imagery
 - Hero: real Alexandria footage (video + poster).
+- Every listing plate passes through `PlateImage`'s unified warm-dusk
+  grade (0.88 desaturation + navy-ink bottom bed + soft-light sodium
+  cast at the hero's warm value) so mixed-source photos read as one
+  world. New photographic surfaces should reuse those two layers.
 - Listings/areas: Unsplash placeholders pending real Ritchie
-  photography — warm dusk exteriors, moody interiors; keep the graded
-  cinematic mood, no bright daylight stock.
+  photography. Production shot spec: golden-hour exteriors, tungsten
+  interiors — no bright midday stock.
 - Always `next/image` with explicit `sizes`. Hero poster is `priority`.
 
 ## A11y (non-negotiable)
 - Contrast minimum 4.5:1 body / 3:1 large text — checked against the
   dark tokens above.
-- Focus-visible: global 2px crimson outline, 3px offset, on every
-  interactive element.
+- Focus-visible: global 2px `crimson-bright` outline, 3px offset, on
+  every interactive element (base crimson fails 3:1 on raised navy);
+  crimson-drenched bands swap the ring to `paper`. Never suppress it
+  with `outline-none`.
 - Drawer and concierge trap focus when open.
 - All motion respects `prefers-reduced-motion`, including JS tweens
   (see Motion contract).

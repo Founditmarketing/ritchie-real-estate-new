@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getListingById } from "@/lib/listings";
+import { getListingById, LISTINGS_ARE_SEED } from "@/lib/listings";
 import { listings } from "@/content/listings";
 import { ListingHero } from "@/components/listing/ListingHero";
 import { ListingFactBand } from "@/components/listing/ListingFactBand";
@@ -68,10 +68,15 @@ export default async function ListingDetail(
 
   return (
     <article>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {/* Seed data must never emit structured data — search engines would
+          index placeholder inventory as real. Turns back on automatically
+          when the live IDX feed flips LISTINGS_ARE_SEED. */}
+      {!LISTINGS_ARE_SEED && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
 
       <ListingHero listing={l} />
 
@@ -82,7 +87,7 @@ export default async function ListingDetail(
           <Link
             href="/listings"
             data-cursor-label="Back"
-            className="inline-flex items-baseline gap-2 font-serif text-[14px] italic text-mute hover:text-crimson-bright"
+            className="inline-flex items-baseline gap-2 font-serif text-[15px] italic text-mute hover:text-crimson-bright"
           >
             <span aria-hidden>&larr;</span> Back to all listings
           </Link>

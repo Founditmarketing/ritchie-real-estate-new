@@ -21,7 +21,7 @@ export function AreasMap() {
   const area = areas.find((a) => a.slug === active) ?? areas[0];
 
   return (
-    <section id="areas" className="bg-navy-deep py-24 md:py-32">
+    <section id="areas" className="bg-navy-deep py-24 md:py-40">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
         <Reveal>
           <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">
@@ -31,7 +31,7 @@ export function AreasMap() {
               </Eyebrow>
               <h2 className="mt-5 font-serif text-[clamp(36px,5vw,72px)] leading-[0.98] tracking-[-0.02em] text-paper">
                 <HeadlineReveal>
-                  {["Where Central", <>Louisiana <em className="not-italic italic text-crimson-bright">lives.</em></>]}
+                  {["Where Central", <span key="l2">Louisiana <em className="italic">lives.</em></span>]}
                 </HeadlineReveal>
               </h2>
             </div>
@@ -89,7 +89,7 @@ export function AreasMap() {
                   </div>
 
                   <Link
-                    href={`/areas/${area.slug}`}
+                    href={`/areas#${area.slug}`}
                     data-cursor-label="Explore"
                     className="group mt-9 inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright"
                   >
@@ -139,8 +139,8 @@ function AreaPicker({
             >
               <span className="flex items-baseline gap-3">
                 <span
-                  className={`font-serif text-[14px] italic transition-colors ${
-                    on ? "text-crimson-bright" : "text-cream-warm/55"
+                  className={`font-serif text-[15px] italic transition-colors ${
+                    on ? "text-crimson-bright" : "text-mute"
                   }`}
                 >
                   {String(i + 1).padStart(2, "0")}
@@ -155,7 +155,7 @@ function AreaPicker({
               </span>
               <span
                 className={`hidden shrink-0 font-sans text-[10.5px] uppercase tracking-[0.18em] transition-colors sm:inline ${
-                  on ? "text-crimson-bright" : "text-cream-warm/50"
+                  on ? "text-crimson-bright" : "text-mute"
                 }`}
               >
                 {a.tagline}

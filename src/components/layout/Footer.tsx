@@ -17,17 +17,41 @@ const COLS = [
   {
     heading: "Company",
     links: [
-      { href: "/about", label: "Our agents" },
-      { href: "/about", label: "About Ritchie" },
+      { href: "/team", label: "Our agents" },
+      { href: "/#broker", label: "About Ritchie" },
       { href: "/areas", label: "Area guides" },
       { href: "/contact", label: "Contact" },
     ],
   },
 ] as const;
 
+type NewsletterStatus = "idle" | "sending" | "done" | "error";
+
 export function Footer() {
   const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
+  const [status, setStatus] = useState<NewsletterStatus>("idle");
+
+  async function subscribe(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (status === "sending" || status === "done") return;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Newsletter signup",
+          contact: email.trim(),
+          message: "Subscribe to The Cenla Market Letter",
+          source: "newsletter",
+        }),
+      });
+      const data = await res.json();
+      setStatus(res.ok && data?.ok ? "done" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <footer className="bg-navy-ink pb-[calc(64px+env(safe-area-inset-bottom))] text-cream-warm md:pb-0">
@@ -44,7 +68,7 @@ export function Footer() {
             </span>
             <h3 className="mt-3 font-serif text-[clamp(28px,3vw,42px)] leading-[1.05] tracking-[-0.015em] text-paper">
               Quarterly read on what&rsquo;s{" "}
-              <em className="not-italic italic text-crimson-bright">moving</em>{" "}
+              <em className="italic">moving</em>{" "}
               in Central Louisiana.
             </h3>
             <p className="mt-4 max-w-[44ch] text-[14px] font-light leading-[1.65] text-cream-warm/75">
@@ -53,33 +77,46 @@ export function Footer() {
             </p>
           </div>
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSubscribed(true);
-              /* TODO: wire to Resend or Buttondown */
-            }}
-            className="flex flex-col gap-3 sm:flex-row sm:items-stretch"
-          >
-            <label className="sr-only" htmlFor="newsletter-email">
-              Email
-            </label>
-            <input
-              id="newsletter-email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="flex-1 border-b border-cream/30 bg-transparent px-1 py-3 font-serif text-[17px] text-paper outline-none placeholder:text-cream-warm/40 focus:border-crimson-bright"
-            />
-            <button
-              type="submit"
-              data-cursor-label={subscribed ? "Done" : "Subscribe"}
-              className="whitespace-nowrap bg-crimson px-7 py-4 text-[11px] font-medium uppercase tracking-[0.2em] text-cream transition-colors hover:bg-crimson-deep"
+          <form onSubmit={subscribe} className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
+              <label className="sr-only" htmlFor="newsletter-email">
+                Email
+              </label>
+              <input
+                id="newsletter-email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="flex-1 border-b border-cream/30 bg-transparent px-1 py-3 font-serif text-[17px] text-paper outline-none placeholder:text-cream-warm/40 focus:border-crimson-bright"
+              />
+              <button
+                type="submit"
+                disabled={status === "sending" || status === "done"}
+                data-cursor-label={status === "done" ? "Done" : "Subscribe"}
+                className="whitespace-nowrap bg-crimson px-7 py-4 text-[11px] font-medium uppercase tracking-[0.2em] text-cream transition-colors hover:bg-crimson-deep disabled:opacity-60"
+              >
+                {status === "done"
+                  ? "On the list"
+                  : status === "sending"
+                    ? "Sending…"
+                    : status === "error"
+                      ? "Try again"
+                      : "Subscribe"}
+              </button>
+            </div>
+            <p
+              aria-live="polite"
+              role="status"
+              className="min-h-[1.3em] text-[12px] font-light text-cream-warm/70"
             >
-              {subscribed ? "On the list" : "Subscribe"}
-            </button>
+              {status === "done"
+                ? "You’re on the list."
+                : status === "error"
+                  ? "Didn’t take — try again, or call the desk at 318·449·8919."
+                  : ""}
+            </p>
           </form>
         </div>
       </div>
@@ -102,7 +139,7 @@ export function Footer() {
             >
               318&middot;449&middot;8919
             </a>
-            <div className="mt-2 text-[12px] uppercase tracking-[0.18em] text-cream-warm/55">
+            <div className="mt-2 text-[12px] uppercase tracking-[0.18em] text-cream-warm/70">
               Mon&ndash;Fri 8&ndash;6 &middot; Sat by appt.
             </div>
           </div>
@@ -174,7 +211,7 @@ export function Footer() {
         </div>
 
         {/* Bottom rail */}
-        <div className="mt-12 flex flex-col gap-3 border-t border-cream/12 pt-7 text-[11px] text-cream-warm/55 md:flex-row md:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-cream/12 pt-7 text-[11px] text-cream-warm/70 md:flex-row md:justify-between">
           <span>&copy; 2026 Ritchie Real Estate, LLC. All rights reserved.</span>
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-paper">
@@ -204,12 +241,12 @@ function Lockup({
 }) {
   return (
     <div className="flex items-center gap-4">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-cream/30 font-serif text-[11px] font-semibold tracking-[0.05em] text-crimson-bright">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-cream/30 font-serif text-[14px] font-semibold tracking-[0.05em] text-crimson-bright">
         {mark}
       </div>
       <div className="leading-tight">
         <div className="font-serif text-[15px] text-paper">{title}</div>
-        <div className="mt-0.5 text-[10.5px] uppercase tracking-[0.16em] text-cream-warm/55">
+        <div className="mt-0.5 text-[10.5px] uppercase tracking-[0.16em] text-cream-warm/70">
           {sub}
         </div>
       </div>

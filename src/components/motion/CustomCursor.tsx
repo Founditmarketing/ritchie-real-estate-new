@@ -102,11 +102,12 @@ export function CustomCursor() {
         animate={{
           width: ringSize,
           height: ringSize,
+          // rgba(0,0,0,0) not "transparent": the keyword isn't animatable
           backgroundColor:
-            mode === "label" ? "var(--color-navy-ink)" : "transparent",
+            mode === "label" ? "var(--color-navy-ink)" : "rgba(0, 0, 0, 0)",
           borderColor:
             mode === "label"
-              ? "transparent"
+              ? "rgba(0, 0, 0, 0)"
               : "color-mix(in oklch, var(--color-crimson) 70%, transparent)",
           opacity: pressed ? 1 : mode === "default" ? 0.7 : 0.95,
         }}
@@ -117,7 +118,7 @@ export function CustomCursor() {
           animate={{
             borderColor:
               mode === "label"
-                ? "transparent"
+                ? "rgba(0, 0, 0, 0)"
                 : "color-mix(in oklch, var(--color-crimson) 60%, transparent)",
           }}
         />

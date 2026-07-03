@@ -62,57 +62,9 @@ export function LogoMark({
   );
 }
 
-/**
- * Diamond mark + side wordmark, color-aware. Use in header / footer / hero.
- */
-export function Logo({
-  tone = "dark",
-  href = "/",
-  className,
-  showTagline = true,
-}: {
-  tone?: Tone;
-  href?: string;
-  className?: string;
-  showTagline?: boolean;
-}) {
-  const text = tone === "light" ? "text-cream" : "text-navy";
-  const accent = tone === "light" ? "text-crimson-bright" : "text-crimson";
-  return (
-    <a
-      href={href}
-      aria-label="Ritchie Real Estate, home"
-      className={cn("inline-flex items-center gap-2.5 md:gap-3", className)}
-    >
-      {/* Diamond mark scales down a notch on small screens so the header
-          breathes alongside the hamburger button. */}
-      <LogoMark tone={tone} size={32} className="md:hidden" />
-      <LogoMark tone={tone} size={36} className="hidden md:block" />
-      <span className="leading-none">
-        <span
-          className={cn(
-            "block font-serif text-[20px] font-semibold tracking-[0.02em] md:text-[22px]",
-            text,
-          )}
-        >
-          RITCHIE<span className={accent}>.</span>
-        </span>
-        {showTagline ? (
-          /* Tagline is desktop-only \u2014 on mobile it competes with the
-             hamburger and reads as accidental kerning. */
-          <span
-            className={cn(
-              "mt-1 hidden font-sans text-[8px] tracking-[0.28em] uppercase opacity-80 md:block",
-              text,
-            )}
-          >
-            Real Estate &middot; Est. 2003
-          </span>
-        ) : null}
-      </span>
-    </a>
-  );
-}
+/* The composite mark-plus-wordmark <Logo> component was removed as dead
+   code: every placement uses <LogoMark> or the pixel-perfect
+   <LogoWordmarkImage> PNG instead. */
 
 /**
  * Full PNG wordmark for special placements (footer, loading, OG image).
@@ -137,8 +89,11 @@ export function LogoWordmarkImage({
       src={light ? "/brand/ritchie-logo-light.png" : "/brand/ritchie-logo.png"}
       alt="Ritchie Real Estate"
       width={width}
-      height={height ?? Math.round(width / 2.07)}
+      // True intrinsic ratio of the PNG is 1554x733 ≈ 2.12
+      height={height ?? Math.round(width / 2.12)}
       priority={priority}
+      // Inline height:auto is what next/image checks when CSS resizes width
+      style={{ height: "auto" }}
       className={cn("h-auto", className)}
     />
   );

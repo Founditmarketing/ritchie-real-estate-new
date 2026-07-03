@@ -40,7 +40,7 @@ export function PlateImage({
         fill
         sizes={sizes}
         priority={priority}
-        className="object-cover"
+        className="object-cover saturate-[0.88]"
       />
       <AnimatePresence>
         {second && hover ? (
@@ -57,11 +57,29 @@ export function PlateImage({
               alt={second.alt}
               fill
               sizes={sizes}
-              className="object-cover"
+              className="object-cover saturate-[0.88]"
             />
           </motion.div>
         ) : null}
       </AnimatePresence>
+      {/*
+        Unified photographic grade — every plate (including the hover
+        crossfade above) passes through the same warm-dusk treatment so
+        mixed-source photography reads as one world:
+        1. a navy bed rising from the bottom seats the photo into the
+           dark canvas;
+        2. a soft-light sodium cast reusing the hero's exact warm value
+           (oklch 0.65 0.12 36) matches the cinematic temperature.
+        Kept at /0.10 so listings stay honest photos, not renders.
+      */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-ink/40 via-transparent to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[oklch(0.65_0.12_36/0.10)] mix-blend-soft-light"
+      />
     </div>
   );
 }

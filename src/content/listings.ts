@@ -1,3 +1,9 @@
+/*
+ * PLACEHOLDER INVENTORY — seed data for the pitch; swap to the live feed
+ * via src/lib/listings.ts before the client domain launches. None of these
+ * properties, prices, or descriptions are real Ritchie listings.
+ */
+
 /**
  * Listing seed data. Types mirror common IDX/RESO fields so the
  * `lib/listings.ts` adapter can be swapped to a real feed (Spark, Bridge,
@@ -152,7 +158,7 @@ export const listings: Listing[] = [
     sqft: 6800,
     yearBuilt: 2006,
     description:
-      "Class-A office suite on Alexandria's primary commercial corridor. 38 parking spots, full reception build-out, conference room. NNN lease in place through 2027 from a Fortune-500 tenant.",
+      "Class-A office suite on Alexandria’s primary commercial corridor. 38 parking spots, full reception build-out, conference room. Long-term NNN tenant in place.",
     images: [
       { src: u("1497366216548-37526070297c", 1800), alt: "Office building facade" },
       { src: u("1497366811353-6870744d04b2"), alt: "Reception and lobby" },

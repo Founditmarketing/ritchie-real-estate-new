@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { useRef } from "react";
-import { type Listing } from "@/lib/listings";
+import { formatPrice, type Listing } from "@/lib/listings";
 import { ease } from "@/lib/motion";
 
 /**
@@ -43,8 +43,8 @@ export function ListingHero({ listing }: { listing: Listing }) {
           className="object-cover"
         />
         {/* Bottom darken for type contrast; top lightly washed */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,oklch(0.16_0.07_262/0.32)_0%,transparent_28%,oklch(0.16_0.07_262/0.30)_55%,oklch(0.10_0.05_262/0.92)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_18%_82%,oklch(0.10_0.05_262/0.55)_0%,transparent_60%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,oklch(0.145_0.030_264/0.32)_0%,transparent_28%,oklch(0.145_0.030_264/0.30)_55%,oklch(0.10_0.04_264/0.92)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_18%_82%,oklch(0.10_0.04_264/0.55)_0%,transparent_60%)]" />
       </motion.div>
 
       {/* TOP SLATE — addresses & plate # */}
@@ -100,7 +100,7 @@ export function ListingHero({ listing }: { listing: Listing }) {
             children inside the Beat \u2014 it would shrink the container to
             ~144px and clip the property title. Width is bounded by the
             outer 1440px container. */}
-        <h1 className="mt-7 font-serif font-medium tracking-[-0.025em] text-paper [text-shadow:0_2px_60px_oklch(0.10_0.05_262/0.55)]">
+        <h1 className="mt-7 font-serif font-medium tracking-[-0.025em] text-paper [text-shadow:0_2px_60px_oklch(0.10_0.04_264/0.55)]">
           <Beat delay={0.13} block reduced={reduced}>
             {/* leading 1.02 keeps Cormorant ascenders/descenders inside
                 the Beat's overflow-hidden mask. */}
@@ -110,12 +110,26 @@ export function ListingHero({ listing }: { listing: Listing }) {
           </Beat>
         </h1>
 
-        <Beat delay={0.22} block reduced={reduced}>
-          <p className="mt-6 flex items-center gap-3 font-serif text-[clamp(15px,1.4vw,20px)] italic text-cream-warm">
-            <span className="h-px w-7 bg-crimson-bright" />
-            {listing.address.street}, {listing.address.city}
-          </p>
-        </Beat>
+        {/* Address left, asking price right — the price belongs in the
+            first fold; buyers shouldn't have to scroll to learn it. */}
+        <div className="mt-6 flex flex-wrap items-baseline justify-between gap-x-10 gap-y-4">
+          <Beat delay={0.22} block reduced={reduced}>
+            <p className="flex items-center gap-3 font-serif text-[clamp(15px,1.4vw,20px)] italic text-cream-warm">
+              <span className="h-px w-7 bg-crimson-bright" />
+              {listing.address.street}, {listing.address.city}
+            </p>
+          </Beat>
+          <Beat delay={0.3} block reduced={reduced}>
+            <p className="font-serif leading-none">
+              <span className="text-[clamp(30px,3.4vw,52px)] font-medium text-paper">
+                {formatPrice(listing.price)}
+              </span>
+              <span className="ml-3 text-[clamp(12px,1vw,14px)] uppercase tracking-[0.22em] text-cream-warm/75 font-sans">
+                Asking
+              </span>
+            </p>
+          </Beat>
+        </div>
       </motion.div>
 
       {/* SCROLL CUE \u2014 desktop only */}
@@ -132,7 +146,7 @@ export function ListingHero({ listing }: { listing: Listing }) {
         <span className="relative mx-auto mt-2 block h-9 w-px overflow-hidden bg-cream/25">
           <motion.span
             className="absolute inset-x-0 top-0 h-3 bg-crimson-bright"
-            animate={{ y: ["-100%", "300%"] }}
+            animate={reduced ? undefined : { y: ["-100%", "300%"] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: ease.inOut, repeatDelay: 0.2 }}
           />
         </span>

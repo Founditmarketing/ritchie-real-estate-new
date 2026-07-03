@@ -10,6 +10,14 @@
 
 import { listings, type Listing, type ListingStatus, type ListingType } from "@/content/listings";
 
+/**
+ * True while the site runs on the placeholder seed inventory. Gate anything
+ * that asserts the listings are real (JSON-LD, "live" copy) behind this.
+ * Flip by setting NEXT_PUBLIC_LISTINGS_SOURCE="live" once the real IDX feed
+ * is wired in.
+ */
+export const LISTINGS_ARE_SEED = process.env.NEXT_PUBLIC_LISTINGS_SOURCE !== "live";
+
 export type ListingsQuery = {
   type?: ListingType | "all";
   status?: ListingStatus;

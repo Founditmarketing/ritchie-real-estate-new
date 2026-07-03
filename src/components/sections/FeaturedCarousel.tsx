@@ -36,7 +36,7 @@ export function FeaturedCarousel({ items }: { items: Listing[] }) {
       <div
         ref={ref}
         onScroll={onScroll}
-        className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-6 px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {items.map((l, i) => {
           const facts: string[] = [];
@@ -56,7 +56,7 @@ export function FeaturedCarousel({ items }: { items: Listing[] }) {
               )}
             >
               <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-mute">
-                <span className="font-serif text-[14px] italic font-medium text-crimson-bright">
+                <span className="font-serif text-[16px] italic font-medium text-crimson-bright">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span>{l.type}</span>
@@ -98,8 +98,8 @@ export function FeaturedCarousel({ items }: { items: Listing[] }) {
         <span className="w-2 shrink-0" aria-hidden />
       </div>
 
-      {/* Pagination dots */}
-      <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Featured listings">
+      {/* Pagination dots — 6px visual dots inside 26px touch targets */}
+      <div className="mt-4 flex items-center justify-center" role="tablist" aria-label="Featured listings">
         {items.map((l, i) => (
           <button
             key={l.id}
@@ -108,11 +108,15 @@ export function FeaturedCarousel({ items }: { items: Listing[] }) {
             aria-selected={i === active}
             aria-label={`Go to listing ${i + 1}`}
             onClick={() => goTo(i)}
-            className={cn(
-              "h-1.5 rounded-full transition-all duration-300 ease-out",
-              i === active ? "w-6 bg-crimson-bright" : "w-1.5 bg-cream/25",
-            )}
-          />
+            className="p-2.5"
+          >
+            <span
+              className={cn(
+                "block h-1.5 rounded-full transition-all duration-300 ease-out",
+                i === active ? "w-6 bg-crimson-bright" : "w-1.5 bg-cream/25",
+              )}
+            />
+          </button>
         ))}
       </div>
     </div>

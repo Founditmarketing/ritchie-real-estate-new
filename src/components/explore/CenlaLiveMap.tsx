@@ -10,6 +10,8 @@ export interface MapListing {
   price: string;
   lat: number;
   lng: number;
+  /** Accessible pin name with context, e.g. "$615k — Bayou Robert Estate, 4 bed". */
+  srLabel?: string;
 }
 
 function buildIcon(label: string, active: boolean) {
@@ -18,7 +20,11 @@ function buildIcon(label: string, active: boolean) {
   const h = 28;
   return L.divIcon({
     html: label,
-    className: `rre-pin${active ? " is-active" : ""}`,
+    // Leaflet makes markers keyboard-focusable (tabindex=0) but the global
+    // focus ring only targets a/button/form elements, so the pin needs its
+    // own :focus-visible outline. Paper, not crimson — the pill is itself
+    // crimson on the navy-ink map, mirroring the .is-active inversion.
+    className: `rre-pin focus-visible:[outline:2px_solid_var(--color-paper)] focus-visible:outline-offset-[3px]${active ? " is-active" : ""}`,
     iconSize: [w, h],
     iconAnchor: [w / 2, h],
   });
@@ -120,6 +126,9 @@ export default function CenlaLiveMap({
       const marker = L.marker([l.lat, l.lng], {
         icon: buildIcon(l.price, l.id === activeId),
         riseOnHover: true,
+        // Leaflet sets this as the title attribute on the divIcon element —
+        // hover tooltip + accessible name beyond the bare price.
+        title: l.srLabel ?? `${l.title} — ${l.price}`,
       }).addTo(map);
       marker.on("click", () => onActivateRef.current(l.id));
       markersRef.current.set(l.id, marker);

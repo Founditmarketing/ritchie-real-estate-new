@@ -37,7 +37,8 @@ const toneClass: Record<Tone, string> = {
 export function Eyebrow({
   children,
   variant = "rule",
-  tone = "crimson",
+  // crimson-bright: the base crimson reads under 3:1 on the dark canvas
+  tone = "crimson-bright",
   num,
   className,
   center = false,
@@ -48,7 +49,7 @@ export function Eyebrow({
     return (
       <span
         className={cn(
-          "inline-flex items-baseline gap-3 font-serif text-[14px] italic",
+          "inline-flex items-baseline gap-3 font-serif text-[16px] italic",
           color,
           className,
         )}
@@ -98,7 +99,7 @@ export function Eyebrow({
     return (
       <span
         className={cn(
-          "block font-serif italic text-[13px]",
+          "block font-serif italic text-[15px]",
           color,
           center && "text-center",
           className,

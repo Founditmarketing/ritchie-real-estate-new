@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
 import { PlateImage } from "@/components/listing/PlateImage";
 import { TiltCard } from "@/components/listing/TiltCard";
 import { FeaturedCarousel } from "@/components/sections/FeaturedCarousel";
@@ -9,11 +8,10 @@ import { getListings, formatPrice, formatSqft, type Listing } from "@/lib/listin
 
 /**
  * Featured listings as an editorial spread. Shares the exact PlateMeta /
- * PriceAnchor / FavoriteHeart / ScheduleTourAffordance vocabulary with
- * ListingsCatalog and RelatedListings so cards read as one system.
+ * PriceAnchor / ScheduleTourAffordance vocabulary with ListingsCatalog
+ * and RelatedListings so cards read as one system.
  *
- * Server component: fetches its own data, renders mostly static markup,
- * inlines the FavoriteHeart client island for the per-card save toggle.
+ * Server component: fetches its own data, renders mostly static markup.
  */
 export async function FeaturedListings() {
   const items = await getListings({ status: "active", limit: 4 });
@@ -22,14 +20,9 @@ export async function FeaturedListings() {
   const rest = items.filter((l) => l.id !== feat.id).slice(0, 3);
 
   return (
+    // No ghost watermark here — the device lives in Sell ("Worth.") and
+    // the Testimonials quote mark; a third dilutes it.
     <section className="relative bg-navy-deep py-16 md:py-32">
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -right-4 top-24 hidden font-serif italic font-medium text-[14vw] leading-[0.8] text-paper/[0.04] lg:block"
-      >
-        Index
-      </span>
-
       <div className="relative mx-auto max-w-[1440px] px-6 lg:px-12">
         <Reveal>
           <div className="mb-9 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between md:gap-10">
@@ -38,7 +31,7 @@ export async function FeaturedListings() {
                 Now on the market
               </Eyebrow>
               <h2 className="mt-5 font-serif text-[clamp(34px,5vw,72px)] leading-[0.98] tracking-[-0.02em] text-paper">
-                A few homes <em className="not-italic italic text-crimson-bright">worth</em>
+                A few homes <em className="italic">worth</em>
                 <br />
                 the drive over.
               </h2>
@@ -95,7 +88,6 @@ function FeaturePlate({ listing }: { listing: Listing }) {
         <div className="relative col-span-12 aspect-[16/10] overflow-hidden bg-navy md:col-span-8 md:aspect-[16/12]">
           <PlateImage listing={listing} sizes="(min-width: 768px) 66vw, 100vw" />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
-          <FavoriteHeart listing={listing} />
           <ScheduleTourAffordance />
         </div>
         <div className="col-span-12 flex flex-col justify-between gap-7 md:col-span-4">
@@ -131,7 +123,6 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
             sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 100vw"
           />
           {listing.badge ? <BadgeTag>{listing.badge}</BadgeTag> : null}
-          <FavoriteHeart listing={listing} />
           <ScheduleTourAffordance />
         </TiltCard>
         <div className="mt-5">
@@ -153,7 +144,7 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
 function PlateMeta({ num, type }: { num: string; type: string }) {
   return (
     <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-mute">
-      <span className="font-serif text-[14px] italic font-medium text-crimson-bright">
+      <span className="font-serif text-[16px] italic font-medium text-crimson-bright">
         {num}
       </span>
       <span>{type}</span>
@@ -218,7 +209,7 @@ function PriceAnchor({
           {formatPrice(listing.price)}
         </span>
         {psf ? (
-          <span className="font-serif text-[12px] italic text-mute">{psf}</span>
+          <span className="font-serif text-[15px] italic text-mute">{psf}</span>
         ) : null}
       </div>
       {factLine ? (

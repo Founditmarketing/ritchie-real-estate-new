@@ -37,7 +37,7 @@ export function MobileDock() {
       {/* Solid (not translucent) on purpose: a blurred bar smears the busy
           dark photography scrolling behind it and flickers during momentum
           scroll. Opaque surface + separation shadow reads cleaner. */}
-      <div className="border-t border-cream/10 bg-navy-ink shadow-[0_-12px_32px_-12px_rgba(0,0,0,0.8)]">
+      <div className="border-t border-cream/10 bg-navy-ink shadow-[0_-12px_32px_-12px_oklch(0.08_0.03_264/0.8)]">
         <ul className="mx-auto grid max-w-md grid-cols-5 items-end px-1.5 pb-[max(0.45rem,env(safe-area-inset-bottom))] pt-1.5">
           <DockItem
             href="/listings"
@@ -69,7 +69,7 @@ export function MobileDock() {
           </li>
 
           <DockItem
-            href="/#sell"
+            href={onHome ? "/#sell" : "/sell"}
             label="Sell"
             onClick={goSell}
             icon={<TagIcon />}
@@ -96,7 +96,9 @@ function DockItem({
 }) {
   const cls = cn(
     "flex flex-col items-center gap-1 py-1.5 transition-transform duration-150 ease-out active:scale-90",
-    active ? "text-crimson-bright" : "text-cream-warm/55",
+    // Solid mute (6.37:1 on navy-ink) — alpha-faded cream fell under AA on
+    // the primary mobile navigation labels.
+    active ? "text-crimson-bright" : "text-mute",
   );
   const inner = (
     <>
@@ -156,7 +158,8 @@ function TagIcon() {
   );
 }
 
-function PhoneIcon() {
+/** Shared with the /explore bottom action cluster (ExploreClient). */
+export function PhoneIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" {...ICON} aria-hidden>
       <path d="M6.5 4h3l1.4 4-2 1.4a11 11 0 0 0 5.2 5.2l1.4-2 4 1.4v3a1.8 1.8 0 0 1-2 1.8A15 15 0 0 1 4.7 6 1.8 1.8 0 0 1 6.5 4Z" />

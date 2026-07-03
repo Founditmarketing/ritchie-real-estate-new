@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "motion/react";
+import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { useRef, type ComponentProps, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
@@ -21,6 +21,8 @@ export function MagneticButton({
   ...rest
 }: MagneticButtonProps) {
   const ref = useRef<HTMLAnchorElement>(null);
+  // JS springs bypass the CSS reduced-motion clamp; gate them here.
+  const reduced = useReducedMotion() ?? false;
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 200, damping: 18, mass: 0.4 });
@@ -30,8 +32,9 @@ export function MagneticButton({
     <motion.a
       ref={ref}
       className={cn("relative inline-flex select-none", className)}
-      style={{ x: sx, y: sy }}
+      style={reduced ? undefined : { x: sx, y: sy }}
       onMouseMove={(e) => {
+        if (reduced) return;
         const el = ref.current;
         if (!el) return;
         const r = el.getBoundingClientRect();

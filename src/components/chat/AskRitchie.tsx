@@ -29,16 +29,19 @@ interface UIMessage {
   cta?: "lead" | null;
 }
 
+// Inventory claim is scoped to Ritchie's own listings while the seed data is
+// live; the stronger "every active listing in Cenla" copy can return once the
+// live IDX feed is wired (see src/lib/listings.ts).
 const GREETING: UIMessage = {
   id: "greeting",
   role: "assistant",
   content:
-    "I'm Matt's desk on the web. I know every active listing in Central Louisiana, the streets they're on, and what they're really worth. What are you after?",
+    "I’m Matt’s desk on the web. I know the Cenla market cold and every listing Ritchie represents. What are you after?",
   chips: [
     "Find me a home",
     "Commercial space",
     "Land & acreage",
-    "How's the market?",
+    "How’s the market?",
     "Sell my house",
   ],
 };
@@ -165,6 +168,19 @@ export function AskRitchie() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, close]);
 
+  // On phones the panel is a full sheet over the page — lock body scroll
+  // while it's open so the homepage doesn't scroll (and lose its position)
+  // behind the scrim. Desktop is a docked card; the page stays scrollable.
+  // Mirrors the Header/Drawer body-overflow pattern.
+  useEffect(() => {
+    if (!open) return;
+    if (window.matchMedia("(min-width: 768px)").matches) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   const send = useCallback(
     async (raw: string) => {
       const content = raw.trim();
@@ -259,7 +275,7 @@ export function AskRitchie() {
             id: nextId(),
             role: "assistant",
             content:
-              "Couldn't file that just now — call or text Matt at 318-449-8919 and he'll take care of you.",
+              "Couldn’t file that just now — call or text Matt at 318-449-8919 and he’ll take care of you.",
           },
         ]);
       }
@@ -288,7 +304,7 @@ export function AskRitchie() {
             exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 12 }}
             transition={{ duration: reduce ? 0 : 0.32, ease: [0.16, 1, 0.3, 1] }}
             data-cursor="grow"
-            className="group fixed bottom-5 right-5 z-[80] hidden items-center gap-3 rounded-full border border-cream/15 bg-navy-deep/90 py-2.5 pl-2.5 pr-5 shadow-[0_18px_48px_-12px_rgba(0,0,0,0.7)] backdrop-blur-md transition-colors hover:border-crimson/50 md:bottom-7 md:right-7 md:flex"
+            className="group fixed bottom-5 right-5 z-[80] hidden items-center gap-3 rounded-full border border-cream/15 bg-navy-deep/90 py-2.5 pl-2.5 pr-5 shadow-[0_18px_48px_-12px_oklch(0.08_0.03_264/0.7)] backdrop-blur-md transition-colors hover:border-crimson/50 md:bottom-7 md:right-7 md:flex"
           >
             <span className="relative grid h-10 w-10 place-items-center rounded-full bg-navy">
               <LogoMark tone="light" size={26} />
@@ -337,7 +353,7 @@ export function AskRitchie() {
               exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }}
               transition={{ duration: dur, ease: [0.16, 1, 0.3, 1] }}
               className={cn(
-                "fixed z-[80] flex flex-col overflow-hidden border border-cream/12 bg-navy-deep shadow-[0_40px_120px_-20px_rgba(0,0,0,0.85)] outline-none",
+                "fixed z-[80] flex flex-col overflow-hidden border border-cream/12 bg-navy-deep shadow-[0_40px_120px_-20px_oklch(0.08_0.03_264/0.85)] outline-none",
                 // Mobile: full sheet. Desktop: docked card.
                 "inset-0 rounded-none",
                 "md:inset-auto md:bottom-7 md:right-7 md:h-[640px] md:max-h-[calc(100vh-3.5rem)] md:w-[412px] md:rounded-[4px]",
@@ -386,7 +402,7 @@ export function AskRitchie() {
               {/* Messages */}
               <div
                 ref={scrollRef}
-                className="chat-scroll flex-1 space-y-5 overflow-y-auto px-5 py-5"
+                className="chat-scroll flex-1 space-y-5 overflow-y-auto overscroll-contain px-5 py-5"
               >
                 {messages.map((m) => (
                   <motion.div
@@ -418,7 +434,7 @@ export function AskRitchie() {
                   e.preventDefault();
                   send(input);
                 }}
-                className="border-t border-cream/10 bg-navy-ink/40 px-3 py-3"
+                className="border-t border-cream/10 bg-navy-ink/40 px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
               >
                 <div className="flex items-end gap-2 rounded-[3px] border border-cream/12 bg-navy px-3 py-2 focus-within:border-crimson/50">
                   <textarea
@@ -434,7 +450,7 @@ export function AskRitchie() {
                     rows={1}
                     placeholder="Ask about listings, the market, or Matt…"
                     aria-label="Message"
-                    className="max-h-28 min-h-[22px] flex-1 resize-none bg-transparent text-[14px] text-cream placeholder:text-cream-warm/40 focus:outline-none"
+                    className="max-h-28 min-h-[22px] flex-1 resize-none bg-transparent text-[14px] text-cream placeholder:text-cream-warm/70"
                   />
                   <button
                     type="submit"
@@ -454,7 +470,7 @@ export function AskRitchie() {
                     </svg>
                   </button>
                 </div>
-                <p className="mt-1.5 px-1 text-center font-sans text-[9.5px] uppercase tracking-[0.18em] text-cream-warm/35">
+                <p className="mt-1.5 px-1 text-center font-sans text-[9.5px] uppercase tracking-[0.18em] text-cream-warm/60">
                   Ritchie Real Estate · 318-449-8919
                 </p>
               </form>
@@ -569,7 +585,7 @@ function ListingChip({
         <span className="font-serif text-[17px] leading-none text-crimson-bright">
           {listing.price}
         </span>
-        <span className="mt-1 truncate font-serif text-[14px] text-cream">
+        <span className="mt-1 truncate font-serif text-[15px] text-cream">
           {listing.title}
         </span>
         <span className="truncate font-sans text-[11px] text-cream-warm/60">
@@ -592,35 +608,63 @@ function LeadForm({
   state: "idle" | "submitting" | "done";
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
+  // LeadForm can mount once per lead-CTA message in the thread, so ids
+  // must be generated — hardcoded htmlFor/id pairs would collide.
+  const uid = useId();
   if (state === "done") return null;
+
+  const labelClass =
+    "font-sans text-[10px] uppercase tracking-[0.16em] text-crimson-bright";
+  const fieldClass =
+    "rounded-[2px] border border-cream/12 bg-navy px-3 py-2 text-[14px] text-cream placeholder:text-cream-warm/70 focus:border-crimson/50";
+
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col gap-2.5 rounded-[4px] border border-crimson/30 bg-navy/50 p-3.5"
+      className="flex flex-col gap-3 rounded-[4px] border border-crimson/30 bg-navy/50 p-3.5"
     >
       <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-crimson-bright">
         Connect with Matt
       </p>
-      <input
-        name="name"
-        required
-        autoComplete="name"
-        placeholder="Your name"
-        className="rounded-[2px] border border-cream/12 bg-navy px-3 py-2 text-[14px] text-cream placeholder:text-cream-warm/40 focus:border-crimson/50 focus:outline-none"
-      />
-      <input
-        name="contact"
-        required
-        autoComplete="email tel"
-        placeholder="Phone or email"
-        className="rounded-[2px] border border-cream/12 bg-navy px-3 py-2 text-[14px] text-cream placeholder:text-cream-warm/40 focus:border-crimson/50 focus:outline-none"
-      />
-      <textarea
-        name="note"
-        rows={2}
-        placeholder="What are you after? (optional)"
-        className="resize-none rounded-[2px] border border-cream/12 bg-navy px-3 py-2 text-[14px] text-cream placeholder:text-cream-warm/40 focus:border-crimson/50 focus:outline-none"
-      />
+      <div className="flex flex-col gap-1">
+        <label htmlFor={`${uid}-name`} className={labelClass}>
+          Name
+        </label>
+        <input
+          id={`${uid}-name`}
+          name="name"
+          required
+          autoComplete="name"
+          placeholder="Sarah Landry"
+          className={fieldClass}
+        />
+      </div>
+      <div className="flex flex-col gap-1">
+        <label htmlFor={`${uid}-contact`} className={labelClass}>
+          Phone or email
+        </label>
+        <input
+          id={`${uid}-contact`}
+          name="contact"
+          required
+          autoComplete="tel"
+          placeholder="318-555-0147"
+          className={fieldClass}
+        />
+      </div>
+      <div className="flex flex-col gap-1">
+        <label htmlFor={`${uid}-note`} className={labelClass}>
+          What you’re after{" "}
+          <span className="text-cream-warm/70">(optional)</span>
+        </label>
+        <textarea
+          id={`${uid}-note`}
+          name="note"
+          rows={2}
+          placeholder="3 bed under $300k in Pineville"
+          className={cn(fieldClass, "resize-none")}
+        />
+      </div>
       <button
         type="submit"
         disabled={state === "submitting"}

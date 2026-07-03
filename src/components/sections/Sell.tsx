@@ -20,6 +20,9 @@ export function Sell() {
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
   const [status, setStatus] = useState<SellStatus>("idle");
+  /** Server-provided note when delivery is degraded (see /api/lead) —
+   *  shown instead of the standard "one business day" promise. */
+  const [degradedNote, setDegradedNote] = useState<string | null>(null);
   const submitted = status === "done";
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -38,7 +41,12 @@ export function Sell() {
         }),
       });
       const data = await res.json();
-      setStatus(res.ok && data?.ok ? "done" : "error");
+      if (res.ok && data?.ok) {
+        setDegradedNote(data.degraded && data.message ? data.message : null);
+        setStatus("done");
+      } else {
+        setStatus("error");
+      }
     } catch {
       setStatus("error");
     }
@@ -65,7 +73,17 @@ export function Sell() {
                 alt="A traditional Louisiana front porch in afternoon light"
                 fill
                 sizes="(min-width: 1024px) 360px, 80vw"
-                className="object-cover"
+                className="object-cover saturate-[0.88]"
+              />
+              {/* Same warm-dusk grade as PlateImage so this plate sits in
+                  the same photographic world as the listings. */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-ink/40 via-transparent to-transparent"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-[oklch(0.65_0.12_36/0.10)] mix-blend-soft-light"
               />
             </div>
             {/* Editorial caption block under the photo */}
@@ -130,7 +148,7 @@ export function Sell() {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="88 Riverbend Rd, Alexandria"
-                className="border-none bg-transparent font-serif text-[20px] text-paper outline-none placeholder:text-mute/55"
+                className="border-none bg-transparent font-serif text-[20px] text-paper placeholder:text-mute/75"
               />
             </label>
             <div className="flex flex-col border-t border-cream/12 sm:flex-row">
@@ -144,7 +162,7 @@ export function Sell() {
                   onChange={(e) => setName(e.target.value)}
                   autoComplete="name"
                   placeholder="Matt Ritchie"
-                  className="border-none bg-transparent font-serif text-[16px] text-paper outline-none placeholder:text-mute/55"
+                  className="border-none bg-transparent font-serif text-[16px] text-paper placeholder:text-mute/75"
                 />
               </label>
               <label className="flex flex-1 flex-col gap-1.5 px-2 py-4">
@@ -155,9 +173,9 @@ export function Sell() {
                   required
                   value={contact}
                   onChange={(e) => setContact(e.target.value)}
-                  autoComplete="email tel"
+                  autoComplete="tel"
                   placeholder="318-449-8919"
-                  className="border-none bg-transparent font-serif text-[16px] text-paper outline-none placeholder:text-mute/55"
+                  className="border-none bg-transparent font-serif text-[16px] text-paper placeholder:text-mute/75"
                 />
               </label>
             </div>
@@ -178,15 +196,20 @@ export function Sell() {
 
           <Reveal delay={0.28}>
             <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 text-[11.5px] font-light text-mute">
-              <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-crimson-bright" />
+              <span
+                role="status"
+                aria-live="polite"
+                className="flex items-center gap-2"
+              >
+                <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-crimson-bright" />
                 {submitted
-                  ? "Thanks. Ritchie will reach you within one business day."
+                  ? degradedNote ??
+                    "Thanks. Ritchie will reach you within one business day."
                   : status === "error"
-                    ? "Something glitched \u2014 call Matt at 318-449-8919."
+                    ? "That didn\u2019t go through. Call Matt at 318-449-8919."
                     : "No pressure. No spam."}
               </span>
-              <span>Average response: under 4 hours.</span>
+              <span>Replies the same business day.</span>
               <span className="italic">Signed by the broker, not a bot.</span>
             </div>
           </Reveal>

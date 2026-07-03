@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { FavoriteHeart } from "@/components/listing/ListingCardChrome";
 import { PlateImage } from "@/components/listing/PlateImage";
 import { TiltCard } from "@/components/listing/TiltCard";
 import { formatPrice, getListings, type Listing } from "@/lib/listings";
@@ -36,7 +35,7 @@ export async function RelatedListings({ current }: { current: Listing }) {
             </Eyebrow>
             <h2 className="mt-3 font-serif text-[clamp(30px,3.6vw,52px)] leading-[1.04] tracking-[-0.015em] text-paper">
               More from{" "}
-              <em className="not-italic italic text-crimson-bright">{current.address.city}.</em>
+              <em className="italic">{current.address.city}.</em>
             </h2>
           </div>
           <Link
@@ -77,14 +76,13 @@ function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
         className="group block"
       >
         <div className="flex items-baseline justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-mute">
-          <span className="font-serif text-[14px] italic font-medium text-crimson-bright">
+          <span className="font-serif text-[16px] italic font-medium text-crimson-bright">
             {num}
           </span>
           <span>{listing.type}</span>
         </div>
         <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-navy sm:aspect-[4/5]">
           <PlateImage listing={listing} sizes="(min-width: 768px) 28vw, 100vw" />
-          <FavoriteHeart listing={listing} />
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 bottom-0 z-10 translate-y-full bg-navy-ink/85 px-4 py-3 text-center font-sans text-[10.5px] font-medium uppercase tracking-[0.24em] text-cream backdrop-blur-sm transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0"
@@ -106,7 +104,7 @@ function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
               {formatPrice(listing.price)}
             </span>
             {listing.sqft > 0 ? (
-              <span className="font-serif text-[12px] italic text-mute">
+              <span className="font-serif text-[15px] italic text-mute">
                 ${Math.round(listing.price / listing.sqft).toLocaleString()}/sqft
               </span>
             ) : null}

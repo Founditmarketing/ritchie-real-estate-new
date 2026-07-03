@@ -12,7 +12,10 @@ const PATHS = [
     num: "01",
     audience: "Buyers",
     title: ["Buying", "a home"],
-    body: "Search every active listing across Central Louisiana, with an agent who knows the street before you turn onto it.",
+    // Scoped to Ritchie's own inventory while the seed data is live; the
+    // broader "every active listing" copy can return once the live IDX feed
+    // is wired (see src/lib/listings.ts).
+    body: "Browse Ritchie’s active listings across Central Louisiana, with an agent who knows the street before you turn onto it.",
     link: "Start your search",
     href: "/listings",
   },
@@ -28,7 +31,7 @@ const PATHS = [
     num: "03",
     audience: "Commercial",
     title: ["Commercial", "property"],
-    body: "CCIM-credentialed expertise in investment, land, and commercial deals most local firms can't touch.",
+    body: "CCIM-credentialed expertise in investment, land, and commercial deals most local firms can’t touch.",
     link: "Explore commercial",
     href: "/listings?type=commercial",
   },
@@ -36,13 +39,15 @@ const PATHS = [
 
 export function Paths() {
   return (
-    <section className="bg-navy-ink py-24 md:py-32">
-      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+    // Tighter than the md:py-32 default on purpose: this section is a
+    // quick nav moment, not a destination.
+    <section className="bg-navy-ink py-20 md:py-24">
+      <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
         <Reveal>
           <Eyebrow variant="italic" tone="crimson-bright">However you move</Eyebrow>
           <h2 className="mt-4 font-serif text-[clamp(34px,4.4vw,58px)] leading-[1.03] tracking-[-0.015em] text-paper">
             <HeadlineReveal>
-              {["Three ways we put", <>Cenla to <em className="not-italic italic text-crimson-bright">work.</em></>]}
+              {["Three ways we put", <span key="l2">Cenla to <em className="italic">work.</em></span>]}
             </HeadlineReveal>
           </h2>
         </Reveal>

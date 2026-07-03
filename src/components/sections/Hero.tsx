@@ -65,6 +65,7 @@ export function Hero() {
   const driftY = useSpring(my, { stiffness: 60, damping: 22, mass: 1 });
 
   useEffect(() => {
+    if (reduced) return;
     const handler = (e: PointerEvent) => {
       // -1..1 normalized
       const nx = e.clientX / window.innerWidth - 0.5;
@@ -74,7 +75,7 @@ export function Hero() {
     };
     window.addEventListener("pointermove", handler, { passive: true });
     return () => window.removeEventListener("pointermove", handler);
-  }, [mx, my]);
+  }, [mx, my, reduced]);
 
   return (
     <section
@@ -147,13 +148,13 @@ export function Hero() {
           Drop-shadow on the slate text (and a thin top scrim above) so
           the coordinates stay legible over the brightest part of the
           sunset photo. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-44 bg-[linear-gradient(180deg,oklch(0.16_0.07_262/0.45)_0%,transparent_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-44 bg-[linear-gradient(180deg,oklch(0.145_0.030_264/0.45)_0%,transparent_100%)]" />
       <div className="relative z-10 mx-auto flex w-full max-w-[1440px] items-start justify-between px-6 pt-32 lg:px-12">
         <motion.div
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, ease: ease.outExpo, delay: 0.3 }}
-          className="font-sans text-[10.5px] uppercase tracking-[0.32em] text-cream [text-shadow:0_1px_2px_oklch(0.10_0.05_262/0.65)]"
+          className="font-sans text-[10.5px] uppercase tracking-[0.32em] text-cream [text-shadow:0_1px_2px_oklch(0.10_0.04_264/0.65)]"
         >
           <span className="text-crimson-bright">N 31.3&deg;</span>
           <span className="mx-3 text-cream/55">/</span>
@@ -199,7 +200,7 @@ export function Hero() {
           "chopped" rendering bug. The h1 takes full container width;
           each Beat is `block` so words wrap naturally per line.
         */}
-        <h1 className="font-serif font-medium tracking-[-0.025em] text-paper [text-shadow:0_2px_60px_oklch(0.10_0.05_262/0.6)]">
+        <h1 className="font-serif font-medium tracking-[-0.025em] text-paper [text-shadow:0_2px_60px_oklch(0.10_0.04_264/0.6)]">
           <Beat block delay={0.05} reduced={reduced} className="text-[clamp(40px,9vw,148px)] leading-[1.02]">
             Central
           </Beat>
@@ -290,7 +291,7 @@ export function Hero() {
       {/* SCROLL CUE ------------------------------------------------ */}
       {/* Hidden on small screens: at <768px it reads as a floating widget
           competing with the brand mark. The global ScrollProgress hairline
-          at the top of the page is the always-visible motion cue. */}
+          (mounted in layout.tsx) is the always-visible motion cue there. */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -304,7 +305,7 @@ export function Hero() {
         <span className="relative mx-auto mt-2 block h-9 w-px bg-cream/25 overflow-hidden">
           <motion.span
             className="absolute inset-x-0 top-0 h-3 bg-crimson-bright"
-            animate={{ y: ["-100%", "300%"] }}
+            animate={reduced ? undefined : { y: ["-100%", "300%"] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: ease.inOut, repeatDelay: 0.2 }}
           />
         </span>

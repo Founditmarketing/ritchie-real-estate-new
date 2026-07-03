@@ -1,29 +1,36 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
-import { type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { ease } from "@/lib/motion";
 
 /**
- * Cross-fades between routes on the client. Uses Motion's AnimatePresence
- * keyed on the current pathname so navigations look intentional, not jarring.
- * The native View Transitions API is still unstable in React 19 + Next 16
- * (TypeError on `unstable_ViewTransition`), so this is the reliable path.
+ * Enter-only route transition. The previous AnimatePresence mode="wait"
+ * version held every navigation hostage for ~450ms of exit animation and
+ * let Next's scroll restoration yank mid-fade; entering content is the
+ * only choreography a navigation needs. Keyed on pathname so the enter
+ * plays on every route change, skipped entirely on first paint (the hero
+ * owns the landing entrance) and under prefers-reduced-motion.
  */
 export function RouteTransitions({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const reduced = useReducedMotion() ?? false;
+  const firstPath = useRef(pathname);
+  const isFirst = firstPath.current === pathname;
+
+  if (reduced) {
+    return <>{children}</>;
+  }
+
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={pathname}
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.45, ease: ease.outExpo }}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      key={pathname}
+      initial={isFirst ? false : { opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.32, ease: ease.outExpo }}
+    >
+      {children}
+    </motion.div>
   );
 }

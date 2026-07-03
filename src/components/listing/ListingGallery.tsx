@@ -1,27 +1,44 @@
 "use client";
 
 import Image from "next/image";
-import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
 type Img = { src: string; alt: string };
 
+/** Horizontal travel (px) that must clearly beat the vertical travel
+    before a touch counts as a photo swipe rather than a page scroll. */
+const SWIPE_THRESHOLD = 48;
+
 /**
  * Cinematic gallery for a listing detail page. Dominant 16/9 hero with
- * cross-fade between frames, "01 / 04" counter overlaid, navigation
- * arrows that read as editorial chevrons, and a thin thumb strip below.
- * Arrow keys advance frames.
+ * cross-fade between frames, "01 / 04" counter overlaid, and a thin thumb
+ * strip below. Arrow keys advance frames; on touch the frame swipes
+ * (the editorial chevrons are desktop-only — at phone widths they were
+ * covering half the photograph they exist to serve).
  */
 export function ListingGallery({ images }: { images: Img[] }) {
   const [i, setI] = useState(0);
+  const reduce = useReducedMotion();
+  const swipe = useRef<{ x: number; y: number; done: boolean } | null>(null);
   const active = images[i] ?? images[0];
   const count = images.length;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (
+        t &&
+        (t.tagName === "INPUT" ||
+          t.tagName === "TEXTAREA" ||
+          t.tagName === "SELECT" ||
+          t.isContentEditable)
+      ) {
+        return;
+      }
       if (e.key === "ArrowRight") setI((v) => (v + 1) % count);
       if (e.key === "ArrowLeft") setI((v) => (v - 1 + count) % count);
     };
@@ -31,6 +48,26 @@ export function ListingGallery({ images }: { images: Img[] }) {
 
   if (!active) return null;
 
+  // Touch/pen swipe. touch-pan-y on the frame keeps vertical page scroll
+  // native; a decisively horizontal drag advances the frame once per
+  // gesture. Mouse users have the chevrons and arrow keys.
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (count < 2 || e.pointerType === "mouse") return;
+    swipe.current = { x: e.clientX, y: e.clientY, done: false };
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    const s = swipe.current;
+    if (!s || s.done) return;
+    const dx = e.clientX - s.x;
+    const dy = e.clientY - s.y;
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+    s.done = true;
+    setI((v) => (dx < 0 ? (v + 1) % count : (v - 1 + count) % count));
+  };
+  const onPointerEnd = () => {
+    swipe.current = null;
+  };
+
   return (
     <section className="relative bg-navy-ink pb-4 pt-2">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
@@ -38,28 +75,34 @@ export function ListingGallery({ images }: { images: Img[] }) {
           <Eyebrow variant="italic" tone="crimson-bright">
             Photographs
           </Eyebrow>
-          <span className="font-serif text-[14px] italic text-mute">
+          <span className="font-serif text-[15px] italic text-mute">
             <span className="text-paper">{String(i + 1).padStart(2, "0")}</span>
-            <span className="mx-1.5 text-mute/50">/</span>
+            <span className="mx-1.5">/</span>
             <span>{String(count).padStart(2, "0")}</span>
           </span>
         </div>
 
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-navy">
+        <div
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerEnd}
+          onPointerCancel={onPointerEnd}
+          className="relative aspect-[16/9] w-full touch-pan-y overflow-hidden bg-navy"
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={active.src}
-              initial={{ opacity: 0, scale: 1.04 }}
+              initial={reduce ? false : { opacity: 0, scale: 1.04 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: ease.outExpo }}
+              exit={reduce ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: reduce ? 0 : 0.7, ease: ease.outExpo }}
               className="absolute inset-0"
             >
               <Image
                 src={active.src}
                 alt={active.alt}
                 fill
-                priority
+                priority={i === 0}
                 sizes="(min-width: 1280px) 1216px, 100vw"
                 className="object-cover"
               />
@@ -126,12 +169,12 @@ function NavButton({
       aria-label={side === "left" ? "Previous photo" : "Next photo"}
       data-cursor-label={side === "left" ? "Prev" : "Next"}
       className={cn(
-        "absolute top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 items-center justify-center bg-cream/85 text-navy-ink transition hover:bg-cream",
+        "absolute top-1/2 z-10 hidden h-14 w-14 -translate-y-1/2 items-center justify-center bg-cream/85 text-navy-ink transition hover:bg-cream md:flex",
         side === "left" ? "left-4" : "right-4",
       )}
     >
       <span className="font-serif text-[26px] leading-none">
-        {side === "left" ? "\u2039" : "\u203a"}
+        {side === "left" ? "‹" : "›"}
       </span>
     </button>
   );
