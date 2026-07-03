@@ -133,7 +133,7 @@ export function ListingGallery({ images }: { images: Img[] }) {
                 aria-label={`Show photo ${k + 1}`}
                 data-cursor-label={`Photo ${k + 1}`}
                 className={cn(
-                  "relative aspect-[4/3] overflow-hidden transition",
+                  "relative aspect-[4/3] overflow-hidden transition-[opacity,scale] duration-200 active:scale-[0.97]",
                   k === i
                     ? "outline outline-2 outline-crimson-bright outline-offset-2"
                     : "opacity-65 hover:opacity-100",
@@ -169,11 +169,19 @@ function NavButton({
       aria-label={side === "left" ? "Previous photo" : "Next photo"}
       data-cursor-label={side === "left" ? "Prev" : "Next"}
       className={cn(
-        "absolute top-1/2 z-10 hidden h-14 w-14 -translate-y-1/2 items-center justify-center bg-cream/85 text-navy-ink transition hover:bg-cream md:flex",
+        "group absolute top-1/2 z-10 hidden h-14 w-14 -translate-y-1/2 items-center justify-center bg-cream/85 text-navy-ink transition hover:bg-cream active:scale-95 md:flex",
         side === "left" ? "left-4" : "right-4",
       )}
     >
-      <span className="font-serif text-[26px] leading-none">
+      {/* Chevron nudges in the direction of travel — arrow-nudge vocabulary */}
+      <span
+        className={cn(
+          "font-serif text-[26px] leading-none transition-transform duration-300 ease-out",
+          side === "left"
+            ? "group-hover:-translate-x-0.5"
+            : "group-hover:translate-x-0.5",
+        )}
+      >
         {side === "left" ? "‹" : "›"}
       </span>
     </button>

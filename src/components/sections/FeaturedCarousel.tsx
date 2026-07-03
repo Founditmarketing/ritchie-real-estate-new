@@ -51,7 +51,8 @@ export function FeaturedCarousel({ items }: { items: Listing[] }) {
               key={l.id}
               href={`/listings/${l.id}`}
               className={cn(
-                "group w-[80%] shrink-0 snap-start transition-all duration-500 ease-out",
+                // active:scale = touch press feedback on the swipe deck
+                "group w-[80%] shrink-0 snap-start transition-all duration-500 ease-out active:scale-[0.99]",
                 isActive ? "opacity-100" : "opacity-55",
               )}
             >

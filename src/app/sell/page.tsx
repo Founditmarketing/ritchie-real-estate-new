@@ -123,14 +123,14 @@ export default function SellPage() {
               <a
                 href="#sell"
                 data-cursor-label="Value it"
-                className="inline-flex items-center bg-crimson px-8 py-4 font-sans text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-crimson-deep"
+                className="inline-flex items-center bg-crimson px-8 py-4 font-sans text-[11px] uppercase tracking-[0.18em] text-cream transition-[background-color,translate,scale] duration-200 ease-out hover:bg-crimson-deep active:scale-[0.98]"
               >
                 See what it&rsquo;s worth
               </a>
               <a
                 href="tel:+13184498919"
                 data-cursor-label="Call"
-                className="group inline-flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.2em] text-cream-warm transition-colors hover:text-paper"
+                className="group inline-flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.2em] text-cream-warm transition-[color,translate,scale] duration-200 ease-out hover:text-paper active:scale-[0.98]"
               >
                 <span className="h-px w-7 bg-crimson-bright transition-[width] duration-500 ease-out group-hover:w-12" />
                 Or call 318&middot;449&middot;8919

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Drawer } from "./Drawer";
 import { LogoWordmarkImage } from "@/components/brand/Logo";
@@ -15,7 +16,19 @@ const NAV = [
   { href: "/areas", label: "Cenla" },
 ] as const;
 
+/**
+ * Section-route match for the nav underline's resting state. Query-string
+ * variants (e.g. /listings?type=commercial) share a pathname with their
+ * base route and usePathname can't see the query — those items never
+ * claim the active state, so "Buy" alone owns /listings.
+ */
+function isActiveRoute(href: string, pathname: string) {
+  if (href.includes("?")) return false;
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function Header() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
@@ -85,22 +98,29 @@ export function Header() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "relative text-[13.5px] tracking-wide text-cream/90 transition-colors hover:text-crimson-bright",
-                  "after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-crimson-bright after:transition-[width] after:duration-300 hover:after:w-full",
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {NAV.map((item) => {
+              const active = isActiveRoute(item.href, pathname);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "relative text-[13.5px] tracking-wide text-cream/90 transition-colors hover:text-crimson-bright",
+                    "after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-crimson-bright after:transition-[width] after:duration-300 hover:after:w-full",
+                    // Current route: the underline rests fully drawn.
+                    active && "text-cream after:w-full",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
             <a
               href="tel:+13184498919"
               className={cn(
-                "border px-5 py-2.5 text-[11.5px] tracking-[0.12em] uppercase font-medium transition-colors",
+                "border px-5 py-2.5 text-[11.5px] tracking-[0.12em] uppercase font-medium",
+                "transition-[color,background-color,border-color,translate,scale] duration-200 ease-out active:scale-[0.97]",
                 scrolled
                   ? "bg-crimson text-cream border-crimson hover:bg-crimson-deep"
                   : "border-cream/60 text-cream hover:bg-crimson hover:border-crimson",

@@ -78,7 +78,7 @@ export function Closer() {
           </MagneticButton>
           <a
             href="tel:+13184498919"
-            className="font-sans text-[12px] uppercase tracking-[0.2em] text-cream/90 transition-colors hover:text-paper"
+            className="relative font-sans text-[12px] uppercase tracking-[0.2em] text-cream/90 transition-colors after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-paper after:transition-[width] after:duration-300 hover:text-paper hover:after:w-full"
           >
             or call 318&middot;449&middot;8919
           </a>

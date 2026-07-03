@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { LogoWordmarkImage } from "@/components/brand/Logo";
+import { cn } from "@/lib/cn";
 
 const COLS = [
   {
@@ -26,6 +27,21 @@ const COLS = [
 ] as const;
 
 type NewsletterStatus = "idle" | "sending" | "done" | "error";
+
+// All four submit labels stay mounted in one grid cell so state changes
+// cross-fade in CSS instead of hard-swapping text. The widest label sizes
+// the button, which also kills the width jump between states.
+const SUBMIT_LABELS: Record<NewsletterStatus, string> = {
+  idle: "Subscribe",
+  sending: "Sending…",
+  done: "On the list",
+  error: "Try again",
+};
+
+// Shared header-nav underline draw for footer links: hairline grows from
+// the left on hover (and on press, for touch).
+const UNDERLINE_DRAW =
+  "relative after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0 after:bg-crimson-bright after:transition-[width] after:duration-300 hover:after:w-full active:after:w-full";
 
 export function Footer() {
   const [email, setEmail] = useState("");
@@ -95,15 +111,24 @@ export function Footer() {
                 type="submit"
                 disabled={status === "sending" || status === "done"}
                 data-cursor-label={status === "done" ? "Done" : "Subscribe"}
-                className="whitespace-nowrap bg-crimson px-7 py-4 text-[11px] font-medium uppercase tracking-[0.2em] text-cream transition-colors hover:bg-crimson-deep disabled:opacity-60"
+                className="whitespace-nowrap bg-crimson px-7 py-4 text-[11px] font-medium uppercase tracking-[0.2em] text-cream transition-[background-color,translate,scale,opacity] duration-200 ease-out hover:bg-crimson-deep active:scale-[0.98] disabled:opacity-60"
               >
-                {status === "done"
-                  ? "On the list"
-                  : status === "sending"
-                    ? "Sending…"
-                    : status === "error"
-                      ? "Try again"
-                      : "Subscribe"}
+                <span className="grid text-center">
+                  {(Object.keys(SUBMIT_LABELS) as NewsletterStatus[]).map(
+                    (s) => (
+                      <span
+                        key={s}
+                        aria-hidden={s !== status}
+                        className={cn(
+                          "col-start-1 row-start-1 transition-opacity duration-200",
+                          s === status ? "opacity-100" : "opacity-0",
+                        )}
+                      >
+                        {SUBMIT_LABELS[s]}
+                      </span>
+                    ),
+                  )}
+                </span>
               </button>
             </div>
             <p
@@ -154,7 +179,10 @@ export function Footer() {
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="text-[13.5px] font-light transition-colors hover:text-paper"
+                      className={cn(
+                        "text-[13.5px] font-light transition-colors hover:text-paper",
+                        UNDERLINE_DRAW,
+                      )}
                     >
                       {l.label}
                     </Link>
@@ -174,10 +202,16 @@ export function Footer() {
             </address>
             <Link
               href="https://maps.google.com/?q=1268+Dorchester+Dr+Alexandria+LA"
-              className="mt-2 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-cream-warm/70 hover:text-crimson-bright"
+              className="group mt-2 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-cream-warm/70 transition-colors duration-200 hover:text-crimson-bright"
               data-cursor-label="Maps"
             >
-              Directions <span aria-hidden>&rarr;</span>
+              Directions{" "}
+              <span
+                aria-hidden
+                className="transition-transform duration-300 ease-out group-hover:translate-x-1 group-active:translate-x-1"
+              >
+                &rarr;
+              </span>
             </Link>
           </div>
         </div>
@@ -214,15 +248,24 @@ export function Footer() {
         <div className="mt-12 flex flex-col gap-3 border-t border-cream/12 pt-7 text-[11px] text-cream-warm/70 md:flex-row md:justify-between">
           <span>&copy; 2026 Ritchie Real Estate, LLC. All rights reserved.</span>
           <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-paper">
-              Privacy
-            </Link>
-            <Link href="/terms" className="hover:text-paper">
-              Terms
-            </Link>
-            <Link href="/accessibility" className="hover:text-paper">
-              Accessibility
-            </Link>
+            {(
+              [
+                { href: "/privacy", label: "Privacy" },
+                { href: "/terms", label: "Terms" },
+                { href: "/accessibility", label: "Accessibility" },
+              ] as const
+            ).map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={cn(
+                  "transition-colors hover:text-paper",
+                  UNDERLINE_DRAW,
+                )}
+              >
+                {l.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

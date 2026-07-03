@@ -119,6 +119,66 @@ h1, h2, h3, .serif {
   flex: none;
 }
 
+/* The text caret is a brand surface too */
+input,
+textarea {
+  caret-color: var(--color-crimson-bright);
+}
+
+/* ---------------------------------------------------------------- */
+/* Hairline draw — the editorial rule that leads eyebrows/labels     */
+/* draws itself in as it scrolls into view. Scroll-driven CSS only:  */
+/* progressive enhancement (static rule where unsupported), and      */
+/* explicitly disabled under reduced motion since scroll-driven      */
+/* animations ignore duration clamps.                                */
+/* ---------------------------------------------------------------- */
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@supports (animation-timeline: view()) {
+  .eyebrow::before,
+  .rule-draw {
+    transform-origin: left center;
+    animation: rule-draw 1ms linear both;
+    animation-timeline: view();
+    animation-range: entry 15% entry 55%;
+  }
+  .eyebrow.center::after {
+    transform-origin: right center;
+    animation: rule-draw 1ms linear both;
+    animation-timeline: view();
+    animation-range: entry 15% entry 55%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow::before,
+  .eyebrow.center::after,
+  .rule-draw {
+    animation: none !important;
+  }
+}
+
+/* Small overlay cards (map previews, field notes) settle in rather
+   than popping. The global reduced-motion clamp collapses it. */
+@keyframes card-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.card-pop {
+  animation: card-pop 0.24s var(--ease-out-quart) both;
+}
+
 /* Focus rings (a11y) */
 :where(a, button, input, select, textarea):focus-visible {
   /* crimson-bright, not crimson: 5.3:1 on navy-ink, 4.3:1 on navy — the

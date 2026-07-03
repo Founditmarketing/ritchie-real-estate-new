@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -38,6 +38,8 @@ const PATHS = [
 ] as const;
 
 export function Paths() {
+  // JS-driven tweens bypass the CSS reduced-motion clamp (DESIGN.md contract)
+  const reduced = useReducedMotion() ?? false;
   return (
     // Tighter than the md:py-32 default on purpose: this section is a
     // quick nav moment, not a destination.
@@ -60,12 +62,15 @@ export function Paths() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.25 }}
               transition={{ duration: 0.7, ease: ease.out, delay: i * 0.08 }}
-              whileHover={{ y: -6 }}
+              whileHover={reduced ? undefined : { y: -6 }}
               className={`group relative border-t-2 border-transparent px-9 py-11 transition-colors hover:bg-navy hover:border-t-crimson-bright ${
                 i < PATHS.length - 1 ? "md:border-r md:border-line" : ""
               }`}
             >
-              <Link href={p.href} className="block">
+              <Link
+                href={p.href}
+                className="block transition-transform duration-150 ease-out active:scale-[0.99]"
+              >
                 <span className="font-serif italic text-[14px] text-crimson-bright">
                   {p.num} &mdash; {p.audience}
                 </span>
@@ -81,7 +86,10 @@ export function Paths() {
                 </p>
                 <span className="mt-6 inline-flex items-center gap-2.5 text-[11.5px] font-medium uppercase tracking-[0.14em] text-crimson-bright">
                   {p.link}
-                  <span aria-hidden className="transition-transform group-hover:translate-x-1.5">
+                  <span
+                    aria-hidden
+                    className="transition-transform duration-300 ease-out group-hover:translate-x-1"
+                  >
                     &rarr;
                   </span>
                 </span>

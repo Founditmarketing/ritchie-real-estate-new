@@ -120,9 +120,10 @@ export function Eyebrow({
         className,
       )}
     >
-      <span className="h-px w-7 bg-current" />
+      {/* rule-draw: the hairline draws in as it scrolls into view */}
+      <span className="rule-draw h-px w-7 bg-current" />
       {children}
-      {center ? <span className="h-px w-7 bg-current" /> : null}
+      {center ? <span className="rule-draw h-px w-7 bg-current" /> : null}
     </span>
   );
 }

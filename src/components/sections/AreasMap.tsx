@@ -38,7 +38,7 @@ export function AreasMap() {
             <Link
               href="/areas"
               data-cursor-label="Guides"
-              className="group inline-flex items-center gap-3 self-start text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright md:self-end"
+              className="group inline-flex items-center gap-3 self-start text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright transition-transform duration-150 ease-out active:scale-[0.98] md:self-end"
             >
               <span className="border-b border-current pb-1">All area guides</span>
               <span
@@ -91,7 +91,7 @@ export function AreasMap() {
                   <Link
                     href={`/areas#${area.slug}`}
                     data-cursor-label="Explore"
-                    className="group mt-9 inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright"
+                    className="group mt-9 inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright transition-transform duration-150 ease-out active:scale-[0.98]"
                   >
                     <span className="border-b border-current pb-1">
                       Explore {area.name}
@@ -133,11 +133,11 @@ function AreaPicker({
               onClick={() => onSelect(a.slug)}
               onMouseEnter={() => onSelect(a.slug)}
               data-cursor-label={a.name}
-              className={`flex w-full items-baseline justify-between gap-4 border-b border-cream/12 px-5 py-5 text-left transition-colors ${
+              className={`group flex w-full items-baseline justify-between gap-4 border-b border-cream/12 px-5 py-5 text-left transition-[background-color,translate,scale] duration-200 ease-out active:scale-[0.99] ${
                 on ? "bg-crimson/10" : "hover:bg-cream/5"
               }`}
             >
-              <span className="flex items-baseline gap-3">
+              <span className="flex items-baseline gap-3 transition-transform duration-300 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1">
                 <span
                   className={`font-serif text-[15px] italic transition-colors ${
                     on ? "text-crimson-bright" : "text-mute"

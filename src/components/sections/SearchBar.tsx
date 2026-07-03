@@ -104,7 +104,7 @@ export function SearchBar() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Alexandria, Pineville…"
-                className="mt-2.5 w-full rounded-[3px] border border-cream/15 bg-navy px-4 py-3.5 font-serif text-[18px] text-paper placeholder:text-mute/75 focus:border-crimson/55"
+                className="mt-2.5 w-full rounded-[3px] border border-cream/15 bg-navy px-4 py-3.5 font-serif text-[18px] text-paper transition-colors duration-200 placeholder:text-mute/75 focus:border-crimson/55"
               />
             </label>
 
@@ -142,10 +142,15 @@ export function SearchBar() {
 
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-3 bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition duration-150 ease-out hover:bg-crimson-deep active:scale-[0.98]"
+              className="group flex w-full items-center justify-center gap-3 bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition duration-150 ease-out hover:bg-crimson-deep active:scale-[0.98]"
             >
               Search Cenla
-              <span aria-hidden>&rarr;</span>
+              <span
+                aria-hidden
+                className="transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >
+                &rarr;
+              </span>
             </button>
           </div>
 
@@ -202,10 +207,15 @@ export function SearchBar() {
             <button
               type="submit"
               data-cursor-label="Go"
-              className="inline-flex items-center justify-center gap-3 self-stretch bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition-colors hover:bg-crimson-deep"
+              className="group inline-flex items-center justify-center gap-3 self-stretch bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition-[background-color,translate,scale] duration-200 ease-out hover:bg-crimson-deep active:scale-[0.98]"
             >
               Search Cenla
-              <span aria-hidden>&rarr;</span>
+              <span
+                aria-hidden
+                className="transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >
+                &rarr;
+              </span>
             </button>
           </div>
         </form>
@@ -237,7 +247,7 @@ function Seg({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "rounded-[3px] border px-4 py-3 text-center font-serif text-[16px] transition duration-150 ease-out active:scale-[0.97]",
+        "rounded-[3px] border px-4 py-3 text-center font-serif text-[16px] transition duration-200 ease-out active:scale-[0.97]",
         active
           ? "border-crimson bg-crimson text-cream"
           : "border-cream/15 text-cream-warm hover:border-crimson/45 hover:text-paper",
@@ -265,7 +275,7 @@ function Chip({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "rounded-full border px-4 py-2.5 font-sans text-[12.5px] tracking-wide transition duration-150 ease-out active:scale-[0.95]",
+        "rounded-full border px-4 py-2.5 font-sans text-[12.5px] tracking-wide transition duration-200 ease-out active:scale-[0.95]",
         active
           ? "border-crimson bg-crimson text-cream"
           : "border-cream/15 text-cream-warm hover:border-crimson/45 hover:text-paper",
@@ -289,7 +299,9 @@ function Field({
   return (
     <label
       className={`flex flex-col gap-1.5 py-2 md:py-0 ${
-        border ? "md:border-l md:border-cream/15 md:pl-8" : ""
+        border
+          ? "transition-colors duration-200 md:border-l md:border-cream/15 md:pl-8 md:focus-within:border-crimson/55"
+          : ""
       }`}
     >
       <span className="font-sans text-[10.5px] font-medium uppercase tracking-[0.22em] text-crimson-bright">

@@ -92,7 +92,7 @@ export function ListingsFilters() {
               onClick={() => update({ type: t.v })}
               aria-pressed={current.type === t.v}
               className={cn(
-                "inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full border px-4 py-2.5 font-sans text-[12.5px] tracking-wide transition duration-150 ease-out active:scale-[0.95]",
+                "inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full border px-4 py-2.5 font-sans text-[12.5px] tracking-wide transition-[translate,scale,color,border-color,background-color] duration-200 ease-out hover:-translate-y-px active:translate-y-0 active:scale-95",
                 current.type === t.v
                   ? "border-crimson bg-crimson text-cream"
                   : "border-cream/15 text-cream-warm hover:border-crimson/45 hover:text-paper",
@@ -117,7 +117,7 @@ export function ListingsFilters() {
                 type="button"
                 onClick={() => update({ type: t.v })}
                 data-cursor-label={t.label}
-                className={`font-serif text-[15px] transition-colors hover:text-crimson-bright ${
+                className={`font-serif text-[15px] transition-colors duration-200 hover:text-crimson-bright ${
                   current.type === t.v
                     ? "italic font-medium text-crimson-bright"
                     : "text-cream"
@@ -184,7 +184,7 @@ export function ListingsFilters() {
                 onClick={() => update(r.clear)}
                 aria-label={`Remove ${r.label} filter`}
                 data-cursor-label="Remove"
-                className="group/refined -my-2 inline-flex min-h-11 items-center gap-2"
+                className="group/refined -my-2 inline-flex min-h-11 items-center gap-2 transition-transform duration-150 active:scale-95"
               >
                 <span className="font-serif text-[15px] italic text-crimson-bright transition-colors group-hover/refined:text-crimson">
                   {r.label}

@@ -81,7 +81,7 @@ function FeaturePlate({ listing }: { listing: Listing }) {
     <Link
       href={`/listings/${listing.id}`}
       data-cursor-label="Tour"
-      className="group block"
+      className="group block transition-transform duration-150 active:scale-[0.995]"
     >
       <PlateMeta num="01" type={listing.type} />
       <div className="mt-4 grid grid-cols-12 gap-x-6 gap-y-8">
@@ -114,7 +114,7 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
       <Link
         href={`/listings/${listing.id}`}
         data-cursor-label="View"
-        className="group block"
+        className="group block transition-transform duration-150 active:scale-[0.995]"
       >
         <PlateMeta num={num} type={listing.type} />
         <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-navy sm:aspect-[4/5]">
@@ -212,6 +212,12 @@ function PriceAnchor({
           <span className="font-serif text-[15px] italic text-mute">{psf}</span>
         ) : null}
       </div>
+      {/* Price tick — crimson hairline draws under the price on plate hover,
+          the desktop cue that the whole plate is live. Mirrors ListingsCatalog. */}
+      <span
+        aria-hidden
+        className="mt-1.5 block h-px w-0 bg-crimson-bright transition-[width] duration-500 ease-out group-hover:w-full"
+      />
       {factLine ? (
         <div className="mt-2.5 text-[11.5px] tracking-[0.04em] text-mute">
           {factLine}

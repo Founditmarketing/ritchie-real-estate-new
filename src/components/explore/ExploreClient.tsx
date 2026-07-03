@@ -68,7 +68,7 @@ function withPhoneLink(text: string): React.ReactNode {
           <a
             key={`tel-${i}`}
             href={PHONE_TEL}
-            className="text-crimson-bright underline underline-offset-2 hover:text-cream"
+            className="text-crimson-bright underline underline-offset-2 transition-colors duration-200 hover:text-cream"
           >
             {PHONE_DISPLAY}
           </a>,
@@ -331,9 +331,15 @@ export function ExploreClient({
                   type="submit"
                   disabled={loading || !input.trim()}
                   aria-label="Search"
-                  className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-crimson text-cream transition-colors hover:bg-crimson-bright disabled:opacity-40"
+                  className="group grid h-7 w-7 shrink-0 place-items-center rounded-full bg-crimson text-cream transition-[background-color,scale] duration-200 hover:bg-crimson-bright active:scale-95 disabled:opacity-40"
                 >
-                  <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden>
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 16 16"
+                    aria-hidden
+                    className="transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
+                  >
                     <path
                       d="M2 8h11M9 4l4 4-4 4"
                       stroke="currentColor"
@@ -353,7 +359,7 @@ export function ExploreClient({
                   key={chip}
                   type="button"
                   onClick={() => ask(chip)}
-                  className="rounded-full border border-crimson/40 px-2.5 py-1 text-[11px] text-crimson-bright transition-colors hover:bg-crimson/15 hover:text-cream"
+                  className="rounded-full border border-crimson/40 px-2.5 py-1 text-[11px] text-crimson-bright transition-[translate,scale,color,border-color,background-color] duration-200 hover:-translate-y-px hover:bg-crimson/15 hover:text-cream active:translate-y-0 active:scale-95"
                 >
                   {chip}
                 </button>
@@ -399,7 +405,7 @@ export function ExploreClient({
                 <button
                   type="button"
                   onClick={reset}
-                  className="ml-auto text-[11px] uppercase tracking-[0.14em] text-mute underline-offset-2 hover:text-cream hover:underline"
+                  className="ml-auto text-[11px] uppercase tracking-[0.14em] text-mute underline-offset-2 transition-colors duration-200 hover:text-cream hover:underline"
                 >
                   Reset
                 </button>
@@ -478,7 +484,7 @@ export function ExploreClient({
                 });
               }}
               className={cn(
-                "absolute right-3 top-3 z-[500] inline-flex items-center gap-2 rounded-full border bg-navy-deep/90 px-3.5 py-2 font-sans text-[10.5px] font-medium uppercase tracking-[0.16em] shadow-[0_10px_28px_-10px_oklch(0.08_0.03_264/0.8)] transition-colors",
+                "absolute right-3 top-3 z-[500] inline-flex items-center gap-2 rounded-full border bg-navy-deep/90 px-3.5 py-2 font-sans text-[10.5px] font-medium uppercase tracking-[0.16em] shadow-[0_10px_28px_-10px_oklch(0.08_0.03_264/0.8)] transition-[translate,scale,color,border-color] duration-200 hover:-translate-y-px active:translate-y-0 active:scale-95",
                 showNotes
                   ? "border-steel/60 text-cream"
                   : "border-cream/15 text-mute hover:text-cream",
@@ -575,7 +581,7 @@ function ListingRow({
       onMouseEnter={onActivate}
       onFocus={onActivate}
       className={cn(
-        "group flex gap-3 overflow-hidden rounded-[5px] border bg-navy/50 p-2.5 transition-colors",
+        "group flex gap-3 overflow-hidden rounded-[5px] border bg-navy/50 p-2.5 transition-[border-color,scale] duration-200 active:scale-[0.99]",
         active ? "border-crimson/60" : "border-cream/12 hover:border-crimson/40",
       )}
     >
@@ -660,7 +666,7 @@ function ExploreLeadForm({
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="rounded-[2px] bg-crimson px-4 py-2.5 font-sans text-[12px] uppercase tracking-[0.16em] text-cream transition-colors hover:bg-crimson-bright disabled:opacity-50"
+        className="rounded-[2px] bg-crimson px-4 py-2.5 font-sans text-[12px] uppercase tracking-[0.16em] text-cream transition-[background-color,scale] duration-200 hover:bg-crimson-bright active:scale-[0.98] disabled:opacity-50"
       >
         {state === "submitting" ? "Sending…" : "Send to Matt"}
       </button>
@@ -672,7 +678,7 @@ function ExploreLeadForm({
  *  notebook — steel hairlines, serif italic, signed. */
 function NoteCard({ note, onClose }: { note: FieldNote; onClose: () => void }) {
   return (
-    <div className="pointer-events-auto relative w-full max-w-[340px] overflow-hidden rounded-[6px] border border-steel/40 bg-navy-deep p-4 shadow-[0_24px_60px_-16px_oklch(0.08_0.03_264/0.85)]">
+    <div className="card-pop pointer-events-auto relative w-full max-w-[340px] overflow-hidden rounded-[6px] border border-steel/40 bg-navy-deep p-4 shadow-[0_24px_60px_-16px_oklch(0.08_0.03_264/0.85)]">
       <button
         type="button"
         onClick={onClose}
@@ -708,7 +714,7 @@ function PreviewCard({
   onClose: () => void;
 }) {
   return (
-    <div className="pointer-events-auto relative flex w-full max-w-[340px] gap-3 overflow-hidden rounded-[6px] border border-cream/15 bg-navy-deep p-2.5 shadow-[0_24px_60px_-16px_oklch(0.08_0.03_264/0.85)]">
+    <div className="card-pop pointer-events-auto relative flex w-full max-w-[340px] gap-3 overflow-hidden rounded-[6px] border border-cream/15 bg-navy-deep p-2.5 shadow-[0_24px_60px_-16px_oklch(0.08_0.03_264/0.85)]">
       <button
         type="button"
         onClick={onClose}
@@ -743,10 +749,15 @@ function PreviewCard({
         </span>
         <Link
           href={listing.href}
-          className="mt-1.5 inline-flex w-fit items-center gap-1.5 font-sans text-[10.5px] uppercase tracking-[0.16em] text-crimson-bright hover:text-cream"
+          className="group/view mt-1.5 inline-flex w-fit items-center gap-1.5 font-sans text-[10.5px] uppercase tracking-[0.16em] text-crimson-bright transition-colors duration-200 hover:text-cream"
         >
           View listing
-          <span aria-hidden>→</span>
+          <span
+            aria-hidden
+            className="transition-transform duration-300 ease-out group-hover/view:translate-x-1"
+          >
+            →
+          </span>
         </Link>
       </span>
     </div>

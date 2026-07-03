@@ -98,7 +98,7 @@ export function ListingDescription({ listing }: { listing: Listing }) {
               <MagneticButton
                 href="tel:+13184498919"
                 data-cursor-label="Call"
-                className="group inline-flex items-center justify-between gap-3 bg-crimson px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-crimson-deep"
+                className="group inline-flex items-center justify-between gap-3 bg-crimson px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-cream transition-[background-color,scale] duration-200 hover:bg-crimson-deep active:scale-[0.98]"
               >
                 Call Ritchie
                 <span aria-hidden className="font-serif text-[15px] italic">
@@ -108,10 +108,15 @@ export function ListingDescription({ listing }: { listing: Listing }) {
               <a
                 href="/contact"
                 data-cursor-label="Write"
-                className="inline-flex items-center justify-between gap-3 border border-cream/25 px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:border-cream hover:bg-cream hover:text-navy-ink"
+                className="group inline-flex items-center justify-between gap-3 border border-cream/25 px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-cream transition-[color,background-color,border-color,scale] duration-200 hover:border-cream hover:bg-cream hover:text-navy-ink active:scale-[0.98]"
               >
                 Schedule a tour
-                <span aria-hidden>&rarr;</span>
+                <span
+                  aria-hidden
+                  className="transition-transform duration-300 ease-out group-hover:translate-x-1"
+                >
+                  &rarr;
+                </span>
               </a>
             </div>
 

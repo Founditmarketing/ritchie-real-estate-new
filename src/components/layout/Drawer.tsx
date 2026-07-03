@@ -113,10 +113,15 @@ export function Drawer({ open, onClose }: DrawerProps) {
                 <Link
                   href={item.href}
                   onClick={onClose}
-                  className="flex items-center justify-between border-b border-cream/15 py-3.5 font-serif text-[34px] font-medium text-cream"
+                  // Quiet row feedback: label + numeral ease 6px right and
+                  // the row warms with a cream wash; `active:` mirrors the
+                  // hover so touch gets the same press response.
+                  className="group flex items-center justify-between border-b border-cream/15 py-3.5 -mx-2 px-2 font-serif text-[34px] font-medium text-cream transition-colors duration-200 hover:bg-cream/5 active:bg-cream/5"
                 >
-                  {item.label}
-                  <span className="font-sans text-[13px] text-crimson-bright">
+                  <span className="transition-transform duration-300 ease-out group-hover:translate-x-1.5 group-active:translate-x-1.5">
+                    {item.label}
+                  </span>
+                  <span className="font-sans text-[13px] text-crimson-bright transition-transform duration-300 ease-out group-hover:translate-x-1.5 group-active:translate-x-1.5">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </Link>

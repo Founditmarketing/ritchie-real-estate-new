@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { PlateImage } from "@/components/listing/PlateImage";
 import { TiltCard } from "@/components/listing/TiltCard";
 import { formatPrice, formatSqft, type Listing } from "@/lib/listings";
@@ -40,9 +40,15 @@ export function ListingsCatalog({ listings }: { listings: Listing[] }) {
             <Link
               href="/listings"
               data-cursor-label="Reset"
-              className="mt-4 inline-block px-4 py-3.5 font-sans text-[11px] uppercase tracking-[0.22em] text-crimson-bright transition-colors hover:text-crimson"
+              className="group mt-4 inline-block px-4 py-3.5 font-sans text-[11px] uppercase tracking-[0.22em] text-crimson-bright transition-[color,scale] duration-200 hover:text-crimson active:scale-[0.98]"
             >
-              Clear all filters <span aria-hidden>&rarr;</span>
+              Clear all filters{" "}
+              <span
+                aria-hidden
+                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >
+                &rarr;
+              </span>
             </Link>
           </>
         ) : (
@@ -123,7 +129,7 @@ function FeatureRow({ listing, num }: { listing: Listing; num: string }) {
     <Link
       href={`/listings/${listing.id}`}
       data-cursor-label="Tour"
-      className="group block"
+      className="group block transition-transform duration-150 active:scale-[0.995]"
     >
       <PlateMeta num={num} type={listing.type} />
       <div className="mt-4 grid grid-cols-12 gap-x-6 gap-y-8">
@@ -161,7 +167,7 @@ function PortraitPlate({ listing, num }: { listing: Listing; num: string }) {
       <Link
         href={`/listings/${listing.id}`}
         data-cursor-label="View"
-        className="group block"
+        className="group block transition-transform duration-150 active:scale-[0.995]"
       >
         <PlateMeta num={num} type={listing.type} />
         <TiltCard className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-navy sm:aspect-[4/5]">
@@ -214,7 +220,7 @@ function WidePlate({ listing, num }: { listing: Listing; num: string }) {
     <Link
       href={`/listings/${listing.id}`}
       data-cursor-label="View"
-      className="group block"
+      className="group block transition-transform duration-150 active:scale-[0.995]"
     >
       <PlateMeta num={num} type={listing.type} />
       <div className="relative mt-3.5 aspect-[16/10] overflow-hidden bg-navy">
@@ -238,11 +244,13 @@ function WidePlate({ listing, num }: { listing: Listing; num: string }) {
 }
 
 function ColumnPlate({ listing, num }: { listing: Listing; num: string }) {
+  // JS hover tween bypasses the global CSS reduced-motion clamp; gate it.
+  const reduce = useReducedMotion();
   return (
     <Link
       href={`/listings/${listing.id}`}
       data-cursor-label="View"
-      className="group block"
+      className="group block transition-transform duration-150 active:scale-[0.995]"
     >
       <PlateMeta num={num} type={listing.type} />
       <h3 className="mt-3.5 font-serif text-[clamp(24px,2.4vw,34px)] leading-[1.05] text-paper transition-colors group-hover:text-crimson-bright">
@@ -252,7 +260,7 @@ function ColumnPlate({ listing, num }: { listing: Listing; num: string }) {
         {listing.address.street}, {listing.address.city}
       </p>
       <motion.div
-        whileHover={{ scale: 1.02 }}
+        whileHover={reduce ? undefined : { scale: 1.02 }}
         transition={{ duration: 0.5, ease: ease.outExpo }}
         className="relative mt-5 aspect-[5/6] overflow-hidden bg-navy"
       >
@@ -328,6 +336,12 @@ function PriceAnchor({
           <span className="font-serif text-[15px] italic text-mute">{psf}</span>
         ) : null}
       </div>
+      {/* Price tick — crimson hairline draws under the price on plate hover,
+          the desktop cue that the whole plate is live. Mirrors FeaturedListings. */}
+      <span
+        aria-hidden
+        className="mt-1.5 block h-px w-0 bg-crimson-bright transition-[width] duration-500 ease-out group-hover:w-full"
+      />
       {factLine ? (
         <div className="mt-2.5 text-[11.5px] tracking-[0.04em] text-mute">
           {factLine}

@@ -148,7 +148,7 @@ export function Sell() {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="88 Riverbend Rd, Alexandria"
-                className="border-none bg-transparent font-serif text-[20px] text-paper placeholder:text-mute/75"
+                className="border-b border-transparent bg-transparent font-serif text-[20px] text-paper transition-colors duration-200 placeholder:text-mute/75 focus:border-crimson/55"
               />
             </label>
             <div className="flex flex-col border-t border-cream/12 sm:flex-row">
@@ -162,7 +162,7 @@ export function Sell() {
                   onChange={(e) => setName(e.target.value)}
                   autoComplete="name"
                   placeholder="Matt Ritchie"
-                  className="border-none bg-transparent font-serif text-[16px] text-paper placeholder:text-mute/75"
+                  className="border-b border-transparent bg-transparent font-serif text-[16px] text-paper transition-colors duration-200 placeholder:text-mute/75 focus:border-crimson/55"
                 />
               </label>
               <label className="flex flex-1 flex-col gap-1.5 px-2 py-4">
@@ -175,7 +175,7 @@ export function Sell() {
                   onChange={(e) => setContact(e.target.value)}
                   autoComplete="tel"
                   placeholder="318-449-8919"
-                  className="border-none bg-transparent font-serif text-[16px] text-paper placeholder:text-mute/75"
+                  className="border-b border-transparent bg-transparent font-serif text-[16px] text-paper transition-colors duration-200 placeholder:text-mute/75 focus:border-crimson/55"
                 />
               </label>
             </div>

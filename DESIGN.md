@@ -101,8 +101,24 @@ surface, which is what keeps the finale loud.
 - Smooth scroll via Lenis (no CSS `scroll-behavior` — they fight).
   Route transitions are enter-only (320ms outExpo fade+rise in
   `RouteTransitions`); exits never block navigation.
+- **Micro-interaction vocabulary** (reuse these, don't invent parallel
+  ones): width-grow hairlines on link hover; underline-draw (`after:`
+  pseudo, resting at full width on the active nav route); arrow nudge
+  (`group-hover:translate-x-1`, 300ms); chip lift (`hover:-translate-y-px`
+  + `active:scale-95`, 200ms); press feedback (`active:scale-[0.97–0.99]`)
+  on every tappable CTA; the price tick (crimson hairline draws under a
+  plate's price on group-hover); `.card-pop` for small overlay cards;
+  `.rule-draw` — eyebrow hairlines draw in on a scroll-driven timeline
+  (`animation-timeline: view()`, progressive enhancement, disabled under
+  reduced motion). Crimson caret in all text inputs.
+- **Tailwind v4 gotcha:** `translate-*`/`scale-*` compile to the
+  individual `translate`/`scale` CSS properties — arbitrary
+  `transition-[...]` lists must name `translate,scale`, never
+  `transform`, or the press/lift will snap. Bare `transition` and
+  `transition-transform` already cover them.
 - **Reduced-motion contract:** global CSS clamps animation/transition to
-  1ms; Lenis is disabled; and every JS-driven tween (motion library)
+  1ms; Lenis is disabled; scroll-driven animations are explicitly
+  `animation: none`; and every JS-driven tween (motion library)
   must opt in via `useReducedMotion` the way `Hero` does — the CSS
   override cannot reach them.
 - Animate transform/opacity only.

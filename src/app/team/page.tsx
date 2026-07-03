@@ -52,7 +52,7 @@ export default function TeamPage() {
           <Link
             href="/#broker"
             data-cursor-label="His story"
-            className="group relative grid grid-cols-1 overflow-hidden border border-cream/12 bg-navy-deep md:grid-cols-[0.85fr_1.15fr]"
+            className="group relative grid grid-cols-1 overflow-hidden border border-cream/12 bg-navy-deep transition-transform duration-150 ease-out active:scale-[0.99] md:grid-cols-[0.85fr_1.15fr]"
           >
             <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[440px]">
               <Image
@@ -123,7 +123,7 @@ export default function TeamPage() {
             <Link
               href="tel:+13184498919"
               data-cursor-label="Call"
-              className="inline-flex items-center gap-3 bg-crimson px-8 py-4 font-sans text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-crimson-bright"
+              className="inline-flex items-center gap-3 bg-crimson px-8 py-4 font-sans text-[11px] uppercase tracking-[0.18em] text-cream transition-[background-color,translate,scale] duration-200 ease-out hover:bg-crimson-bright active:scale-[0.98]"
             >
               Call 318·449·8919
             </Link>

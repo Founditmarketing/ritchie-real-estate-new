@@ -57,7 +57,7 @@ export function ContactForm() {
               onChange={(e) => setName(e.target.value)}
               autoComplete="name"
               placeholder="First and last"
-              className="border-none bg-transparent font-serif text-[17px] text-paper outline-none placeholder:text-mute/55"
+              className="border-b border-transparent bg-transparent font-serif text-[17px] text-paper outline-none transition-colors duration-200 placeholder:text-mute/55 focus:border-crimson/55"
             />
           </label>
           <label className="flex flex-1 flex-col gap-1.5 border-t border-cream/12 px-2 py-4 sm:border-t-0">
@@ -70,7 +70,7 @@ export function ContactForm() {
               onChange={(e) => setContact(e.target.value)}
               autoComplete="email tel"
               placeholder="318-449-8919"
-              className="border-none bg-transparent font-serif text-[17px] text-paper outline-none placeholder:text-mute/55"
+              className="border-b border-transparent bg-transparent font-serif text-[17px] text-paper outline-none transition-colors duration-200 placeholder:text-mute/55 focus:border-crimson/55"
             />
           </label>
         </div>
@@ -86,7 +86,7 @@ export function ContactForm() {
             placeholder={
               "We’re moving to Alexandria in August — where do we start?"
             }
-            className="resize-none border-none bg-transparent font-serif text-[17px] leading-[1.5] text-paper outline-none placeholder:text-mute/55"
+            className="resize-none border-b border-transparent bg-transparent font-serif text-[17px] leading-[1.5] text-paper outline-none transition-colors duration-200 placeholder:text-mute/55 focus:border-crimson/55"
           />
         </label>
         <button

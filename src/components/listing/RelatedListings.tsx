@@ -102,6 +102,11 @@ function RelatedPlate({ listing, num }: { listing: Listing; num: string }) {
           <div className="flex items-baseline justify-between gap-3">
             <span className="font-serif text-[24px] font-semibold leading-none tracking-[-0.015em] text-paper">
               {formatPrice(listing.price)}
+              {/* price tick — mirrors PriceAnchor in FeaturedListings */}
+              <span
+                aria-hidden
+                className="mt-1 block h-px w-0 bg-crimson-bright transition-[width] duration-500 ease-out group-hover:w-full"
+              />
             </span>
             {listing.sqft > 0 ? (
               <span className="font-serif text-[15px] italic text-mute">

@@ -71,7 +71,7 @@ export default function AreasPage() {
               <Link
                 href="/explore"
                 data-cursor-label="Map"
-                className="group mt-6 inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright"
+                className="group mt-6 inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright transition-transform duration-150 ease-out active:scale-[0.98]"
               >
                 <span className="border-b border-current pb-1">
                   Every listing on the live map
@@ -104,7 +104,7 @@ export default function AreasPage() {
                 <a
                   href={`#${a.slug}`}
                   data-cursor-label="Jump"
-                  className="flex items-baseline gap-2 font-serif text-[17px] text-cream transition-colors hover:text-crimson-bright"
+                  className="flex items-baseline gap-2 font-serif text-[17px] text-cream transition-[translate,scale,color,border-color] duration-200 ease-out hover:-translate-y-px hover:text-crimson-bright active:translate-y-0 active:scale-95"
                 >
                   <span className="font-serif text-[15px] italic text-cream-warm/75">
                     {String(i + 1).padStart(2, "0")}
@@ -168,7 +168,7 @@ export default function AreasPage() {
             <a
               href="tel:+13184498919"
               data-cursor-label="Call"
-              className="inline-flex items-center gap-3 bg-crimson px-8 py-4 font-sans text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-crimson-deep"
+              className="inline-flex items-center gap-3 bg-crimson px-8 py-4 font-sans text-[11px] uppercase tracking-[0.18em] text-cream transition-[background-color,translate,scale] duration-200 ease-out hover:bg-crimson-deep active:scale-[0.98]"
             >
               Call 318&middot;449&middot;8919
             </a>
@@ -285,7 +285,7 @@ function AreaLinks({ name, center = false }: { name: string; center?: boolean })
       <Link
         href={`/listings?city=${encodeURIComponent(name)}`}
         data-cursor-label="Listings"
-        className="group inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright"
+        className="group inline-flex items-center gap-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright transition-transform duration-150 ease-out active:scale-[0.98]"
       >
         <span className="border-b border-current pb-1">
           See {name} listings

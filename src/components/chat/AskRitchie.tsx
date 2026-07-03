@@ -303,6 +303,7 @@ export function AskRitchie() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 12 }}
             transition={{ duration: reduce ? 0 : 0.32, ease: [0.16, 1, 0.3, 1] }}
+            whileTap={reduce ? undefined : { scale: 0.97 }}
             data-cursor="grow"
             className="group fixed bottom-5 right-5 z-[80] hidden items-center gap-3 rounded-full border border-cream/15 bg-navy-deep/90 py-2.5 pl-2.5 pr-5 shadow-[0_18px_48px_-12px_oklch(0.08_0.03_264/0.7)] backdrop-blur-md transition-colors hover:border-crimson/50 md:bottom-7 md:right-7 md:flex"
           >
@@ -457,9 +458,17 @@ export function AskRitchie() {
                     disabled={!input.trim() || loading}
                     aria-label="Send"
                     data-cursor="grow"
-                    className="grid h-10 w-10 shrink-0 place-items-center rounded-[3px] bg-crimson text-cream transition-colors hover:bg-crimson-bright disabled:opacity-35"
+                    className="group grid h-10 w-10 shrink-0 place-items-center rounded-[3px] bg-crimson text-cream transition-colors hover:bg-crimson-bright disabled:opacity-35"
                   >
-                    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
+                    {/* Arrow nudge: the glyph leans into the send on
+                        hover/focus/press; the button itself stays put. */}
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      aria-hidden
+                      className="transition-transform duration-300 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1 group-active:translate-x-1"
+                    >
                       <path
                         d="M2 8h11M9 4l4 4-4 4"
                         stroke="currentColor"
@@ -533,7 +542,7 @@ function MessageBlock({
               type="button"
               onClick={() => onChip(chip)}
               data-cursor="grow"
-              className="rounded-full border border-crimson/40 px-3 py-1.5 font-sans text-[11.5px] tracking-wide text-crimson-bright transition-colors hover:bg-crimson/15 hover:text-cream"
+              className="rounded-full border border-crimson/40 px-3 py-1.5 font-sans text-[11.5px] tracking-wide text-crimson-bright transition-[translate,scale,color,background-color,border-color] duration-200 ease-out hover:-translate-y-px hover:bg-crimson/15 hover:text-cream active:translate-y-0 active:scale-95"
             >
               {chip}
             </button>
