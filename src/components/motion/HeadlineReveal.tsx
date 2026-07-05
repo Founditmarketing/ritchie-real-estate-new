@@ -31,7 +31,9 @@ export function HeadlineReveal({
   return (
     <>
       {children.map((child, i) => (
-        <span key={i} className="block overflow-hidden">
+        // pb/-mb slack: Cormorant descenders overhang the line box and the
+        // mask was shearing tails off "yard.", "ground.", etc.
+        <span key={i} className="-mb-[0.18em] block overflow-hidden pb-[0.18em]">
           <motion.span
             className="block"
             initial={{ y: "104%" }}

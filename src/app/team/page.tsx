@@ -16,25 +16,28 @@ export default function TeamPage() {
   return (
     <div className="bg-navy-ink pb-32 pt-[130px]">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-        {/* Front matter */}
-        <Reveal>
-          <header className="grid grid-cols-12 gap-x-6 gap-y-8 pb-14 md:pb-20">
-            <div className="col-span-12 md:col-span-8">
+        {/* Front matter — house cadence: eyebrow, mask-reveal h1 (never
+            nested inside a Reveal), aside at +0.15. */}
+        <header className="grid grid-cols-12 gap-x-6 gap-y-8 pb-14 md:pb-20">
+          <div className="col-span-12 md:col-span-8">
+            <Reveal>
               <Eyebrow variant="stamp" tone="crimson-bright">
                 The firm
               </Eyebrow>
-              <h1 className="mt-5 font-serif text-[clamp(40px,6.5vw,104px)] leading-[0.94] tracking-[-0.025em] text-paper">
-                <HeadlineReveal>
-                  {[
-                    "The team that knows",
-                    <em key="l2" className="block italic text-crimson-bright">
-                      the ground.
-                    </em>,
-                  ]}
-                </HeadlineReveal>
-              </h1>
-            </div>
-            <aside className="col-span-12 md:col-span-4 md:pt-6">
+            </Reveal>
+            <h1 className="mt-5 font-serif text-[clamp(40px,6.5vw,104px)] leading-[0.94] tracking-[-0.025em] text-paper">
+              <HeadlineReveal>
+                {[
+                  "The team that knows",
+                  <em key="l2" className="block italic text-crimson-bright">
+                    the ground.
+                  </em>,
+                ]}
+              </HeadlineReveal>
+            </h1>
+          </div>
+          <aside className="col-span-12 md:col-span-4 md:pt-6">
+            <Reveal delay={0.15}>
               <p className="font-serif text-[18px] italic leading-[1.55] text-cream-warm">
                 A CCIM-led brokerage with deep Cenla roots — residential,
                 commercial, land, and property management under one roof since
@@ -43,9 +46,9 @@ export default function TeamPage() {
               <p className="mt-5 font-sans text-[11px] uppercase tracking-[0.22em] text-crimson-bright">
                 318·449·8919 &middot; Alexandria, LA
               </p>
-            </aside>
-          </header>
-        </Reveal>
+            </Reveal>
+          </aside>
+        </header>
 
         {/* Featured broker */}
         <Reveal>

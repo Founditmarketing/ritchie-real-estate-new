@@ -88,9 +88,9 @@ export default function ContactPage() {
                     The concierge
                   </span>
                   <p className="mt-3 max-w-[38ch] text-[14px] font-light leading-[1.7] text-cream-warm">
-                    After hours? The concierge knows every active listing in
-                    Central Louisiana &mdash; ask it anything, and it passes
-                    the important stuff to Matt.
+                    After hours? The concierge knows the Cenla market cold
+                    and every listing Ritchie represents &mdash; ask it
+                    anything, and it hands the important stuff to Matt.
                   </p>
                   <div className="mt-5">
                     <AskRitchieButton />

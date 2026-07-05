@@ -72,13 +72,13 @@ export function Manifesto() {
         <h2 className="mt-10 select-none text-center font-serif font-medium leading-[0.92] tracking-[-0.045em] text-paper [text-shadow:0_4px_70px_oklch(0.08_0.03_264/0.7)]">
           <motion.span
             style={{ x: w1X }}
-            className="block text-[clamp(48px,18vw,360px)] italic"
+            className="block text-[clamp(48px,18vw,360px)] tracking-[-0.045em] italic"
           >
             Ritchie
           </motion.span>
           <motion.span
             style={{ x: w2X }}
-            className="block text-[clamp(48px,18vw,360px)] italic text-crimson-bright"
+            className="block text-[clamp(48px,18vw,360px)] tracking-[-0.045em] italic text-crimson-bright"
           >
             knows.
           </motion.span>

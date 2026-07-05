@@ -125,6 +125,40 @@ textarea {
   caret-color: var(--color-crimson-bright);
 }
 
+/* Chrome autofill paints inputs white — repaint it in the house palette */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-navy) inset;
+  -webkit-text-fill-color: var(--color-paper);
+  caret-color: var(--color-crimson-bright);
+}
+
+/* A field the user has touched and left invalid gets the crimson
+   underline without waiting for submit (progressive; :user-invalid is
+   ignored where unsupported). */
+input:user-invalid,
+textarea:user-invalid {
+  border-bottom-color: var(--color-crimson-bright);
+}
+
+/* Widow/rag control — progressive enhancement */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2 {
+  text-wrap: balance;
+}
+
+/* Windows' stock grey scrollbar on the near-black canvas — theme the
+   document scroller with the .chat-scroll recipe */
+html {
+  scrollbar-color: color-mix(in oklch, var(--color-cream) 16%, transparent)
+    var(--color-navy-ink);
+}
+
 /* ---------------------------------------------------------------- */
 /* Hairline draw — the editorial rule that leads eyebrows/labels     */
 /* draws itself in as it scrolls into view. Scroll-driven CSS only:  */
@@ -194,6 +228,47 @@ textarea {
 :where(.bg-crimson, .bg-crimson-deep, .bg-crimson-bright)
   :where(a, button, input, select, textarea):focus-visible {
   outline-color: var(--color-paper);
+}
+
+/* …and the same inversion for text selection on those bands */
+:where(.bg-crimson, .bg-crimson-deep, .bg-crimson-bright) ::selection {
+  background: var(--color-paper);
+  color: var(--color-crimson-deep);
+}
+
+/* ---------------------------------------------------------------- */
+/* Print — the dark canvas inverts to an ink-on-paper sheet.         */
+/* The whole palette lives in custom properties, so one token remap  */
+/* reprints every page; chrome and motion stand down.                */
+/* ---------------------------------------------------------------- */
+@media print {
+  :root {
+    --color-navy-ink: #ffffff;
+    --color-navy-deep: #ffffff;
+    --color-navy: #f2efe9;
+    --color-navy-soft: #e7e2d9;
+    --color-paper: #14181f;
+    --color-cream: #1c212b;
+    --color-cream-warm: #333a47;
+    --color-mute: #59606e;
+    --color-steel: #59606e;
+    --color-line: rgba(20, 24, 31, 0.2);
+    --color-line-strong: rgba(20, 24, 31, 0.35);
+  }
+  body {
+    background: #fff !important;
+  }
+  header,
+  footer form,
+  nav,
+  .grain::after,
+  [data-print-hide] {
+    display: none !important;
+  }
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
 }
 
 /* Custom cursor: hide native cursor everywhere when active */

@@ -78,7 +78,8 @@ export const areas: Area[] = [
     name: "Tioga",
     tagline: "Country, but close.",
     description:
-      "Acreage country with the schools Cenla families move for. New custom builds on cleared pasture; Kisatchie National Forest on the back fence.",
+      // Fair-housing lanes only: land, roads, forest — never schools-as-motivation.
+      "Acreage country with Kisatchie National Forest on the back fence. New custom builds on cleared pasture, twenty minutes from the MacArthur corridor.",
     stats: [
       { label: "Median sale", value: "$298k" },
       { label: "Avg DOM", value: "33 days" },

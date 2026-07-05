@@ -104,7 +104,7 @@ export function ListingHero({ listing }: { listing: Listing }) {
           <Beat delay={0.13} block reduced={reduced}>
             {/* leading 1.02 keeps Cormorant ascenders/descenders inside
                 the Beat's overflow-hidden mask. */}
-            <span className="block text-[clamp(50px,9vw,140px)] leading-[1.02]">
+            <span className="block text-[clamp(50px,9vw,140px)] leading-[1.02] tracking-[-0.025em]">
               {listing.title}
             </span>
           </Beat>

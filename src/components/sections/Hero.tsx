@@ -201,10 +201,10 @@ export function Hero() {
           each Beat is `block` so words wrap naturally per line.
         */}
         <h1 className="font-serif font-medium tracking-[-0.025em] text-paper [text-shadow:0_2px_60px_oklch(0.10_0.04_264/0.6)]">
-          <Beat block delay={0.05} reduced={reduced} className="text-[clamp(40px,9vw,148px)] leading-[1.02]">
+          <Beat block delay={0.05} reduced={reduced} className="text-[clamp(40px,9vw,148px)] leading-[1.02] tracking-[-0.025em]">
             Central
           </Beat>
-          <Beat block delay={0.13} reduced={reduced} className="text-[clamp(40px,9vw,148px)] leading-[1.02]">
+          <Beat block delay={0.13} reduced={reduced} className="text-[clamp(40px,9vw,148px)] leading-[1.02] tracking-[-0.025em]">
             Louisiana
           </Beat>
           <span className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1 sm:gap-x-5">

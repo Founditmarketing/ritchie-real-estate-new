@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { areas, type Area } from "@/content/areas";
 import { Reveal } from "@/components/motion/Reveal";
+import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
+import { PlateGrade } from "@/components/listing/PlateGrade";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { AskAboutArea } from "./AskAboutArea";
 
@@ -53,16 +55,25 @@ export default function AreasPage() {
     <div className="bg-navy-ink pb-28 pt-[130px]">
       {/* Front matter */}
       <header className="mx-auto max-w-[1280px] px-6 lg:px-12">
-        <Reveal>
-          <div className="grid grid-cols-12 gap-x-6 gap-y-10">
-            <div className="col-span-12 md:col-span-8">
+        {/* House cadence: eyebrow, mask-reveal h1 (never nested in a
+            Reveal), aside at +0.15. */}
+        <div className="grid grid-cols-12 gap-x-6 gap-y-10">
+          <div className="col-span-12 md:col-span-8">
+            <Reveal>
               <span className="eyebrow">Area guides</span>
-              <h1 className="mt-6 font-serif text-[clamp(44px,6.5vw,100px)] leading-[0.94] tracking-[-0.025em] text-paper">
-                Know the ground,{" "}
-                <em className="italic text-crimson-bright">town by town.</em>
-              </h1>
-            </div>
-            <aside className="col-span-12 md:col-span-4 md:pt-8">
+            </Reveal>
+            <h1 className="mt-6 font-serif text-[clamp(44px,6.5vw,100px)] leading-[0.94] tracking-[-0.025em] text-paper">
+              <HeadlineReveal>
+                {[
+                  "Know the ground,",
+                  <em key="l2" className="block italic text-crimson-bright">
+                    town by town.
+                  </em>,
+                ]}
+              </HeadlineReveal>
+            </h1>
+          </div>
+          <Reveal delay={0.15} as="div" className="col-span-12 md:col-span-4 md:pt-8">
               <p className="font-serif text-[18px] italic leading-[1.55] text-cream-warm">
                 Five towns, one market. These are the notes we work from —
                 what each place is, what it trades for, and how fast it
@@ -81,9 +92,8 @@ export default function AreasPage() {
                   className="inline-block h-px w-7 bg-current transition-[width] duration-500 ease-out group-hover:w-12"
                 />
               </Link>
-            </aside>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
 
         {/* Anchor index — every town below is a jump target (#slug) */}
         <Reveal delay={0.08}>
@@ -340,8 +350,9 @@ function SectionTextImage({
                     alt={image.alt}
                     fill
                     sizes="(min-width: 768px) 40vw, 100vw"
-                    className="object-cover"
+                    className="object-cover saturate-[0.88]"
                   />
+                  <PlateGrade />
                 </div>
               ) : null}
               <StatLine
@@ -378,8 +389,9 @@ function SectionImageText({
                       alt={image.alt}
                       fill
                       sizes="(min-width: 768px) 40vw, 100vw"
-                      className="object-cover"
+                      className="object-cover saturate-[0.88]"
                     />
+                  <PlateGrade />
                   </div>
                 </div>
               ) : null}
@@ -480,8 +492,9 @@ function SectionRailText({
                     alt={image.alt}
                     fill
                     sizes="(min-width: 768px) 25vw, 100vw"
-                    className="object-cover"
+                    className="object-cover saturate-[0.88]"
                   />
+                  <PlateGrade />
                 </div>
               </div>
             ) : null}
@@ -506,8 +519,9 @@ function SectionPlate({ area, image }: { area: Area; image: AreaImage }) {
                   alt={image.alt}
                   fill
                   sizes="(min-width: 1280px) 1184px, 100vw"
-                  className="object-cover"
+                  className="object-cover saturate-[0.88]"
                 />
+                  <PlateGrade />
               </div>
             </Reveal>
           ) : null}

@@ -29,7 +29,27 @@ export function SmoothScroll() {
     };
     raf = requestAnimationFrame(tick);
 
+    // Same-page anchors ride Lenis instead of the browser's instant jump,
+    // so one scroll physics governs the whole site. Offset clears the
+    // fixed header; focus keeps keyboard/AT context at the target.
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>(
+        'a[href*="#"]',
+      );
+      if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey) return;
+      const url = new URL(a.href, location.href);
+      if (url.pathname !== location.pathname || !url.hash) return;
+      const target = document.querySelector<HTMLElement>(url.hash);
+      if (!target) return;
+      e.preventDefault();
+      history.pushState(null, "", url.hash);
+      lenis.scrollTo(target, { offset: -96, duration: 1.1 });
+      target.focus({ preventScroll: true });
+    };
+    document.addEventListener("click", onClick);
+
     return () => {
+      document.removeEventListener("click", onClick);
       cancelAnimationFrame(raf);
       lenis.destroy();
     };
