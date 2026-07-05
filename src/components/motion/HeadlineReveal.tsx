@@ -31,19 +31,27 @@ export function HeadlineReveal({
   return (
     <>
       {children.map((child, i) => (
+        // The viewport trigger lives on the MASK (never clipped, so
+        // IntersectionObserver sees its true size) and the slide is driven
+        // via variant propagation to the inner span — observing the inner
+        // directly fails because it starts fully clipped by the mask.
         // pb/-mb slack: Cormorant descenders overhang the line box and the
         // mask was shearing tails off "yard.", "ground.", etc.
-        <span key={i} className="-mb-[0.18em] block overflow-hidden pb-[0.18em]">
+        <motion.span
+          key={i}
+          className="-mb-[0.18em] block overflow-hidden pb-[0.18em]"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
           <motion.span
             className="block"
-            initial={{ y: "104%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: true, amount: 0.4 }}
+            variants={{ hidden: { y: "104%" }, visible: { y: "0%" } }}
             transition={{ duration: 0.6, ease: ease.outExpo, delay: delay + i * stagger }}
           >
             {child}
           </motion.span>
-        </span>
+        </motion.span>
       ))}
     </>
   );
