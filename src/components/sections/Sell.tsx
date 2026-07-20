@@ -70,7 +70,7 @@ export function Sell() {
             <div className="relative aspect-[3/4] w-full max-w-[360px] overflow-hidden">
               <Image
                 src={PORCH_IMG}
-                alt="A traditional Louisiana front porch in afternoon light"
+                alt="A brick Cenla home in afternoon light"
                 fill
                 sizes="(min-width: 1024px) 360px, 80vw"
                 className="object-cover saturate-[0.88]"
@@ -89,10 +89,12 @@ export function Sell() {
             {/* Editorial caption block under the photo */}
             <figcaption className="mt-4 flex items-start gap-3 text-[11px] uppercase tracking-[0.24em] text-mute">
               <span className="mt-1 inline-block h-px w-6 bg-crimson-bright" />
+              {/* Caption must describe the actual plate — it previously
+                  claimed a porch detail over a brick facade. */}
               <span>
-                Plate 04 &mdash; <span className="italic text-crimson-bright">Garden District</span>
+                Plate 04 &mdash; <span className="italic text-crimson-bright">Cenla brick</span>
                 <br />
-                Porch detail, west elevation
+                Afternoon, west elevation
               </span>
             </figcaption>
             {/* A vertical brass-thin rule echoes the editorial book feel */}
