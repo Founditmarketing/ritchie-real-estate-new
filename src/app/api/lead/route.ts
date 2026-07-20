@@ -1,4 +1,15 @@
 import { archiveLocally, deliverLead, type Lead } from "@/lib/lead-delivery";
+import { ingestLead } from "@/lib/crm/logic";
+import { updateDoc } from "@/lib/crm/store";
+import type { LeadSource } from "@/lib/crm/types";
+
+const CRM_SOURCES = new Set<LeadSource>([
+  "sell-form",
+  "contact-form",
+  "explore-map",
+  "chat-concierge",
+  "newsletter",
+]);
 
 export const runtime = "nodejs";
 
@@ -44,6 +55,26 @@ export async function POST(request: Request) {
   };
 
   const archived = await archiveLocally(lead);
+
+  // Feed the CRM: website leads round-robin into the rotation the second
+  // they arrive (commercial routes to Matt). A CRM hiccup must never lose
+  // the lead itself, so this is fire-and-forget with a broad catch.
+  try {
+    const crmSource = CRM_SOURCES.has(lead.source as LeadSource)
+      ? (lead.source as LeadSource)
+      : "website";
+    await updateDoc((doc) =>
+      ingestLead(doc, {
+        name: lead.name,
+        contact: lead.contact,
+        message: lead.message,
+        intent: lead.intent,
+        source: crmSource,
+      }),
+    );
+  } catch (err) {
+    console.error("[lead] CRM ingest failed (lead still delivered):", err);
+  }
 
   const delivery = await deliverLead(lead);
   const emailed = delivery.ok && !delivery.skipped;
