@@ -1,7 +1,7 @@
 /*
  * PLACEHOLDER — MARKET STATS. The four figures below are pitch-stage
  * placeholders, not compiled MLS data. Verify every number against the
- * real Cenla MLS (and set `source` accordingly) before the client domain
+ * real Central Louisiana MLS (and set `source` accordingly) before the client domain
  * launches.
  */
 

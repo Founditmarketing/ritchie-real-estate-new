@@ -11,7 +11,7 @@
  * `areas` data (currently placeholder seed content — see src/content/).
  * It never invents inventory or numbers. Inventory claims in the copy are
  * scoped to "every listing Ritchie represents" while the seed data is live;
- * the stronger "every active listing in Cenla" copy can return once the
+ * the stronger "every active listing in Central Louisiana" copy can return once the
  * live IDX feed is wired (see src/lib/listings.ts).
  */
 
@@ -319,7 +319,7 @@ function marketSummary(city?: string): string {
     const dom = a.stats.find((s) => s.label.toLowerCase().includes("dom"))?.value ?? "—";
     return `• ${a.name}: ${median} median, ${dom} DOM`;
   });
-  return `Here’s the lay of the land across Cenla right now:\n${lines.join(
+  return `Here’s the lay of the land across Central Louisiana right now:\n${lines.join(
     "\n",
   )}\n\nWe don’t guess the market, we track it. Want me to dig into one of these?`;
 }
@@ -344,7 +344,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
   if (!text) {
     return {
       reply:
-        "I’m Matt’s desk on the web. I know the Cenla market cold and every listing Ritchie represents. Tell me what you’re after: a home, commercial space, or land. Or ask what the market’s doing.",
+        "I’m Matt’s desk on the web. I know the Central Louisiana market cold and every listing Ritchie represents. Tell me what you’re after: a home, commercial space, or land. Or ask what the market’s doing.",
       chips: GREETING_CHIPS,
     };
   }
@@ -406,7 +406,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
       });
       if (relaxed.length) {
         return {
-          reply: `Nothing active matches ${summary} this minute; Cenla inventory is tight. Here’s the closest I’d show you instead. Want me to flag you the moment something fits?`,
+          reply: `Nothing active matches ${summary} this minute; Central Louisiana inventory is tight. Here’s the closest I’d show you instead. Want me to flag you the moment something fits?`,
           listings: relaxed.map(toCard),
           chips: ["Notify me", "Widen the budget", "Talk to Matt"],
           cta: "lead",
@@ -432,7 +432,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
       listings: results.map(toCard),
       matchedIds,
       chips: [
-        filters.city ? "Anywhere in Cenla" : "Only Alexandria",
+        filters.city ? "Anywhere in Central Louisiana" : "Only Alexandria",
         filters.priceMax ? "Stretch the budget" : "Under $300k",
         "Book a showing",
       ],
@@ -442,7 +442,7 @@ export async function runConcierge(messages: ChatMessage[]): Promise<ConciergeRe
   // Fallback — keep it in voice and steer back to something useful.
   return {
     reply:
-      "I’m built to do three things well: find you the right place in Cenla, tell you the truth about the market, and get you to Matt. Which one’s it going to be?",
+      "I’m built to do three things well: find you the right place in Central Louisiana, tell you the truth about the market, and get you to Matt. Which one’s it going to be?",
     chips: GREETING_CHIPS,
   };
 }

@@ -21,7 +21,7 @@ export default function HomePage() {
       <SearchBar />
       <MarketStats />
       {/* Hidden on mobile to keep the phone flow under ~9 sections.
-          Paths duplicate the header nav, Testimonials and the Cenla map
+          Paths duplicate the header nav, Testimonials and the Central Louisiana map
           (now its own /explore experience) are the most cuttable on a
           small screen. All three remain on tablet/desktop. */}
       <div className="hidden md:block">

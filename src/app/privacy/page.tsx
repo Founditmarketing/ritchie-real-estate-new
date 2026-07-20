@@ -23,7 +23,7 @@ export default function PrivacyPage() {
       }
       lede={
         <>
-          Ritchie Real Estate is a small Cenla brokerage, not a data company.
+          Ritchie Real Estate is a small Central Louisiana brokerage, not a data company.
           Here&rsquo;s exactly what this site collects and what happens to it.
         </>
       }
@@ -47,7 +47,7 @@ export default function PrivacyPage() {
           you.
         </p>
         <p>
-          If you join the Cenla Market Letter, your email address is used only
+          If you join the Central Louisiana Market Letter, your email address is used only
           to send it &mdash; and you can come off the list any time by asking.
         </p>
       </LegalSection>

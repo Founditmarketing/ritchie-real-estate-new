@@ -52,7 +52,7 @@ export function MobileDock() {
               type="button"
               onClick={openAskRitchie}
               aria-haspopup="dialog"
-              aria-label="Ask Ritchie, the Cenla concierge"
+              aria-label="Ask Ritchie, the Central Louisiana concierge"
               className="group relative -mt-7 flex flex-col items-center"
             >
               <span className="grid h-14 w-14 place-items-center rounded-full bg-crimson text-cream shadow-[0_12px_30px_-8px_oklch(0.40_0.17_20/0.85)] ring-[5px] ring-navy-ink transition-transform duration-200 ease-out group-active:scale-90">

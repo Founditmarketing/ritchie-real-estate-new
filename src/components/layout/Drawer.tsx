@@ -12,7 +12,7 @@ const ITEMS = [
   { href: "/sell", label: "Sell a Home" },
   { href: "/listings?type=commercial", label: "Commercial" },
   { href: "/team", label: "Our Agents" },
-  { href: "/areas", label: "Cenla Guides" },
+  { href: "/areas", label: "Area Guides" },
 ] as const;
 
 type DrawerProps = { open: boolean; onClose: () => void };

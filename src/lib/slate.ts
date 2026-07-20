@@ -46,7 +46,7 @@ export function formatMiles(miles: number): string {
 
 /**
  * Film-slate coordinate line, e.g. "N 31.30° · W 92.48°" — two decimals,
- * absolute values with hemisphere letters (all Cenla inventory is N/W).
+ * absolute values with hemisphere letters (all Central Louisiana inventory is N/W).
  */
 export function formatCoords(coords: Coords): string {
   const latHemi = coords.lat >= 0 ? "N" : "S";

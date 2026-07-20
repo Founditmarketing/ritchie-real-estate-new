@@ -237,7 +237,7 @@ export function Hero() {
                 for accent words ("Ritchie.", "worth", "track", "lives")
                 throughout the site. */}
             <p className="font-serif text-[clamp(18px,1.4vw,22px)] font-normal leading-[1.45] text-cream-warm">
-              Two decades of local knowledge. A CCIM-credentialed broker.
+              Nearly three decades of local knowledge. A CCIM-credentialed broker.
               A team that treats every address like its own.
             </p>
             <p className="mt-4 flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.26em] text-crimson-bright">

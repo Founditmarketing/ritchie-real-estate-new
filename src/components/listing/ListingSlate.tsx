@@ -13,7 +13,7 @@ const PARISH = "Rapides Parish";
  * "Miles From Our Door" — a computed film-slate strip in the Hero slate
  * vocabulary: coordinates / parish / distance from the office, with the
  * distance as the crimson star of the line. The whole strip links to the
- * Cenla map focused on this listing. Renders nothing when the listing has
+ * Central Louisiana map focused on this listing. Renders nothing when the listing has
  * no coordinates — the number is always computed, never asserted.
  */
 export function ListingSlate({ listing }: { listing: Listing }) {

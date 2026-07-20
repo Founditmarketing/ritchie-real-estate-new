@@ -26,7 +26,7 @@ export default function ContactPage() {
               <em className="italic text-crimson-bright">Ritchie answers.</em>
             </h1>
             <p className="mt-6 max-w-[52ch] text-[15px] font-light leading-[1.7] text-cream-warm">
-              No phone tree, no portal login, no ticket number &mdash; a Cenla
+              No phone tree, no portal login, no ticket number &mdash; a Central Louisiana
               desk where a person picks up.
             </p>
             <a
@@ -88,7 +88,7 @@ export default function ContactPage() {
                     The concierge
                   </span>
                   <p className="mt-3 max-w-[38ch] text-[14px] font-light leading-[1.7] text-cream-warm">
-                    After hours? The concierge knows the Cenla market cold
+                    After hours? The concierge knows the Central Louisiana market cold
                     and every listing Ritchie represents &mdash; ask it
                     anything, and it hands the important stuff to Matt.
                   </p>

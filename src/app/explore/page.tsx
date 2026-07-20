@@ -6,7 +6,7 @@ import { ExploreClient, type ExploreListing } from "@/components/explore/Explore
 export const metadata: Metadata = {
   title: "Explore the Map",
   description:
-    "Ritchie’s Cenla listings on one map, with Matt’s street-level field notes. Ask Ritchie to filter it for you.",
+    "Ritchie’s Central Louisiana listings on one map, with Matt’s street-level field notes. Ask Ritchie to filter it for you.",
 };
 
 export default async function ExplorePage({

@@ -29,28 +29,28 @@ const TYPE_COPY: Record<
   { eyebrow: string; noun: [string, string]; tail: string; blurb: string }
 > = {
   commercial: {
-    eyebrow: "Cenla commercial",
+    eyebrow: "Central Louisiana commercial",
     noun: ["property", "properties"],
     tail: "on the market.",
     blurb:
       "CCIM-credentialed. Retail, office, industrial, and investment across Central Louisiana.",
   },
   land: {
-    eyebrow: "Cenla land",
+    eyebrow: "Central Louisiana land",
     noun: ["tract", "tracts"],
     tail: "for sale.",
     blurb:
       "Homesites, acreage, and development ground across Central Louisiana.",
   },
   rental: {
-    eyebrow: "Cenla rentals",
+    eyebrow: "Central Louisiana rentals",
     noun: ["rental", "rentals"],
     tail: "available now.",
     blurb:
       "Rentals across Central Louisiana, managed by people who pick up the phone.",
   },
   default: {
-    eyebrow: "Cenla listings",
+    eyebrow: "Central Louisiana listings",
     noun: ["home", "homes"],
     tail: "on the market.",
     blurb:

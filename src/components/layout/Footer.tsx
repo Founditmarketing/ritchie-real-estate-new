@@ -58,7 +58,7 @@ export function Footer() {
         body: JSON.stringify({
           name: "Newsletter signup",
           contact: email.trim(),
-          message: "Subscribe to The Cenla Market Letter",
+          message: "Subscribe to The Central Louisiana Market Letter",
           source: "newsletter",
         }),
       });
@@ -80,7 +80,7 @@ export function Footer() {
         <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-y-8 px-6 py-16 lg:grid-cols-[1.2fr_1fr] lg:items-center lg:gap-x-16 lg:px-12 lg:py-20">
           <div>
             <span className="font-sans text-[10.5px] font-medium uppercase tracking-[0.26em] text-crimson-bright">
-              The Cenla Market Letter
+              The Central Louisiana Market Letter
             </span>
             <h3 className="mt-3 font-serif text-[clamp(28px,3vw,42px)] leading-[1.05] tracking-[-0.015em] text-paper">
               Quarterly read on what&rsquo;s{" "}
@@ -239,7 +239,7 @@ export function Footer() {
           />
           <Lockup
             mark="MLS"
-            title="Cenla MLS"
+            title="Central Louisiana MLS"
             sub="Member since 2003"
           />
         </div>

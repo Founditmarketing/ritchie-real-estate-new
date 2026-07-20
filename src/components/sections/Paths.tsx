@@ -49,7 +49,7 @@ export function Paths() {
           <Eyebrow variant="italic" tone="crimson-bright">However you move</Eyebrow>
           <h2 className="mt-4 font-serif text-[clamp(34px,4.4vw,58px)] leading-[1.03] tracking-[-0.015em] text-paper">
             <HeadlineReveal>
-              {["Three ways we put", <span key="l2">Cenla to <em className="italic">work.</em></span>]}
+              {["Three ways we put", <span key="l2">Central Louisiana to <em className="italic">work.</em></span>]}
             </HeadlineReveal>
           </h2>
         </Reveal>

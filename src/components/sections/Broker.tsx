@@ -45,7 +45,7 @@ export function Broker() {
           <p className="mt-5 font-serif text-[17px] italic leading-[1.6] text-cream-warm">
             I learned this market one closing at a time &mdash; which streets
             hold their value through a wet spring, which corridors are about
-            to turn, what a porch is worth on the right block. Twenty years
+            to turn, what a porch is worth on the right block. Twenty-eight years
             in, I&rsquo;m still learning it. That&rsquo;s the job.
           </p>
           <p className="mt-6 inline-flex items-center gap-3 font-sans text-[10.5px] uppercase tracking-[0.12em] text-mute">
@@ -118,7 +118,7 @@ export function Broker() {
               I learned this market one closing at a time &mdash; which
               streets hold their value through a wet spring, which corridors
               are about to turn, what a porch is worth on the right block.
-              Twenty years in, I&rsquo;m still learning it. That&rsquo;s the
+              Twenty-eight years in, I&rsquo;m still learning it. That&rsquo;s the
               job.
             </p>
 

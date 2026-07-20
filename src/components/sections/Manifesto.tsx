@@ -93,7 +93,7 @@ export function Manifesto() {
         >
           Anybody can pull a listing off the MLS. Knowing what a Garden
           District lot really trades for, or which commercial corridor is
-          about to turn, takes a lifetime in Cenla.
+          about to turn, takes a lifetime in Central Louisiana.
         </motion.p>
 
         <motion.div

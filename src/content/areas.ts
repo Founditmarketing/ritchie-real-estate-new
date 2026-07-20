@@ -20,9 +20,9 @@ export const areas: Area[] = [
   {
     slug: "alexandria",
     name: "Alexandria",
-    tagline: "The Cenla seat.",
+    tagline: "The Central Louisiana seat.",
     description:
-      "Cenla’s largest city. Garden District historics, MacArthur retail corridor, riverfront downtown reborn. Strongest commercial market in the region.",
+      "Central Louisiana’s largest city. Garden District historics, MacArthur retail corridor, riverfront downtown reborn. Strongest commercial market in the region.",
     stats: [
       { label: "Median sale", value: "$255k" },
       { label: "Avg DOM", value: "37 days" },
@@ -48,9 +48,9 @@ export const areas: Area[] = [
   {
     slug: "ball",
     name: "Ball",
-    tagline: "Where Cenla expands.",
+    tagline: "Where Central Louisiana expands.",
     description:
-      "Where Cenla’s new construction is going. New builds off Highway 165 with country-feel acreage 10 minutes from Pineville schools.",
+      "New builds off Highway 165 with country-feel acreage, ten minutes from Pineville. The fastest-moving corner of the parish.",
     stats: [
       { label: "Median sale", value: "$268k" },
       { label: "Avg DOM", value: "29 days" },

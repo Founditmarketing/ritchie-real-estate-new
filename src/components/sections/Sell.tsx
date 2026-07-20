@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { ease } from "@/lib/motion";
 
-/* Single architectural detail — Cenla-feeling front porch with columns,
+/* Single architectural detail — Central Louisiana-feeling front porch with columns,
    shot in afternoon light. Replaces the stock glam-bedroom image. */
 const PORCH_IMG =
   "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=1400&q=80";
@@ -70,7 +70,7 @@ export function Sell() {
             <div className="relative aspect-[3/4] w-full max-w-[360px] overflow-hidden">
               <Image
                 src={PORCH_IMG}
-                alt="A brick Cenla home in afternoon light"
+                alt="A brick Central Louisiana home in afternoon light"
                 fill
                 sizes="(min-width: 1024px) 360px, 80vw"
                 className="object-cover saturate-[0.88]"
@@ -92,7 +92,7 @@ export function Sell() {
               {/* Caption must describe the actual plate — it previously
                   claimed a porch detail over a brick facade. */}
               <span>
-                Plate 04 &mdash; <span className="italic text-crimson-bright">Cenla brick</span>
+                Plate 04 &mdash; <span className="italic text-crimson-bright">Central Louisiana brick</span>
                 <br />
                 Afternoon, west elevation
               </span>
@@ -127,7 +127,7 @@ export function Sell() {
           <Reveal delay={0.12}>
             {/* Roman body, not italic \u2014 reserved for accent words. */}
             <p className="mt-6 max-w-[46ch] font-serif text-[18px] leading-[1.55] text-cream-warm">
-              A complimentary valuation built from real Cenla comparables and
+              A complimentary valuation built from real Central Louisiana comparables and
               current market data, not a Zillow algorithm. Takes about thirty
               seconds.
             </p>

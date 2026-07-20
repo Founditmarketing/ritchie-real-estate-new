@@ -39,7 +39,7 @@ export default function TeamPage() {
           <aside className="col-span-12 md:col-span-4 md:pt-6">
             <Reveal delay={0.15}>
               <p className="font-serif text-[18px] italic leading-[1.55] text-cream-warm">
-                A CCIM-led brokerage with deep Cenla roots — residential,
+                A CCIM-led brokerage with deep Central Louisiana roots — residential,
                 commercial, land, and property management under one roof since
                 2003.
               </p>
@@ -83,8 +83,8 @@ export default function TeamPage() {
               </div>
               <p className="max-w-[46ch] font-serif text-[18px] italic leading-[1.6] text-cream-warm">
                 CCIM-credentialed, Louisiana REALTOR® of the Year, and the voice
-                behind &ldquo;Ritchie knows.&rdquo; Two decades of reading every
-                corner of the Cenla market.
+                behind &ldquo;Ritchie knows.&rdquo; Nearly three decades of reading every
+                corner of the Central Louisiana market.
               </p>
               <span className="inline-flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.2em] text-crimson-bright">
                 <span className="h-px w-7 bg-current transition-[width] duration-500 ease-out group-hover:w-12" />

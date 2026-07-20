@@ -13,7 +13,7 @@ const NAV = [
   { href: "/sell", label: "Sell" },
   { href: "/listings?type=commercial", label: "Commercial" },
   { href: "/team", label: "Our Agents" },
-  { href: "/areas", label: "Cenla" },
+  { href: "/areas", label: "Areas" },
 ] as const;
 
 /**

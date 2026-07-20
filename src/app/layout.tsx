@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     template: "%s · Ritchie Real Estate",
   },
   description:
-    "Two decades of local knowledge across Alexandria, Pineville, and Central Louisiana. CCIM-credentialed brokerage. Residential, commercial, land.",
+    "Nearly three decades of local knowledge across Alexandria, Pineville, and Central Louisiana. CCIM-credentialed brokerage. Residential, commercial, land.",
   // Icons and the OG image come from the app/ file conventions
   // (icon.svg, apple-icon.tsx, opengraph-image.tsx) — not declared here.
   openGraph: {
     title: "Ritchie Real Estate",
     description:
-      "Two decades of Central Louisiana knowledge. Residential, commercial, land.",
+      "Nearly three decades of Central Louisiana knowledge. Residential, commercial, land.",
     type: "website",
     siteName: "Ritchie Real Estate",
   },

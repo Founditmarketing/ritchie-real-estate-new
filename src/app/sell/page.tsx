@@ -8,7 +8,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 export const metadata: Metadata = {
   title: "Sell your home",
   description:
-    "List with Ritchie Real Estate — pricing built from tracked Cenla comparables, professional photography and marketing, and negotiation by a broker named Louisiana REALTOR of the Year. Complimentary valuation.",
+    "List with Ritchie Real Estate — pricing built from tracked Central Louisiana comparables, professional photography and marketing, and negotiation by a broker named Louisiana REALTOR of the Year. Complimentary valuation.",
 };
 
 /* ------------------------------------------------------------------ */
@@ -20,7 +20,7 @@ const ENGINE = [
     num: "02",
     label: "Photography & reach",
     title: "Shot well. Seen where buyers look.",
-    body: "Professional photography that makes people stop, then real marketing distribution behind it — your listing pushed to the places Cenla buyers actually search, not left to wait on drive-by traffic.",
+    body: "Professional photography that makes people stop, then real marketing distribution behind it — your listing pushed to the places Central Louisiana buyers actually search, not left to wait on drive-by traffic.",
     className: "md:col-span-5 md:col-start-1",
     delay: 0,
   },
@@ -28,7 +28,7 @@ const ENGINE = [
     num: "03",
     label: "The buyer network",
     title: "The network a local firm earns.",
-    body: "Ritchie has been matching Cenla buyers and sellers since 2003. A listing here launches into two decades of relationships — agents, past clients, and buyers already looking.",
+    body: "Ritchie has been matching Central Louisiana buyers and sellers since 2003. A listing here launches into nearly three decades of relationships — agents, past clients, and buyers already looking.",
     className: "md:col-span-5 md:col-start-8 md:mt-20",
     delay: 0.08,
   },
@@ -87,7 +87,7 @@ export default function SellPage() {
             <div className="col-span-12 md:col-span-8">
               <Reveal>
                 <Eyebrow variant="stamp" tone="crimson-bright">
-                  Selling in Cenla
+                  Selling in Central Louisiana
                 </Eyebrow>
               </Reveal>
               <h1 className="mt-6 font-serif text-[clamp(44px,7vw,108px)] leading-[0.94] tracking-[-0.025em] text-paper">
@@ -107,7 +107,7 @@ export default function SellPage() {
               <Reveal delay={0.15}>
                 <p className="max-w-[42ch] font-serif text-[18px] italic leading-[1.55] text-cream-warm">
                   A price built on tracked comparables, marketing that reaches
-                  real buyers, and a negotiator who&rsquo;s spent two decades
+                  real buyers, and a negotiator who&rsquo;s spent nearly three decades
                   reading this market.
                 </p>
                 <p className="mt-5 font-sans text-[10.5px] uppercase tracking-[0.22em] text-mute">
@@ -170,7 +170,7 @@ export default function SellPage() {
               </div>
               <div className="col-span-12 md:col-span-4 md:col-start-9 md:self-end">
                 <p className="max-w-[44ch] font-sans text-[14.5px] font-light leading-[1.7] text-cream-warm">
-                  Your list price starts with tracked Cenla comparables —
+                  Your list price starts with tracked Central Louisiana comparables —
                   what actually sold, on which street, for how much — read
                   against what&rsquo;s sitting on the market right now. Evidence
                   first, then the number.

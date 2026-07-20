@@ -9,9 +9,9 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { AskAboutArea } from "./AskAboutArea";
 
 export const metadata: Metadata = {
-  title: "Cenla Area Guides",
+  title: "Central Louisiana Area Guides",
   description:
-    "Alexandria, Pineville, Ball, Boyce, and Tioga — what each Cenla town is, what it trades for, and how fast it moves. Working notes from Ritchie Real Estate.",
+    "Alexandria, Pineville, Ball, Boyce, and Tioga — what each Central Louisiana town is, what it trades for, and how fast it moves. Working notes from Ritchie Real Estate.",
 };
 
 /* ------------------------------------------------------------------ */

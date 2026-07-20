@@ -66,10 +66,10 @@ export function SearchBar() {
               Find your place
             </span>
             {/* Scoped to Ritchie's own inventory while the seed data is live;
-                the stronger "every Cenla listing" claim can return once the
+                the stronger "every Central Louisiana listing" claim can return once the
                 live IDX feed is wired (see src/lib/listings.ts). */}
             <h2 className="mt-4 font-serif text-[clamp(30px,3.6vw,52px)] leading-[1.04] tracking-[-0.02em] text-paper">
-              Search Ritchie&rsquo;s Cenla listings.
+              Search Ritchie&rsquo;s Central Louisiana listings.
             </h2>
           </div>
           <p className="max-w-[34ch] font-sans text-[13px] leading-[1.6] text-cream-warm/75">
@@ -144,7 +144,7 @@ export function SearchBar() {
               type="submit"
               className="group flex w-full items-center justify-center gap-3 bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition duration-150 ease-out hover:bg-crimson-deep active:scale-[0.98]"
             >
-              Search Cenla
+              Search Central Louisiana
               <span
                 aria-hidden
                 className="transition-transform duration-300 ease-out group-hover:translate-x-1"
@@ -209,7 +209,7 @@ export function SearchBar() {
               data-cursor-label="Go"
               className="group inline-flex items-center justify-center gap-3 self-stretch bg-crimson px-8 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-cream transition-[background-color,translate,scale] duration-200 ease-out hover:bg-crimson-deep active:scale-[0.98]"
             >
-              Search Cenla
+              Search Central Louisiana
               <span
                 aria-hidden
                 className="transition-transform duration-300 ease-out group-hover:translate-x-1"

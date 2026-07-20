@@ -84,7 +84,7 @@ export function Testimonials() {
               In their words
             </Eyebrow>
             <h2 className="mt-3 font-serif text-[clamp(34px,4.4vw,58px)] leading-[1.04] text-paper">
-              Cenla doesn&rsquo;t just hire Ritchie.
+              Central Louisiana doesn&rsquo;t just hire Ritchie.
               <br />
               It <em className="italic">refers</em> us.
             </h2>

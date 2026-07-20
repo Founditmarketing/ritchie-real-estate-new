@@ -30,13 +30,13 @@ interface UIMessage {
 }
 
 // Inventory claim is scoped to Ritchie's own listings while the seed data is
-// live; the stronger "every active listing in Cenla" copy can return once the
+// live; the stronger "every active listing in Central Louisiana" copy can return once the
 // live IDX feed is wired (see src/lib/listings.ts).
 const GREETING: UIMessage = {
   id: "greeting",
   role: "assistant",
   content:
-    "I’m Matt’s desk on the web. I know the Cenla market cold and every listing Ritchie represents. What are you after?",
+    "I’m Matt’s desk on the web. I know the Central Louisiana market cold and every listing Ritchie represents. What are you after?",
   chips: [
     "Find me a home",
     "Commercial space",
@@ -298,7 +298,7 @@ export function AskRitchie() {
             ref={launcherRef}
             type="button"
             onClick={() => setOpen(true)}
-            aria-label="Ask Ritchie, the Cenla concierge"
+            aria-label="Ask Ritchie, the Central Louisiana concierge"
             initial={reduce ? false : { opacity: 0, scale: 0.85, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 12 }}
@@ -318,7 +318,7 @@ export function AskRitchie() {
                 Ask Ritchie
               </span>
               <span className="block font-sans text-[10px] uppercase tracking-[0.22em] text-crimson-bright">
-                Cenla concierge
+                Central Louisiana concierge
               </span>
             </span>
           </motion.button>

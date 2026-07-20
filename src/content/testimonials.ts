@@ -38,7 +38,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "We were relocating from Houston and didn’t know Cenla at all. Ritchie sent a 14-page area guide before we even visited. By the third weekend, we had the keys.",
+      "We were relocating from Houston and didn’t know Central Louisiana at all. Ritchie sent a 14-page area guide before we even visited. By the third weekend, we had the keys.",
     name: "Priya & Eli Patel",
     role: "Buyers · Pineville",
     property: "1102 Edgewood Dr — Relocation",

@@ -41,7 +41,7 @@ export function MarketStats() {
         <div className="mb-10 flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between md:gap-10">
           <Reveal>
             <Eyebrow variant="stamp" tone="crimson-bright">
-              The Cenla market, right now
+              The Central Louisiana market, right now
             </Eyebrow>
             <h2 className="mt-4 font-serif text-[clamp(30px,3.2vw,46px)] leading-[1.05] tracking-[-0.015em]">
               <HeadlineReveal>

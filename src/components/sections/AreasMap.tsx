@@ -10,7 +10,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { duration, ease } from "@/lib/motion";
 
 /**
- * Cenla area explorer. An editorial list of the cities Ritchie works,
+ * Central Louisiana area explorer. An editorial list of the cities Ritchie works,
  * paired with a detail panel (tagline, blurb, stats) and links into the
  * full area guides. The stylized SVG "map" was removed: a generic vector
  * blob read as "not really Rapides Parish," so the content carries the
