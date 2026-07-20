@@ -21,7 +21,11 @@ export async function readDoc(): Promise<CrmDoc> {
   if (hasBlob()) {
     try {
       const meta = await head(BLOB_PATH);
-      const res = await fetch(meta.downloadUrl, {
+      // Cache-bust: overwritten blobs can serve stale through the CDN for
+      // up to ~60s; a unique query param forces a fresh read every time
+      // (documented Vercel Blob pattern). A CRM must never show stale.
+      const sep = meta.downloadUrl.includes("?") ? "&" : "?";
+      const res = await fetch(`${meta.downloadUrl}${sep}v=${Date.now()}`, {
         cache: "no-store",
         headers: { authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
       });
