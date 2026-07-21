@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/crm/auth";
-import { addNote, logContactAttempt, setStatus } from "@/lib/crm/logic";
+import { addNote, logContactAttempt, reassign, setStatus } from "@/lib/crm/logic";
+import { userById } from "@/lib/crm/roster";
 import { updateDoc } from "@/lib/crm/store";
 import { STATUS_LABEL, type LeadStatus } from "@/lib/crm/types";
 
@@ -19,7 +20,12 @@ export async function PATCH(
   }
 
   const { id } = await params;
-  let body: { status?: LeadStatus; note?: string; contact?: string };
+  let body: {
+    status?: LeadStatus;
+    note?: string;
+    contact?: string;
+    assignTo?: string;
+  };
   try {
     body = await req.json();
   } catch {
@@ -34,6 +40,15 @@ export async function PATCH(
       return { error: "That lead belongs to someone else", status: 403 };
     }
 
+    if (body.assignTo) {
+      // Only the broker moves leads between agents.
+      if (session.role !== "broker") {
+        return { error: "Only Matt can move leads", status: 403 };
+      }
+      const target = userById(body.assignTo);
+      if (!target) return { error: "Unknown agent", status: 400 };
+      reassign(lead, session.userId, target.id, target.name);
+    }
     if (body.status) {
       if (!(body.status in STATUS_LABEL)) {
         return { error: "Unknown status", status: 400 };

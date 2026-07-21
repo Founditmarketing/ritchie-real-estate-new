@@ -102,6 +102,14 @@ export function addNote(lead: Lead, by: string, text: string): void {
   lead.timeline.push(makeEvent(by, "note", { text }));
 }
 
+/** Broker hands a lead to a different agent (or takes it himself). */
+export function reassign(lead: Lead, by: string, toId: string, toName: string): void {
+  lead.assignedTo = toId;
+  lead.timeline.push(
+    makeEvent(by, "assigned", { text: `Handed to ${toName}` }),
+  );
+}
+
 export function logContactAttempt(lead: Lead, by: string, how: string): void {
   if (!lead.firstResponseAt) lead.firstResponseAt = now();
   lead.timeline.push(makeEvent(by, "contact-attempt", { text: how }));

@@ -19,7 +19,11 @@ export function RouteTransitions({ children }: { children: ReactNode }) {
   const firstPath = useRef(pathname);
   const isFirst = firstPath.current === pathname;
 
-  if (reduced) {
+  // The CRM is an app, not a page — no fade between tabs. More important:
+  // the enter tween leaves a transform on this wrapper, and a transformed
+  // ancestor breaks position:fixed for the CRM's bottom dock (it starts
+  // scrolling with the page on iOS).
+  if (reduced || pathname.startsWith("/crm")) {
     return <>{children}</>;
   }
 

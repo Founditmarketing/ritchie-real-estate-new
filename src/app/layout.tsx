@@ -8,6 +8,7 @@ import { RouteTransitions } from "@/components/motion/RouteTransitions";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AskRitchie } from "@/components/chat/AskRitchie";
+import { MarketingChrome } from "@/components/layout/MarketingChrome";
 import { MobileDock } from "@/components/layout/MobileDock";
 import "./globals.css";
 
@@ -75,16 +76,20 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <SmoothScroll />
-        <CustomCursor />
-        <ScrollProgress />
-        <Header />
+        <MarketingChrome>
+          <SmoothScroll />
+          <CustomCursor />
+          <ScrollProgress />
+          <Header />
+        </MarketingChrome>
         <main id="main" className="flex-1">
           <RouteTransitions>{children}</RouteTransitions>
         </main>
-        <Footer />
-        <AskRitchie />
-        <MobileDock />
+        <MarketingChrome>
+          <Footer />
+          <AskRitchie />
+          <MobileDock />
+        </MarketingChrome>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}

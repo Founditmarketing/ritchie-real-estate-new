@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/crm/auth";
 import { coach } from "@/lib/crm/coach";
-import { firstName } from "@/lib/crm/roster";
+import { firstName, USERS } from "@/lib/crm/roster";
 import { readDoc } from "@/lib/crm/store";
 import {
   SOURCE_LABEL,
@@ -10,6 +10,7 @@ import {
   type TimelineEvent,
 } from "@/lib/crm/types";
 import { fmtAge, KindTag, OriginTag, SectionLabel, StatusChip } from "../../../ui";
+import { AssignPanel } from "./AssignPanel";
 import { ContactButtons } from "./ContactButtons";
 import { CopyButton } from "./CopyButton";
 import { NoteForm } from "./NoteForm";
@@ -135,6 +136,16 @@ export default async function LeadPage({
         <SectionLabel>Where does it stand?</SectionLabel>
         <StatusButtons leadId={lead.id} current={lead.status} />
       </section>
+
+      {session.role === "broker" && (
+        <section aria-label="Assignment">
+          <AssignPanel
+            leadId={lead.id}
+            currentId={lead.assignedTo}
+            people={USERS.map((u) => ({ id: u.id, name: u.name }))}
+          />
+        </section>
+      )}
 
       <section aria-label="Notes" className="space-y-2.5">
         <SectionLabel count={notes.length || undefined}>Notes</SectionLabel>
