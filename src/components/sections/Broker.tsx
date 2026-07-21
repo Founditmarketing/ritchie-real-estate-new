@@ -98,8 +98,8 @@ export function Broker() {
           <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-navy-ink/75 to-transparent" />
           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-navy-ink to-transparent md:block" />
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy-ink via-navy-ink/50 to-transparent" />
-          <div className="absolute bottom-8 left-8 font-serif text-[22px] italic text-crimson-bright drop-shadow-[0_2px_8px_oklch(0.08_0.03_264/0.6)]">
-            &ldquo;Ritchie knows.&rdquo;
+          <div className="absolute bottom-8 left-8 font-sans text-[11px] uppercase tracking-[0.22em] text-cream drop-shadow-[0_2px_8px_oklch(0.08_0.03_264/0.6)]">
+            Broker &amp; Owner &middot; CCIM
           </div>
         </div>
 

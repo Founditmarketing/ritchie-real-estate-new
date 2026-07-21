@@ -2,7 +2,7 @@ import { Cormorant_Garamond, Outfit } from "next/font/google";
 
 export const serif = Cormorant_Garamond({
   subsets: ["latin"],
-  // 300 is used (hero "knows" beat renders font-light); 700 was shipped
+  // 300 is used (hero "since" beat renders font-light); 700 was shipped
   // but never used anywhere — swap them so no weight synthesizes.
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],

@@ -15,7 +15,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Ritchie Real Estate — Central Louisiana knows Ritchie",
+    default: "Ritchie Real Estate — Central Louisiana Homes, Land & Commercial",
     template: "%s · Ritchie Real Estate",
   },
   description:
@@ -35,8 +35,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  // navy-ink: sRGB hex of oklch(0.145 0.030 264) — the page canvas.
-  themeColor: "#050a17",
+  // navy-ink: sRGB hex of oklch(0.155 0.055 264) — the page canvas.
+  themeColor: "#081231",
 };
 
 /**

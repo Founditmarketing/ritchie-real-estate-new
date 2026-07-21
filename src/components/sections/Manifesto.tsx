@@ -5,12 +5,13 @@ import { useRef } from "react";
 import { ease } from "@/lib/motion";
 
 /**
- * A type-only section break on the dark canvas. Two words carry the whole
- * brand: "Ritchie knows." No image, no card. Sits between the hero and the
- * market band, a held breath before the data.
+ * A type-only section break on the dark canvas. One plain sentence carries
+ * the whole brand: "One closing at a time." — lifted from Matt's own story
+ * copy in the Broker section. No image, no card. Sits between the hero and
+ * the market band, a held breath before the data.
  *
- * Scroll-driven choreography: "Ritchie" drifts in from the left while
- * "knows." trails from the right; both settle centered as the section
+ * Scroll-driven choreography: the first line drifts in from the left while
+ * the second trails from the right; both settle centered as the section
  * enters view.
  */
 export function Manifesto() {
@@ -61,26 +62,28 @@ export function Manifesto() {
           transition={{ duration: 0.7, ease: ease.outExpo }}
           className="block text-center font-sans text-[11px] uppercase tracking-[0.32em] text-crimson-bright"
         >
-          The whole pitch, two words
+          How this market got learned
         </motion.span>
 
         {/*
-          Clamp floor accommodates the longest word ("Ritchie") inside the
-          container at the smallest viewport. Cormorant italic at 48px keeps
-          well inside a 280px-48px container even with ~22px scroll drift.
+          Clamp floor accommodates the longest line ("One closing") inside
+          the container at the smallest viewport: ~11 glyphs of Cormorant
+          italic at 40px stays inside a 280px-48px container even with
+          ~22px scroll drift. vw multiple drops from 18 to 13.5 for the
+          same reason — the lines are longer than the old two words.
         */}
         <h2 className="mt-10 select-none text-center font-serif font-medium leading-[0.92] tracking-[-0.045em] text-paper [text-shadow:0_4px_70px_oklch(0.08_0.03_264/0.7)]">
           <motion.span
             style={{ x: w1X }}
-            className="block text-[clamp(48px,18vw,360px)] tracking-[-0.045em] italic"
+            className="block text-[clamp(40px,13.5vw,270px)] tracking-[-0.045em] italic"
           >
-            Ritchie
+            One closing
           </motion.span>
           <motion.span
             style={{ x: w2X }}
-            className="block text-[clamp(48px,18vw,360px)] tracking-[-0.045em] italic text-crimson-bright"
+            className="block text-[clamp(40px,13.5vw,270px)] tracking-[-0.045em] italic text-crimson-bright"
           >
-            knows.
+            at a time.
           </motion.span>
         </h2>
 

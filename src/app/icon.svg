@@ -3,17 +3,17 @@
     Ritchie diamond mark, geometry adapted from LogoMark
     (src/components/brand/Logo.tsx). Favicons render outside the page,
     so CSS variables are unavailable; hex values are honest sRGB
-    equivalents of the globals.css OKLCH tokens:
-      navy-ink oklch(0.145 0.030 264) = #050a17
-      crimson  oklch(0.52 0.19 22)    = #be2132
-      cream    oklch(0.925 0.013 80)  = #ebe5dd
-      paper    oklch(0.965 0.008 85)  = #f6f3ed
+    equivalents of the globals.css OKLCH tokens (logo-anchored):
+      navy-ink oklch(0.155 0.055 264) = #081231
+      crimson  oklch(0.48 0.185 14)   = #a81640
+      cream    oklch(0.930 0.009 85)  = #ece8e0
+      paper    oklch(0.970 0.005 90)  = #f7f5f1
   -->
-  <rect width="64" height="64" fill="#050a17"/>
+  <rect width="64" height="64" fill="#081231"/>
   <!-- outer border diamond (LogoMark tone="light" uses cream on dark) -->
-  <polygon points="32,3 56.5,32 32,61 7.5,32" fill="none" stroke="#ebe5dd" stroke-width="2.5" stroke-linejoin="miter"/>
+  <polygon points="32,3 56.5,32 32,61 7.5,32" fill="none" stroke="#ece8e0" stroke-width="2.5" stroke-linejoin="miter"/>
   <!-- inner crimson diamond -->
-  <polygon points="32,7.5 53,32 32,56.5 11,32" fill="#be2132" stroke-linejoin="miter"/>
+  <polygon points="32,7.5 53,32 32,56.5 11,32" fill="#a81640" stroke-linejoin="miter"/>
   <!-- serif R monogram -->
-  <text x="32" y="43" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" font-weight="700" font-size="32" fill="#f6f3ed">R</text>
+  <text x="32" y="43" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" font-weight="700" font-size="32" fill="#f7f5f1">R</text>
 </svg>

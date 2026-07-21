@@ -7,16 +7,16 @@ export const contentType = "image/png";
 
 /*
  * Satori cannot parse oklch() — these are honest sRGB hex equivalents of
- * the DESIGN.md tokens in src/app/globals.css @theme:
- *   navy-ink oklch(0.145 0.030 264) → #050a17
- *   crimson  oklch(0.52 0.19 22)    → #be2132
- *   cream    oklch(0.925 0.013 80)  → #ebe5dd
- *   paper    oklch(0.965 0.008 85)  → #f6f3ed
+ * the tokens in src/app/globals.css @theme (logo-anchored palette):
+ *   navy-ink oklch(0.155 0.055 264) → #081231
+ *   crimson  oklch(0.48 0.185 14)   → #a81640
+ *   cream    oklch(0.930 0.009 85)  → #ece8e0
+ *   paper    oklch(0.970 0.005 90)  → #f7f5f1
  */
-const NAVY_INK = "#050a17";
-const CRIMSON = "#be2132";
-const CREAM = "#ebe5dd";
-const PAPER = "#f6f3ed";
+const NAVY_INK = "#081231";
+const CRIMSON = "#a81640";
+const CREAM = "#ece8e0";
+const PAPER = "#f7f5f1";
 
 /**
  * Apple touch icon — the brand diamond + serif R (see LogoMark in

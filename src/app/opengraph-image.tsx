@@ -3,26 +3,26 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export const alt =
-  "Ritchie Real Estate — Central Louisiana knows Ritchie. 318-449-8919";
+  "Ritchie Real Estate — Central Louisiana since 1997. 318-449-8919";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 /*
  * Satori cannot parse oklch() — these are honest sRGB hex equivalents of
- * the DESIGN.md tokens in src/app/globals.css @theme:
- *   navy-ink       oklch(0.145 0.030 264) → #050a17
- *   crimson        oklch(0.52 0.19 22)    → #be2132
- *   crimson-bright oklch(0.64 0.21 24)    → #f14348
- *   cream          oklch(0.925 0.013 80)  → #ebe5dd
- *   cream-warm     oklch(0.840 0.022 68)  → #d4c8bc
- *   paper          oklch(0.965 0.008 85)  → #f6f3ed
+ * the tokens in src/app/globals.css @theme (logo-anchored palette):
+ *   navy-ink       oklch(0.155 0.055 264) → #081231
+ *   crimson        oklch(0.48 0.185 14)   → #a81640 (logo diamond #9A0934 family)
+ *   crimson-bright oklch(0.63 0.20 16)    → #e73a58
+ *   cream          oklch(0.930 0.009 85)  → #ece8e0
+ *   cream-warm     oklch(0.850 0.015 75)  → #d6cdc2
+ *   paper          oklch(0.970 0.005 90)  → #f7f5f1
  */
-const NAVY_INK = "#050a17";
-const CRIMSON = "#be2132";
-const CRIMSON_BRIGHT = "#f14348";
-const CREAM = "#ebe5dd";
-const CREAM_WARM = "#d4c8bc";
-const PAPER = "#f6f3ed";
+const NAVY_INK = "#081231";
+const CRIMSON = "#a81640";
+const CRIMSON_BRIGHT = "#e73a58";
+const CREAM = "#ece8e0";
+const CREAM_WARM = "#d6cdc2";
+const PAPER = "#f7f5f1";
 
 /**
  * Social share card. Node runtime so the Cormorant Garamond TTFs
@@ -112,9 +112,9 @@ export default async function OgImage() {
             lineHeight: 1.1,
           }}
         >
-          <span style={{ color: PAPER }}>Ritchie&nbsp;</span>
+          <span style={{ color: PAPER }}>Since&nbsp;</span>
           <span style={{ fontStyle: "italic", color: CRIMSON_BRIGHT }}>
-            knows.
+            1997.
           </span>
         </div>
 

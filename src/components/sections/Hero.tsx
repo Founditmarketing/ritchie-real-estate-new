@@ -182,7 +182,7 @@ export function Hero() {
           Type sized to fit Cormorant Garamond at every breakpoint without
           clipping. At 390px the longest line ("Louisiana") renders at
           ~42px and stays well inside the viewport's 24px padding. The
-          italic "Ritchie." caps at a slightly smaller multiple so the
+          italic "1997." caps at a slightly smaller multiple so the
           punctuation tail doesn't crash into the viewport edge either.
         */}
         {/*
@@ -190,7 +190,7 @@ export function Hero() {
           for the mask-reveal animation. Cormorant ascenders/descenders
           extend ~5% past the line-box; any `leading` below ~1.0 clips
           glyphs at large desktop sizes. Use 1.02 for upright and 0.98
-          for the italic ("Ritchie.").
+          for the italic ("1997.").
 
           NOTE on width: NEVER constrain this h1 with `ch` units. `ch`
           resolves against the h1's own font-size (inherits 16px from
@@ -213,14 +213,14 @@ export function Hero() {
               reduced={reduced}
               className="text-[clamp(26px,4.2vw,68px)] font-light tracking-[-0.01em] text-cream-warm"
             >
-              knows
+              since
             </Beat>
             <Beat
               delay={0.3}
               reduced={reduced}
               className="text-[clamp(54px,10vw,168px)] italic font-medium leading-[0.98] tracking-[-0.03em] text-crimson-bright"
             >
-              Ritchie.
+              1997.
             </Beat>
           </span>
         </h1>
@@ -234,7 +234,7 @@ export function Hero() {
           <div className="max-w-[44ch]">
             {/* Body text in upright roman, not italic \u2014 italic at this size
                 hurt readability across multiple lines. Italic is reserved
-                for accent words ("Ritchie.", "worth", "track", "lives")
+                for accent words ("1997.", "worth", "track", "lives")
                 throughout the site. */}
             <p className="font-serif text-[clamp(18px,1.4vw,22px)] font-normal leading-[1.45] text-cream-warm">
               Nearly three decades of local knowledge. A CCIM-credentialed broker.
@@ -242,7 +242,7 @@ export function Hero() {
             </p>
             <p className="mt-4 flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.26em] text-crimson-bright">
               <span className="h-px w-6 bg-current" />
-              Ritchie knows.
+              Alexandria &middot; Central Louisiana
             </p>
           </div>
 

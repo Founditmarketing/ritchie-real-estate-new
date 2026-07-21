@@ -1,30 +1,32 @@
 @import "tailwindcss";
 
 /*
-  Ritchie design tokens — dark cinematic system.
-  The canvas is a near-black royal navy pulled from the CREATE-cover
-  warehouse photograph (cool steel + warm sodium). Crimson is the single
-  live accent; bone-white is the type. Warm-steel hairlines, never gold.
-  All values OKLCH so neutrals carry the brand's navy/warm tint.
+  Ritchie design tokens — dark cinematic system, anchored to the actual
+  Ritchie logo: royal blue #002C82, cranberry #9A0934, white. The canvas
+  is that royal blue taken down to cinema darkness — unmistakably BLUE,
+  not black (client feedback 2026-07-21: the old chroma-0.030 canvas read
+  as black and didn't look like their brand). Cranberry is the single
+  live accent; bone-white is the type.
 */
 @theme {
-  /* Dark navy canvas (deepest -> raised) */
-  --color-navy-ink: oklch(0.145 0.030 264);   /* base / deepest */
-  --color-navy-deep: oklch(0.190 0.040 264);  /* section panel */
-  --color-navy: oklch(0.255 0.048 264);        /* raised surface */
-  --color-navy-soft: oklch(0.340 0.050 264);   /* hover / lifted */
+  /* Royal navy canvas (deepest -> raised) — hue/chroma from #002C82 */
+  --color-navy-ink: oklch(0.155 0.055 264);   /* base / deepest */
+  --color-navy-deep: oklch(0.205 0.070 264);  /* section panel */
+  --color-navy: oklch(0.270 0.088 264);        /* raised surface */
+  --color-navy-soft: oklch(0.360 0.095 264);   /* hover / lifted */
 
-  /* Crimson — the only saturated accent */
-  --color-crimson: oklch(0.52 0.19 22);
-  --color-crimson-bright: oklch(0.64 0.21 24);
-  --color-crimson-deep: oklch(0.42 0.17 20);
+  /* Cranberry — the only saturated accent, from the logo diamond #9A0934 */
+  --color-crimson: oklch(0.48 0.185 14);
+  --color-crimson-bright: oklch(0.63 0.20 16);
+  --color-crimson-deep: oklch(0.40 0.165 12);
 
-  /* Bone-white type + warm-steel neutrals (on dark) */
-  --color-paper: oklch(0.965 0.008 85);   /* brightest — headings */
-  --color-cream: oklch(0.925 0.013 80);   /* primary body text */
-  --color-cream-warm: oklch(0.840 0.022 68); /* secondary text */
-  --color-mute: oklch(0.660 0.022 262);   /* muted / captions on dark */
-  --color-steel: oklch(0.740 0.025 245);  /* warm-steel hairline accent */
+  /* Bone-white type + steel neutrals (on dark) — cooled a step so the
+     ivory doesn't turn yellow against the richer blue */
+  --color-paper: oklch(0.970 0.005 90);   /* brightest — headings */
+  --color-cream: oklch(0.930 0.009 85);   /* primary body text */
+  --color-cream-warm: oklch(0.850 0.015 75); /* secondary text */
+  --color-mute: oklch(0.680 0.028 264);   /* muted / captions on dark */
+  --color-steel: oklch(0.740 0.025 245);  /* steel hairline accent */
 
   /* Ink for the rare light inset */
   --color-ink: oklch(0.180 0.020 264);

@@ -38,7 +38,7 @@ export default async function NotFound() {
 
           <SlateField
             label="Prod."
-            value="Ritchie Knows."
+            value="Ritchie Real Estate"
             className="border-b border-line px-4 py-3"
           />
 

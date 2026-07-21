@@ -28,9 +28,9 @@ export default function TeamPage() {
             <h1 className="mt-5 font-serif text-[clamp(40px,6.5vw,104px)] leading-[0.94] tracking-[-0.025em] text-paper">
               <HeadlineReveal>
                 {[
-                  "The team that knows",
+                  "Thirteen people.",
                   <em key="l2" className="block italic text-crimson-bright">
-                    the ground.
+                    One market.
                   </em>,
                 ]}
               </HeadlineReveal>
@@ -82,9 +82,9 @@ export default function TeamPage() {
                 </p>
               </div>
               <p className="max-w-[46ch] font-serif text-[18px] italic leading-[1.6] text-cream-warm">
-                CCIM-credentialed, Louisiana REALTOR® of the Year, and the voice
-                behind &ldquo;Ritchie knows.&rdquo; Nearly three decades of reading every
-                corner of the Central Louisiana market.
+                CCIM-credentialed and a Louisiana REALTOR® of the Year.
+                Nearly three decades of reading every corner of the Central
+                Louisiana market.
               </p>
               <span className="inline-flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.2em] text-crimson-bright">
                 <span className="h-px w-7 bg-current transition-[width] duration-500 ease-out group-hover:w-12" />
