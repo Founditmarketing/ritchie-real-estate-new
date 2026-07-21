@@ -70,7 +70,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-navy-ink pb-[calc(64px+env(safe-area-inset-bottom))] text-cream-warm md:pb-0">
+    <footer className="dark-scope bg-navy-ink pb-[calc(64px+env(safe-area-inset-bottom))] text-cream-warm md:pb-0">
       {/*
         Newsletter band sits at the top of the footer, dark navy with a
         tight headline + a one-field signup. Reads as the soft secondary

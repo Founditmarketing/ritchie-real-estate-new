@@ -80,7 +80,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-navy-ink text-paper"
+      className="dark-scope relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-navy-ink text-paper"
     >
       {/* CINEMATIC BACKDROP ----------------------------------------- */}
       <motion.div className="absolute inset-0 -z-10" style={{ y: bgY, scale: bgScaleScroll }}>

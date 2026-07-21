@@ -305,7 +305,7 @@ export function AskRitchie() {
             transition={{ duration: reduce ? 0 : 0.32, ease: [0.16, 1, 0.3, 1] }}
             whileTap={reduce ? undefined : { scale: 0.97 }}
             data-cursor="grow"
-            className="group fixed bottom-5 right-5 z-[80] hidden items-center gap-3 rounded-full border border-cream/15 bg-navy-deep/90 py-2.5 pl-2.5 pr-5 shadow-[0_18px_48px_-12px_oklch(0.08_0.03_264/0.7)] backdrop-blur-md transition-colors hover:border-crimson/50 md:bottom-7 md:right-7 md:flex"
+            className="dark-scope group fixed bottom-5 right-5 z-[80] hidden items-center gap-3 rounded-full border border-cream/15 bg-navy-deep/90 py-2.5 pl-2.5 pr-5 shadow-[0_18px_48px_-12px_oklch(0.08_0.03_264/0.7)] backdrop-blur-md transition-colors hover:border-crimson/50 md:bottom-7 md:right-7 md:flex"
           >
             <span className="relative grid h-10 w-10 place-items-center rounded-full bg-navy">
               <LogoMark tone="light" size={26} />
@@ -354,7 +354,7 @@ export function AskRitchie() {
               exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }}
               transition={{ duration: dur, ease: [0.16, 1, 0.3, 1] }}
               className={cn(
-                "fixed z-[80] flex flex-col overflow-hidden border border-cream/12 bg-navy-deep shadow-[0_40px_120px_-20px_oklch(0.08_0.03_264/0.85)] outline-none",
+                "dark-scope fixed z-[80] flex flex-col overflow-hidden border border-cream/12 bg-navy-deep shadow-[0_40px_120px_-20px_oklch(0.08_0.03_264/0.85)] outline-none",
                 // Mobile: full sheet. Desktop: docked card.
                 "inset-0 rounded-none",
                 "md:inset-auto md:bottom-7 md:right-7 md:h-[640px] md:max-h-[calc(100vh-3.5rem)] md:w-[412px] md:rounded-[4px]",

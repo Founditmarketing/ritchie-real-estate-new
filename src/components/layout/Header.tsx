@@ -59,20 +59,26 @@ export function Header() {
     }
   }, [open]);
 
+  // Light theme: the header is a cinematic island (dark-scope) — a royal
+  // navy bar like the logo lettering. Transparent only over the home
+  // hero's dark footage; solid on every inner page so the light wordmark
+  // and cream links never sit on the ivory canvas.
+  const solid = scrolled || pathname !== "/";
+
   return (
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-[background,box-shadow,backdrop-filter] duration-500",
-          scrolled
-            ? "bg-navy-ink/80 backdrop-blur-md shadow-[0_1px_0_var(--color-line)]"
+          "dark-scope fixed inset-x-0 top-0 z-50 transition-[background,box-shadow,backdrop-filter] duration-500",
+          solid
+            ? "bg-navy-ink/90 backdrop-blur-md shadow-[0_1px_0_var(--color-line)]"
             : "bg-transparent",
         )}
       >
         <nav
           className={cn(
             "flex items-center justify-between px-6 lg:px-12 transition-[padding] duration-300",
-            scrolled ? "py-3" : "py-4",
+            solid ? "py-3" : "py-4",
           )}
         >
           {/*
@@ -121,7 +127,7 @@ export function Header() {
               className={cn(
                 "border px-5 py-2.5 text-[11.5px] tracking-[0.12em] uppercase font-medium",
                 "transition-[color,background-color,border-color,translate,scale] duration-200 ease-out active:scale-[0.97]",
-                scrolled
+                solid
                   ? "bg-crimson text-cream border-crimson hover:bg-crimson-deep"
                   : "border-cream/60 text-cream hover:bg-crimson hover:border-crimson",
               )}

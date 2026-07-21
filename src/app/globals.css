@@ -1,39 +1,38 @@
 @import "tailwindcss";
 
 /*
-  Ritchie design tokens — dark cinematic system, anchored to the actual
-  Ritchie logo: royal blue #002C82, cranberry #9A0934, white. The canvas
-  is that royal blue taken down to cinema darkness — unmistakably BLUE,
-  not black (client feedback 2026-07-21: the old chroma-0.030 canvas read
-  as black and didn't look like their brand). Cranberry is the single
-  live accent; bone-white is the type.
+  Ritchie design tokens — classic light system, anchored to the actual
+  Ritchie logo: royal blue #002C82, cranberry #9A0934, white. Ivory
+  canvas, royal-blue type (the logo lettering), cranberry as the single
+  live accent. Token NAMES keep their dark-era semantics (navy-ink =
+  page canvas, paper = strongest type) so components don't change;
+  sections that stay cinematic-dark opt back in via `.dark-scope`.
 */
 @theme {
-  /* Royal navy canvas (deepest -> raised) — hue/chroma from #002C82 */
-  --color-navy-ink: oklch(0.155 0.055 264);   /* base / deepest */
-  --color-navy-deep: oklch(0.205 0.070 264);  /* section panel */
-  --color-navy: oklch(0.270 0.088 264);        /* raised surface */
-  --color-navy-soft: oklch(0.360 0.095 264);   /* hover / lifted */
+  /* Canvas (deepest -> raised): ivory paper to blue-tinted panels */
+  --color-navy-ink: oklch(0.985 0.004 90);    /* base / page canvas */
+  --color-navy-deep: oklch(0.958 0.009 255);  /* section panel */
+  --color-navy: oklch(0.925 0.014 255);        /* raised surface */
+  --color-navy-soft: oklch(0.885 0.018 255);   /* hover / lifted */
 
   /* Cranberry — the only saturated accent, from the logo diamond #9A0934 */
   --color-crimson: oklch(0.48 0.185 14);
-  --color-crimson-bright: oklch(0.63 0.20 16);
-  --color-crimson-deep: oklch(0.40 0.165 12);
+  --color-crimson-bright: oklch(0.50 0.19 14); /* text accent: dark enough for AA on ivory */
+  --color-crimson-deep: oklch(0.38 0.16 12);
 
-  /* Bone-white type + steel neutrals (on dark) — cooled a step so the
-     ivory doesn't turn yellow against the richer blue */
-  --color-paper: oklch(0.970 0.005 90);   /* brightest — headings */
-  --color-cream: oklch(0.930 0.009 85);   /* primary body text */
-  --color-cream-warm: oklch(0.850 0.015 75); /* secondary text */
-  --color-mute: oklch(0.680 0.028 264);   /* muted / captions on dark */
-  --color-steel: oklch(0.740 0.025 245);  /* steel hairline accent */
+  /* Royal-blue type ramp (strongest -> quietest) — from the logo #002C82 */
+  --color-paper: oklch(0.27 0.10 264);    /* headlines — royal navy ink */
+  --color-cream: oklch(0.31 0.05 262);    /* primary body text */
+  --color-cream-warm: oklch(0.43 0.035 262); /* secondary text */
+  --color-mute: oklch(0.53 0.025 262);    /* muted / captions */
+  --color-steel: oklch(0.55 0.030 250);   /* steel hairline accent */
 
-  /* Ink for the rare light inset */
-  --color-ink: oklch(0.180 0.020 264);
-  --color-ink-soft: oklch(0.640 0.024 262);
+  /* Ink for dark insets */
+  --color-ink: oklch(0.180 0.035 264);
+  --color-ink-soft: oklch(0.500 0.030 262);
 
-  --color-line: oklch(0.92 0.010 80 / 0.12);      /* hairline on dark */
-  --color-line-strong: oklch(0.92 0.010 80 / 0.22);
+  --color-line: oklch(0.30 0.05 262 / 0.14);      /* hairline on light */
+  --color-line-strong: oklch(0.30 0.05 262 / 0.26);
 
   /* Type families */
   --font-sans: var(--font-sans);
@@ -81,7 +80,48 @@ body {
 
 ::selection {
   background: var(--color-crimson);
-  color: var(--color-paper);
+  /* Hardcoded warm white, not var(--color-paper): in the light theme
+     paper is royal-navy ink, which would muddy on a cranberry highlight. */
+  color: oklch(0.975 0.005 90);
+}
+
+/*
+  Cinematic islands on the light page. Sections built around dark
+  photography (hero footage, Matt's portrait), the footer, and the CRM
+  app keep the Preview-A royal-navy dark palette by re-declaring every
+  token locally. Unlayered on purpose — custom properties don't cascade
+  through @layer anyway, and this must win wherever it's applied.
+*/
+.dark-scope {
+  --color-navy-ink: oklch(0.155 0.055 264);
+  --color-navy-deep: oklch(0.205 0.070 264);
+  --color-navy: oklch(0.270 0.088 264);
+  --color-navy-soft: oklch(0.360 0.095 264);
+  --color-crimson: oklch(0.48 0.185 14);
+  --color-crimson-bright: oklch(0.63 0.20 16);
+  --color-crimson-deep: oklch(0.40 0.165 12);
+  --color-paper: oklch(0.970 0.005 90);
+  --color-cream: oklch(0.930 0.009 85);
+  --color-cream-warm: oklch(0.850 0.015 75);
+  --color-mute: oklch(0.680 0.028 264);
+  --color-steel: oklch(0.740 0.025 245);
+  --color-ink: oklch(0.180 0.020 264);
+  --color-ink-soft: oklch(0.640 0.024 262);
+  --color-line: oklch(0.92 0.010 80 / 0.12);
+  --color-line-strong: oklch(0.92 0.010 80 / 0.22);
+}
+
+/* Type on a solid cranberry surface is always warm white, both themes —
+   in light mode the cream/paper text tokens turn navy and would sink
+   into the accent. Unlayered so it beats the layered text utilities.
+   The hover/focus variants need their own escaped selectors: utility
+   class names like "hover:bg-crimson" don't match a .bg-crimson rule. */
+.bg-crimson,
+.bg-crimson-deep,
+.hover\:bg-crimson:hover,
+.hover\:bg-crimson-deep:hover,
+.focus\:bg-crimson:focus {
+  color: oklch(0.975 0.005 90);
 }
 
 /* Film grain — a touch heavier on the dark canvas for cinematic texture */

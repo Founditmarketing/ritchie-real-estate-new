@@ -20,7 +20,7 @@ export default function CrmLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div data-crm-root className="min-h-screen bg-navy-ink text-cream">
+    <div data-crm-root className="dark-scope min-h-screen bg-navy-ink text-cream">
       <CrmBodyFlag />
       <style>{`
         body[data-crm="1"] > header,

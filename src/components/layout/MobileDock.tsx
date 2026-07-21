@@ -29,7 +29,7 @@ export function MobileDock() {
   return (
     <nav
       aria-label="Quick actions"
-      className="fixed inset-x-0 bottom-0 z-[70] md:hidden"
+      className="dark-scope fixed inset-x-0 bottom-0 z-[70] md:hidden"
     >
       {/* soft fade so scrolling content dissolves into the bar instead of
           hard-cutting at its edge */}

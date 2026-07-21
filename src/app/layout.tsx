@@ -35,8 +35,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  // navy-ink: sRGB hex of oklch(0.155 0.055 264) — the page canvas.
-  themeColor: "#081231",
+  // navy-ink: sRGB hex of oklch(0.985 0.004 90) — the ivory page canvas.
+  themeColor: "#fbfaf6",
 };
 
 /**

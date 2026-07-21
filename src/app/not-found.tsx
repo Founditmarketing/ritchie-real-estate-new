@@ -19,7 +19,7 @@ export default async function NotFound() {
   const plates = await getListings({ status: "active", limit: 3 });
 
   return (
-    <section className="flex min-h-[70vh] flex-col items-center justify-center bg-navy-ink px-6 pb-24 pt-28 text-center">
+    <section className="dark-scope flex min-h-[70vh] flex-col items-center justify-center bg-navy-ink px-6 pb-24 pt-28 text-center">
       {/* THE CLAPPERBOARD ------------------------------------------- */}
       <div className="relative mt-8 w-full max-w-[480px] text-left sm:mt-10">
         {/* Top jaw — starts open, claps shut once (.slate-clap). */}

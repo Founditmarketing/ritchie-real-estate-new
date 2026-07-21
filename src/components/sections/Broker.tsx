@@ -5,7 +5,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 
 export function Broker() {
   return (
-    <section id="broker" className="bg-navy-ink text-paper">
+    <section id="broker" className="dark-scope bg-navy-ink text-paper">
       {/* MOBILE — full-bleed portrait as a profile header, name + creds
           overlaid, condensed story beneath. */}
       <div className="md:hidden">

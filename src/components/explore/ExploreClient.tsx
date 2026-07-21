@@ -282,7 +282,7 @@ export function ExploreClient({
   }`;
 
   return (
-    <div className="h-[100svh] bg-navy-ink pt-[58px] md:pt-[66px]">
+    <div className="dark-scope h-[100svh] bg-navy-ink pt-[58px] md:pt-[66px]">
       {/* The map-app shell deliberately has no visible page title. */}
       <h1 className="sr-only">Explore Central Louisiana listings</h1>
 
