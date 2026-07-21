@@ -48,6 +48,13 @@
 
 /* Base */
 html {
+  /* The document CANVAS — what iOS rubber-band overscroll reveals past
+     the ends of the page. Left transparent, it takes body's ivory and
+     flicking past the dark footer showed a bright void that read as
+     "scrolling past the bottom of the site." Painted the dark-scope
+     royal navy, both overscroll directions blend into the page's dark
+     bookends (navy header bar up top, navy footer at the bottom). */
+  background-color: oklch(0.155 0.055 264);
   -webkit-text-size-adjust: 100%;
   /* No CSS smooth scrolling: Lenis owns scroll physics, and the two
      easings fight on every programmatic/anchor scroll. */

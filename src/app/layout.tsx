@@ -35,8 +35,9 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  // navy-ink: sRGB hex of oklch(0.985 0.004 90) — the ivory page canvas.
-  themeColor: "#fbfaf6",
+  // Matches the permanent dark-navy header bar (and the html canvas), so
+  // iOS Safari's chrome tint blends instead of flashing ivory above it.
+  themeColor: "#081231",
 };
 
 /**
