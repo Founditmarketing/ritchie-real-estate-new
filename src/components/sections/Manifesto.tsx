@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useRef } from "react";
 import { ease } from "@/lib/motion";
 
@@ -16,6 +16,7 @@ import { ease } from "@/lib/motion";
  */
 export function Manifesto() {
   const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion() ?? false;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -27,6 +28,21 @@ export function Manifesto() {
   // safely contained within container padding.
   const w1X = useTransform(scrollYProgress, [0, 0.5, 1], [-32, 0, 22]);
   const w2X = useTransform(scrollYProgress, [0, 0.5, 1], [26, 0, -18]);
+
+  // Ink fill — the ghost-outline lines flood with color as the section
+  // crosses the viewport, line two trailing line one. clip-path insets
+  // (right edge sweeping left→0) so the fill reads as a pen stroke, not
+  // a fade. Reduced motion renders the filled text statically.
+  const fill1 = useTransform(
+    scrollYProgress,
+    [0.18, 0.42],
+    ["inset(-5% 100% -5% 0)", "inset(-5% 0% -5% 0)"],
+  );
+  const fill2 = useTransform(
+    scrollYProgress,
+    [0.26, 0.5],
+    ["inset(-5% 100% -5% 0)", "inset(-5% 0% -5% 0)"],
+  );
 
   return (
     <section
@@ -72,19 +88,19 @@ export function Manifesto() {
           ~22px scroll drift. vw multiple drops from 18 to 13.5 for the
           same reason — the lines are longer than the old two words.
         */}
-        <h2 className="mt-10 select-none text-center font-serif font-medium leading-[0.92] tracking-[-0.045em] text-paper [text-shadow:0_4px_70px_oklch(0.08_0.03_264/0.7)]">
-          <motion.span
-            style={{ x: w1X }}
-            className="block text-[clamp(40px,13.5vw,270px)] tracking-[-0.045em] italic"
-          >
-            One closing
-          </motion.span>
-          <motion.span
-            style={{ x: w2X }}
-            className="block text-[clamp(40px,13.5vw,270px)] tracking-[-0.045em] italic text-crimson-bright"
-          >
-            at a time.
-          </motion.span>
+        <h2 className="mt-10 select-none text-center font-serif font-medium leading-[0.92] tracking-[-0.045em] text-paper">
+          <InkLine
+            drift={w1X}
+            clip={reduced ? undefined : fill1}
+            text="One closing"
+            fillClass="text-paper"
+          />
+          <InkLine
+            drift={w2X}
+            clip={reduced ? undefined : fill2}
+            text="at a time."
+            fillClass="text-crimson-bright"
+          />
         </h2>
 
         <motion.p
@@ -111,5 +127,53 @@ export function Manifesto() {
         </p>
       </div>
     </section>
+  );
+}
+
+/**
+ * One giant line of the manifesto: a ghost outline of the type sits in
+ * the layout, and an identical filled copy floods over it left-to-right
+ * as the scroll clip-path opens. Both copies share the drift transform
+ * so they stay perfectly registered; the overlay is aria-hidden so AT
+ * reads the line once. Without a clip MotionValue (reduced motion) only
+ * the filled copy renders, statically.
+ */
+function InkLine({
+  drift,
+  clip,
+  text,
+  fillClass,
+}: {
+  drift: MotionValue<number>;
+  clip?: MotionValue<string>;
+  text: string;
+  fillClass: string;
+}) {
+  const sizing = "block text-[clamp(40px,13.5vw,270px)] tracking-[-0.045em] italic";
+  if (!clip) {
+    return (
+      <motion.span style={{ x: drift }} className={`${sizing} ${fillClass} relative`}>
+        {text}
+      </motion.span>
+    );
+  }
+  return (
+    <motion.span style={{ x: drift }} className={`${sizing} relative`}>
+      {/* Ghost outline — holds layout and reads as the "unwritten" line */}
+      <span
+        aria-hidden
+        className="text-transparent"
+        style={{ WebkitTextStroke: "1px color-mix(in oklch, var(--color-cream) 30%, transparent)" }}
+      >
+        {text}
+      </span>
+      {/* The ink flooding in */}
+      <motion.span
+        className={`absolute inset-0 ${fillClass}`}
+        style={{ clipPath: clip, willChange: "clip-path" }}
+      >
+        {text}
+      </motion.span>
+    </motion.span>
   );
 }

@@ -1,3 +1,4 @@
+import { BrandIntro } from "@/components/motion/BrandIntro";
 import { Hero } from "@/components/sections/Hero";
 import { Manifesto } from "@/components/sections/Manifesto";
 import { SearchBar } from "@/components/sections/SearchBar";
@@ -13,6 +14,7 @@ import { Closer } from "@/components/sections/Closer";
 export default function HomePage() {
   return (
     <>
+      <BrandIntro />
       <Hero />
       <Manifesto />
       {/* Search lives here, not over the hero. After the manifesto's
