@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { LogoMark } from "@/components/brand/Logo";
 import { MagneticButton } from "@/components/motion/MagneticButton";
+import { OdometerYear } from "@/components/motion/OdometerYear";
 import { openAskRitchie } from "@/components/chat/AskRitchie";
 import { ease } from "@/lib/motion";
 
@@ -220,7 +221,7 @@ export function Hero() {
               reduced={reduced}
               className="text-[clamp(54px,10vw,168px)] italic font-medium leading-[0.98] tracking-[-0.03em] text-crimson-bright"
             >
-              1997.
+              <OdometerYear />
             </Beat>
           </span>
         </h1>
