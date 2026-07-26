@@ -23,6 +23,34 @@ export const broker: TeamMember = {
  */
 export const agents: TeamMember[] = [
   {
+    slug: "robert-barker",
+    name: "Robert Barker",
+    title: "REALTOR®",
+    photo: "/team/robert-barker.jpg",
+    objectPosition: "50% 16%",
+  },
+  {
+    slug: "aaron-lacourt",
+    name: "Aaron Lacourt",
+    title: "REALTOR®",
+    photo: "/team/aaron-lacourt.jpg",
+    objectPosition: "50% 30%",
+  },
+  {
+    slug: "yvette-hardy",
+    name: "Yvette Hardy",
+    title: "REALTOR®",
+    photo: "/team/yvette-hardy.jpg",
+    objectPosition: "50% 22%",
+  },
+  {
+    slug: "jennifer-byrd",
+    name: "Jennifer Byrd",
+    title: "REALTOR®",
+    photo: "/team/jennifer-byrd.webp",
+    objectPosition: "50% 22%",
+  },
+  {
     slug: "janet-ritchie",
     name: "Janet Ritchie",
     title: "REALTOR®",
@@ -76,34 +104,6 @@ export const agents: TeamMember[] = [
     name: "Danielle Wagner",
     title: "REALTOR®",
     photo: "/team/danielle-wagner.jpg",
-    objectPosition: "50% 22%",
-  },
-  {
-    slug: "robert-barker",
-    name: "Robert Barker",
-    title: "REALTOR®",
-    photo: "/team/robert-barker.jpg",
-    objectPosition: "50% 16%",
-  },
-  {
-    slug: "aaron-lacourt",
-    name: "Aaron Lacourt",
-    title: "REALTOR®",
-    photo: "/team/aaron-lacourt.jpg",
-    objectPosition: "50% 30%",
-  },
-  {
-    slug: "yvette-hardy",
-    name: "Yvette Hardy",
-    title: "REALTOR®",
-    photo: "/team/yvette-hardy.jpg",
-    objectPosition: "50% 22%",
-  },
-  {
-    slug: "jennifer-byrd",
-    name: "Jennifer Byrd",
-    title: "REALTOR®",
-    photo: "/team/jennifer-byrd.webp",
     objectPosition: "50% 22%",
   },
 ];
