@@ -15,9 +15,17 @@ export function SmoothScroll() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 
+    // Tuning note (2026-07-26, "scrolling feels stuck"): this used to be
+    // duration 1.1 with a quartic ease-out. Quartic has a very long, very
+    // slow tail — the page kept creeping for the better part of a second
+    // after the wheel stopped, and a new wheel tick landing inside that
+    // tail read as unresponsive. Shorter duration + cubic settles crisply
+    // and still glides. Touch is deliberately left native (Lenis only
+    // syncs touch when syncTouch is on, which it is not) — iOS momentum
+    // scrolling is better than anything we'd re-implement.
     const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => 1 - Math.pow(1 - t, 4),
+      duration: 0.8,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
       wheelMultiplier: 1,
       touchMultiplier: 1.4,
     });
@@ -43,7 +51,9 @@ export function SmoothScroll() {
       if (!target) return;
       e.preventDefault();
       history.pushState(null, "", url.hash);
-      lenis.scrollTo(target, { offset: -96, duration: 1.1 });
+      // Kept in step with the wheel duration above so an anchor jump and a
+      // manual scroll feel like the same page.
+      lenis.scrollTo(target, { offset: -96, duration: 0.9 });
       target.focus({ preventScroll: true });
     };
     document.addEventListener("click", onClick);
