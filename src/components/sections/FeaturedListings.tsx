@@ -13,18 +13,22 @@ import { getListings, formatPrice, formatSqft, type Listing } from "@/lib/listin
  *
  * Server component: fetches its own data, renders mostly static markup.
  */
+/** Commercial plates that lead the spread before the rest fills in. */
+const COMMERCIAL_SLOTS = 2;
+
 export async function FeaturedListings() {
-  // Commercial anchors the spread (client direction 7/26): the feature
-  // plate is the first active commercial listing when one exists, and
-  // commercial fills the grid ahead of residential.
+  // Commercial anchors the spread (client direction 7/26) — the feature
+  // plate is a commercial listing. But the spread is capped at
+  // COMMERCIAL_SLOTS: with a deep commercial inventory an unbounded
+  // "commercial first" fill made all four plates commercial, which reads
+  // like the firm quit selling houses. Commercial leads; homes still show.
   const [commercial, all] = await Promise.all([
     getListings({ type: "commercial", status: "active" }),
     getListings({ status: "active" }),
   ]);
-  const ordered = [
-    ...commercial,
-    ...all.filter((l) => l.type !== "commercial"),
-  ].slice(0, 4);
+  const lead = commercial.slice(0, COMMERCIAL_SLOTS);
+  const leadIds = new Set(lead.map((l) => l.id));
+  const ordered = [...lead, ...all.filter((l) => !leadIds.has(l.id))].slice(0, 4);
   if (ordered.length === 0) return null;
   const feat = ordered[0];
   const rest = ordered.filter((l) => l.id !== feat.id).slice(0, 3);
