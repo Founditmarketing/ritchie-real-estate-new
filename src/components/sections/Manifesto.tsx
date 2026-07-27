@@ -29,20 +29,15 @@ export function Manifesto() {
   const w1X = useTransform(scrollYProgress, [0, 0.5, 1], [-32, 0, 22]);
   const w2X = useTransform(scrollYProgress, [0, 0.5, 1], [26, 0, -18]);
 
-  // Ink fill — the ghost-outline lines flood with color as the section
-  // crosses the viewport, line two trailing line one. clip-path insets
-  // (right edge sweeping left→0) so the fill reads as a pen stroke, not
-  // a fade. Reduced motion renders the filled text statically.
-  const fill1 = useTransform(
-    scrollYProgress,
-    [0.18, 0.42],
-    ["inset(-5% 100% -5% 0)", "inset(-5% 0% -5% 0)"],
-  );
-  const fill2 = useTransform(
-    scrollYProgress,
-    [0.26, 0.5],
-    ["inset(-5% 100% -5% 0)", "inset(-5% 0% -5% 0)"],
-  );
+  // NOTE (perf): the ink fill used to be scroll-LINKED — a useTransform
+  // recomputing clip-path on both lines every scroll frame, with
+  // will-change: clip-path permanently promoting two full-width layers of
+  // 270px type. Repainting text that size per frame blew the frame budget,
+  // and because Lenis drives scrolling from rAF, a blown frame doesn't just
+  // drop — the whole page stops scrolling ("sticky scroll", reported
+  // 2026-07-26). It's now a ONE-SHOT whileInView sweep: same pen-stroke
+  // read, zero per-frame cost. Only the cheap compositor-only x drift below
+  // stays scroll-linked.
 
   return (
     <section
@@ -91,13 +86,14 @@ export function Manifesto() {
         <h2 className="mt-10 select-none text-center font-serif font-medium leading-[0.92] tracking-[-0.045em] text-paper">
           <InkLine
             drift={w1X}
-            clip={reduced ? undefined : fill1}
+            animate={!reduced}
             text="One closing"
             fillClass="text-paper"
           />
           <InkLine
             drift={w2X}
-            clip={reduced ? undefined : fill2}
+            animate={!reduced}
+            delay={0.18}
             text="at a time."
             fillClass="text-crimson-bright"
           />
@@ -133,24 +129,31 @@ export function Manifesto() {
 /**
  * One giant line of the manifesto: a ghost outline of the type sits in
  * the layout, and an identical filled copy floods over it left-to-right
- * as the scroll clip-path opens. Both copies share the drift transform
- * so they stay perfectly registered; the overlay is aria-hidden so AT
- * reads the line once. Without a clip MotionValue (reduced motion) only
- * the filled copy renders, statically.
+ * when the line enters view. Both copies share the drift transform so
+ * they stay perfectly registered; the ghost outline is aria-hidden so AT
+ * reads the line once. `animate={false}` (reduced motion) renders only
+ * the filled copy, statically.
+ *
+ * The sweep runs ONCE (`viewport.once`) and is not scroll-linked — see
+ * the perf note in Manifesto above. No will-change here on purpose: it
+ * would keep a full-width layer of 270px type promoted for the life of
+ * the page to buy nothing after the first 0.9s.
  */
 function InkLine({
   drift,
-  clip,
+  animate,
+  delay = 0,
   text,
   fillClass,
 }: {
   drift: MotionValue<number>;
-  clip?: MotionValue<string>;
+  animate: boolean;
+  delay?: number;
   text: string;
   fillClass: string;
 }) {
   const sizing = "block text-[clamp(40px,13.5vw,270px)] tracking-[-0.045em] italic";
-  if (!clip) {
+  if (!animate) {
     return (
       <motion.span style={{ x: drift }} className={`${sizing} ${fillClass} relative`}>
         {text}
@@ -167,10 +170,15 @@ function InkLine({
       >
         {text}
       </span>
-      {/* The ink flooding in */}
+      {/* The ink flooding in — one pass, then it's just static text.
+          NOT aria-hidden: this is the copy assistive tech reads (the
+          ghost outline above is the decorative one). */}
       <motion.span
         className={`absolute inset-0 ${fillClass}`}
-        style={{ clipPath: clip, willChange: "clip-path" }}
+        initial={{ clipPath: "inset(-5% 100% -5% 0)" }}
+        whileInView={{ clipPath: "inset(-5% 0% -5% 0)" }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.95, ease: ease.outExpo, delay }}
       >
         {text}
       </motion.span>
