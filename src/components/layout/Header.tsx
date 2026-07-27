@@ -8,10 +8,11 @@ import { LogoWordmarkImage } from "@/components/brand/Logo";
 import { cn } from "@/lib/cn";
 
 const NAV = [
-  { href: "/explore", label: "Map" },
+  // Commercial first — the desk is the flagship (client direction 7/26).
+  { href: "/commercial", label: "Commercial" },
   { href: "/listings", label: "Buy" },
   { href: "/sell", label: "Sell" },
-  { href: "/listings?type=commercial", label: "Commercial" },
+  { href: "/explore", label: "Map" },
   { href: "/team", label: "Our Agents" },
   { href: "/areas", label: "Areas" },
 ] as const;

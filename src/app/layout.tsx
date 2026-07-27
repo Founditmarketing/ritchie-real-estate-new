@@ -15,17 +15,17 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Ritchie Real Estate — Central Louisiana Homes, Land & Commercial",
+    default: "Ritchie Real Estate — Central Louisiana Commercial, Homes & Land",
     template: "%s · Ritchie Real Estate",
   },
   description:
-    "Nearly three decades of local knowledge across Alexandria, Pineville, and Central Louisiana. CCIM-credentialed brokerage. Residential, commercial, land.",
+    "CCIM-led commercial real estate, homes, and land across Alexandria, Pineville, and Central Louisiana. Commercial inquiries go straight to the broker. Since 1997.",
   // Icons and the OG image come from the app/ file conventions
   // (icon.svg, apple-icon.tsx, opengraph-image.tsx) — not declared here.
   openGraph: {
     title: "Ritchie Real Estate",
     description:
-      "Nearly three decades of Central Louisiana knowledge. Residential, commercial, land.",
+      "CCIM-led commercial, homes, and land in Central Louisiana. Since 1997.",
     type: "website",
     siteName: "Ritchie Real Estate",
   },

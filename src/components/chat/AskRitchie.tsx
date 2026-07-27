@@ -38,8 +38,8 @@ const GREETING: UIMessage = {
   content:
     "I’m Matt’s desk on the web. I know the Central Louisiana market cold and every listing Ritchie represents. What are you after?",
   chips: [
-    "Find me a home",
     "Commercial space",
+    "Find me a home",
     "Land & acreage",
     "How’s the market?",
     "Sell my house",

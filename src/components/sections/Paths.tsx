@@ -8,8 +8,17 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ease } from "@/lib/motion";
 
 const PATHS = [
+  // Commercial leads (client direction 7/26) — the desk is the flagship.
   {
     num: "01",
+    audience: "Commercial",
+    title: ["Commercial", "property"],
+    body: "CCIM-credentialed expertise in investment, land, and commercial deals most local firms can’t touch — handled by the broker himself.",
+    link: "Talk to the desk",
+    href: "/commercial",
+  },
+  {
+    num: "02",
     audience: "Buyers",
     title: ["Buying", "a home"],
     // Scoped to Ritchie's own inventory while the seed data is live; the
@@ -20,20 +29,12 @@ const PATHS = [
     href: "/listings",
   },
   {
-    num: "02",
+    num: "03",
     audience: "Sellers",
     title: ["Selling", "your home"],
     body: "A real marketing engine and a negotiator named Louisiana REALTOR of the Year. See what your home is worth.",
     link: "Get your valuation",
     href: "/sell",
-  },
-  {
-    num: "03",
-    audience: "Commercial",
-    title: ["Commercial", "property"],
-    body: "CCIM-credentialed expertise in investment, land, and commercial deals most local firms can’t touch.",
-    link: "Explore commercial",
-    href: "/listings?type=commercial",
   },
 ] as const;
 
