@@ -161,7 +161,7 @@ export function Hero() {
           <span className="mx-3 text-cream/55">/</span>
           Alexandria, LA
           <span className="mx-3 text-cream/55">/</span>
-          Est. 2003
+          CCIM Brokerage
         </motion.div>
         <motion.div
           initial={{ opacity: 0, scale: 0.85, rotate: -10 }}

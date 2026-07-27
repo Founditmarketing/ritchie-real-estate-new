@@ -14,10 +14,20 @@ import { getListings, formatPrice, formatSqft, type Listing } from "@/lib/listin
  * Server component: fetches its own data, renders mostly static markup.
  */
 export async function FeaturedListings() {
-  const items = await getListings({ status: "active", limit: 4 });
-  if (items.length === 0) return null;
-  const feat = items.find((l) => l.feat) ?? items[0];
-  const rest = items.filter((l) => l.id !== feat.id).slice(0, 3);
+  // Commercial anchors the spread (client direction 7/26): the feature
+  // plate is the first active commercial listing when one exists, and
+  // commercial fills the grid ahead of residential.
+  const [commercial, all] = await Promise.all([
+    getListings({ type: "commercial", status: "active" }),
+    getListings({ status: "active" }),
+  ]);
+  const ordered = [
+    ...commercial,
+    ...all.filter((l) => l.type !== "commercial"),
+  ].slice(0, 4);
+  if (ordered.length === 0) return null;
+  const feat = ordered[0];
+  const rest = ordered.filter((l) => l.id !== feat.id).slice(0, 3);
 
   return (
     // No ghost watermark here — the device lives in Sell ("Worth.") and
@@ -31,7 +41,7 @@ export async function FeaturedListings() {
                 Now on the market
               </Eyebrow>
               <h2 className="mt-5 font-serif text-[clamp(34px,5vw,72px)] leading-[0.98] tracking-[-0.02em] text-paper">
-                A few homes <em className="italic">worth</em>
+                A few listings <em className="italic">worth</em>
                 <br />
                 the drive over.
               </h2>

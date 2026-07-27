@@ -1,4 +1,5 @@
 import { BrandIntro } from "@/components/motion/BrandIntro";
+import { CommercialDesk } from "@/components/sections/CommercialDesk";
 import { Hero } from "@/components/sections/Hero";
 import { Manifesto } from "@/components/sections/Manifesto";
 import { SearchBar } from "@/components/sections/SearchBar";
@@ -17,9 +18,13 @@ export default function HomePage() {
       <BrandIntro />
       <Hero />
       <Manifesto />
-      {/* Search lives here, not over the hero. After the manifesto's
-          editorial breath and before the navy market band, it gets full
-          breathing room as its own product moment. */}
+      {/* Commercial leads the page (client direction 7/26): the desk band
+          sits right after the manifesto's held breath, before anything
+          residential gets a word in. */}
+      <CommercialDesk />
+      {/* Search lives here, not over the hero. After the commercial desk
+          and before the navy market band, it gets full breathing room as
+          its own product moment. */}
       <SearchBar />
       <MarketStats />
       {/* Hidden on mobile to keep the phone flow under ~9 sections.
