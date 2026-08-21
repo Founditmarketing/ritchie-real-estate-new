@@ -152,7 +152,8 @@ function InkLine({
   text: string;
   fillClass: string;
 }) {
-  const sizing = "block text-[clamp(40px,13.5vw,270px)] tracking-[-0.045em] italic";
+  // font-semibold (600) over the h2's medium — Matt: "needs a little bolding".
+  const sizing = "block text-[clamp(40px,13.5vw,270px)] tracking-[-0.045em] italic font-semibold";
   if (!animate) {
     return (
       <motion.span style={{ x: drift }} className={`${sizing} ${fillClass} relative`}>

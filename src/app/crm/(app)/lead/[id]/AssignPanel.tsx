@@ -14,10 +14,13 @@ export function AssignPanel({
   leadId,
   currentId,
   people,
+  note,
 }: {
   leadId: string;
   currentId: string;
   people: { id: string; name: string }[];
+  /** Shown under the grid, e.g. the commercial-only rule. */
+  note?: string;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -105,6 +108,10 @@ export function AssignPanel({
             );
           })}
         </div>
+      )}
+
+      {open && note && (
+        <p className="font-sans text-[12px] leading-relaxed text-mute">{note}</p>
       )}
 
       {error && (

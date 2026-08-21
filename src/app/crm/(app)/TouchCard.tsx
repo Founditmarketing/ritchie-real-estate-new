@@ -26,7 +26,7 @@ export function TouchCard({
   contact: string;
   reason: string;
   message: string;
-  kind: "birthday" | "anniversary";
+  kind: "birthday" | "anniversary" | "checkin";
   dueKey: string;
   today: boolean;
 }) {
@@ -87,7 +87,7 @@ export function TouchCard({
         ) : (
           <a
             href={`mailto:${contact}?subject=${encodeURIComponent(
-              kind === "birthday" ? "Happy birthday!" : "Happy home anniversary!",
+              kind === "birthday" ? "Happy birthday!" : kind === "checkin" ? "How's the new place?" : "Happy home anniversary!",
             )}&body=${body}`}
             className="flex min-h-[40px] flex-1 items-center justify-center rounded-[3px] bg-crimson px-3 font-sans text-[11px] font-medium uppercase tracking-[0.16em] text-cream transition-colors hover:bg-crimson-deep"
           >

@@ -76,7 +76,9 @@ export default async function InboxPage() {
                   reason={
                     x.kind === "birthday"
                       ? "Birthday today"
-                      : `${x.years} ${x.years === 1 ? "year" : "years"} in the house`
+                      : x.kind === "checkin"
+                        ? "30 days in the house"
+                        : `${x.years} ${x.years === 1 ? "year" : "years"} in the house`
                   }
                   message={x.message}
                   kind={x.kind}
@@ -93,7 +95,11 @@ export default async function InboxPage() {
                 .map(
                   (x) =>
                     `${x.lead.name.split(" ")[0]} (${
-                      x.kind === "birthday" ? "birthday" : "anniversary"
+                      x.kind === "birthday"
+                        ? "birthday"
+                        : x.kind === "checkin"
+                          ? "30-day check-in"
+                          : "anniversary"
                     } in ${x.inDays}d)`,
                 )
                 .join(" · ")}

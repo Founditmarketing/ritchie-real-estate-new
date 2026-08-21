@@ -53,6 +53,14 @@ export async function PATCH(
       }
       const target = userById(body.assignTo);
       if (!target) return { error: "Unknown agent", status: 400 };
+      // Matt's rule: commercial leads only move within the commercial
+      // desk. Enforced here, not just hidden in the UI.
+      if (lead.kind === "commercial" && !target.commercialCapable) {
+        return {
+          error: "Commercial stays with the commercial desk",
+          status: 403,
+        };
+      }
       reassign(lead, session.userId, target.id, target.name);
     }
     if (body.status) {

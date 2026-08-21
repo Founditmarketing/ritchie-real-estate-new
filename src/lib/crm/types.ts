@@ -79,6 +79,13 @@ export interface CrmUser {
   role: "broker" | "agent";
   /** In the round-robin rotation for broker leads? */
   inRotation: boolean;
+  /**
+   * May hold commercial leads. Matt's rule (8/21): "I'm not gonna send
+   * a commercial lead to any of those" — commercial stays with the
+   * commercial-capable list, currently the broker alone until Matt
+   * names others.
+   */
+  commercialCapable?: boolean;
 }
 
 export interface CrmDoc {

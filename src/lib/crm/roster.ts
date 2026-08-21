@@ -21,7 +21,7 @@ const ROTATION = new Set([
 ]);
 
 export const USERS: CrmUser[] = [
-  { id: MATT_ID, name: broker.name, role: "broker", inRotation: false },
+  { id: MATT_ID, name: broker.name, role: "broker", inRotation: false, commercialCapable: true },
   ...agents.map((a) => ({
     id: slug(a.name),
     name: a.name,

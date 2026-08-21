@@ -143,7 +143,14 @@ export default async function LeadPage({
           <AssignPanel
             leadId={lead.id}
             currentId={lead.assignedTo}
-            people={USERS.map((u) => ({ id: u.id, name: u.name }))}
+            people={USERS.filter(
+              (u) => lead.kind !== "commercial" || u.commercialCapable,
+            ).map((u) => ({ id: u.id, name: u.name }))}
+            note={
+              lead.kind === "commercial"
+                ? "Commercial stays with the commercial desk."
+                : undefined
+            }
           />
         </section>
       )}

@@ -28,9 +28,12 @@ export function BrandIntro() {
       setShow(false);
       return;
     }
+    // ?intro on the URL forces a replay — the demo affordance that was
+    // missing on 8/21 when the opening wouldn't play twice for Matt.
+    const forced = new URLSearchParams(window.location.search).has("intro");
     let seen = false;
     try {
-      seen = sessionStorage.getItem(SEEN_KEY) === "1";
+      seen = !forced && sessionStorage.getItem(SEEN_KEY) === "1";
       sessionStorage.setItem(SEEN_KEY, "1");
     } catch {
       /* storage blocked — play it; worst case it repeats */

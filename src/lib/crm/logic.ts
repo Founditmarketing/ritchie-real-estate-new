@@ -139,7 +139,7 @@ export function needsAttention(lead: Lead, at = Date.now()): boolean {
 /* taps send. When the email rails land, birthday sends can go auto.   */
 /* ------------------------------------------------------------------ */
 
-export type TouchKind = "birthday" | "anniversary";
+export type TouchKind = "birthday" | "anniversary" | "checkin";
 
 export interface Touch {
   lead: Lead;
@@ -166,6 +166,9 @@ function touchMessage(lead: Lead, kind: TouchKind, years: number): string {
   const agent = firstName(lead.assignedTo);
   if (kind === "birthday") {
     return `Happy birthday, ${first}! Hope it's a great one. — ${agent}, Ritchie Real Estate`;
+  }
+  if (kind === "checkin") {
+    return `${first}, it's been about a month in the house — how's it treating y'all? Anything that needs fixing or figuring out, call me. — ${agent}, Ritchie Real Estate`;
   }
   const yr = years === 1 ? "1 year" : `${years} years`;
   return `${first}, ${yr} in the house today — happy anniversary! If you ever wonder what it's worth now, I've got you. — ${agent}, Ritchie Real Estate`;
@@ -207,6 +210,23 @@ export function touchesDue(
       }
       if (lead.closedOn) {
         const closed = new Date(lead.closedOn);
+        // 30-day post-sale check-in (Matt, verbatim ask 8/21) — fires
+        // once, a month after keys, then the yearly anniversaries take
+        // over.
+        const diffDays = Math.round(
+          (Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate()) -
+            Date.UTC(closed.getUTCFullYear(), closed.getUTCMonth(), closed.getUTCDate())) /
+            DAY,
+        );
+        if (diffDays === 30 && !touched(lead, "checkin-30d")) {
+          out.push({
+            lead,
+            kind: "checkin",
+            message: touchMessage(lead, "checkin", 0),
+            dueKey: "checkin-30d",
+            inDays: d,
+          });
+        }
         const years = year - closed.getUTCFullYear();
         if (monthDay(closed) === md && years >= 1) {
           const dueKey = `anniversary-${year}`;
@@ -240,7 +260,9 @@ export function logTouch(
       text:
         kind === "birthday"
           ? `Wished happy birthday (${dueKey})`
-          : `Home-anniversary check-in (${dueKey})`,
+          : kind === "checkin"
+            ? `30-day check-in (${dueKey})`
+            : `Home-anniversary check-in (${dueKey})`,
     }),
   );
 }
@@ -304,6 +326,7 @@ export function seedDoc(): CrmDoc {
     "R. Thibodeaux": { birthday: md(0) },                      // birthday today
     "Monica Deshotel": { birthday: md(3) },                    // this week
     "Carl Bevins": { closedOn: closedYearsAgo(1, 5) },         // 1 yr, in 5 days
+    "Alyssa Broussard": { closedOn: closedYearsAgo(0, -30) }, // 30-day check-in today
   };
 
   for (const [name, contact, intent, source, kind, origin, status, ageMs, note, loggedBy] of rows) {
