@@ -1,11 +1,14 @@
+import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { userById } from "./roster";
 import type { Session } from "./types";
 
 /**
- * Prototype auth: one shared passcode (CRM_PASSCODE, default RITCHIE),
- * then pick who you are. Cookie is httpOnly JSON — no per-user passwords
- * yet, documented as prototype scope. Real auth is a swap at this seam.
+ * Two-layer auth: the shared door code (CRM_PASSCODE, default RITCHIE)
+ * gets you to the name list; a personal PIN proves which person you are.
+ * PINs are scrypt-hashed in the store (never plaintext — fleet security
+ * floor) and claimed on first login. The broker can clear an agent's PIN
+ * from the dashboard, which sends them back through the claim flow.
  */
 
 const COOKIE = "rre_crm";
@@ -41,5 +44,27 @@ export async function getSession(): Promise<Session | null> {
     return parsed;
   } catch {
     return null;
+  }
+}
+
+/* ---------------- per-user PINs ---------------- */
+
+export const PIN_RULE = /^\d{4,8}$/;
+
+export function hashPin(pin: string): { hash: string; salt: string } {
+  const salt = randomBytes(16).toString("hex");
+  const hash = scryptSync(pin, salt, 32).toString("hex");
+  return { hash, salt };
+}
+
+export function verifyPin(
+  pin: string,
+  stored: { hash: string; salt: string },
+): boolean {
+  try {
+    const candidate = scryptSync(pin, stored.salt, 32);
+    return timingSafeEqual(candidate, Buffer.from(stored.hash, "hex"));
+  } catch {
+    return false;
   }
 }

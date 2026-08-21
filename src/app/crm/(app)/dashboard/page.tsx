@@ -5,6 +5,7 @@ import { MATT_ID, USERS, firstName } from "@/lib/crm/roster";
 import { readDoc } from "@/lib/crm/store";
 import { RESPONSE_WINDOW_MIN, type Lead } from "@/lib/crm/types";
 import { LeadRow, SectionLabel } from "../../ui";
+import { ResetPinButton } from "./ResetPinButton";
 
 export const dynamic = "force-dynamic";
 
@@ -140,6 +141,40 @@ export default async function DashboardPage() {
           A lead counts as slipping after {RESPONSE_WINDOW_MIN} minutes with no
           touch.
         </p>
+      </section>
+
+      {/* SIGN-IN PINS — who's claimed one, and the office-manager reset.
+          Resetting sends that person back through the create-a-PIN step;
+          nobody (broker included) ever sees anyone's PIN. */}
+      <section aria-label="Sign-in PINs" className="space-y-2.5">
+        <SectionLabel>Sign-in PINs</SectionLabel>
+        <ul className="divide-y divide-line overflow-hidden rounded-[10px] border border-line bg-navy-deep/40">
+          {USERS.map((u) => {
+            const hasPin = !!doc.pins?.[u.id];
+            return (
+              <li
+                key={u.id}
+                className="flex items-center justify-between gap-3 px-3.5 py-2.5"
+              >
+                <span className="font-sans text-[13.5px] text-cream">
+                  {u.name}
+                  {u.role === "broker" && (
+                    <span className="ml-1.5 text-[10px] uppercase tracking-[0.14em] text-mute">
+                      Broker
+                    </span>
+                  )}
+                </span>
+                {hasPin ? (
+                  <ResetPinButton userId={u.id} name={firstName(u.id)} />
+                ) : (
+                  <span className="font-sans text-[10.5px] uppercase tracking-[0.14em] text-mute">
+                    Not set yet
+                  </span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
       </section>
     </div>
   );

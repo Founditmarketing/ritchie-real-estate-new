@@ -79,6 +79,12 @@ export interface CrmDoc {
   leads: Lead[];
   /** ISO of last seed, so the UI can label demo data. */
   seededAt?: string;
+  /**
+   * Per-user PINs, scrypt-hashed — the per-user identity layer on top of
+   * the shared door code. Unset entry = the user claims a PIN on their
+   * next login. Deliberately NOT wiped by the demo-data reset.
+   */
+  pins?: Record<string, { hash: string; salt: string }>;
 }
 
 export interface Session {
