@@ -12,6 +12,7 @@ import {
 import { fmtAge, KindTag, OriginTag, SectionLabel, StatusChip } from "../../../ui";
 import { AssignPanel } from "./AssignPanel";
 import { ContactButtons } from "./ContactButtons";
+import { DatesForm } from "./DatesForm";
 import { CopyButton } from "./CopyButton";
 import { NoteForm } from "./NoteForm";
 import { StatusButtons } from "./StatusButtons";
@@ -147,6 +148,15 @@ export default async function LeadPage({
         </section>
       )}
 
+      <section aria-label="Key dates" className="space-y-2.5">
+        <SectionLabel>The long game</SectionLabel>
+        <DatesForm
+          leadId={lead.id}
+          birthday={lead.birthday}
+          closedOn={lead.closedOn}
+        />
+      </section>
+
       <section aria-label="Notes" className="space-y-2.5">
         <SectionLabel count={notes.length || undefined}>Notes</SectionLabel>
         {notes.length > 0 && (
@@ -218,6 +228,8 @@ function eventLine(e: TimelineEvent): string {
     case "note":
       return `${who(e.by)} left a note`;
     case "contact-attempt":
+      return `${e.text ?? "Reached out"} — ${who(e.by)}`;
+    case "touch":
       return `${e.text ?? "Reached out"} — ${who(e.by)}`;
   }
 }

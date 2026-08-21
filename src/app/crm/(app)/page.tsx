@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/crm/auth";
-import { minutesWaiting, needsAttention } from "@/lib/crm/logic";
+import { minutesWaiting, needsAttention, touchesDue } from "@/lib/crm/logic";
 import { readDoc } from "@/lib/crm/store";
 import type { Lead, LeadStatus } from "@/lib/crm/types";
 import { LeadRow, SectionLabel } from "../ui";
+import { TouchCard } from "./TouchCard";
 import { SeedButton } from "./SeedButton";
 
 export const dynamic = "force-dynamic";
@@ -32,6 +33,12 @@ export default async function InboxPage() {
     (l) => l.status === "converted" || l.status === "junk",
   );
 
+  // The relationship queue — birthdays and home anniversaries due today
+  // (actionable) and coming this week (visible so nobody's surprised).
+  const touches = touchesDue(mine, at);
+  const dueToday = touches.filter((x) => x.inDays === 0);
+  const upcoming = touches.filter((x) => x.inDays > 0);
+
   return (
     <div className="space-y-8">
       <div className="flex items-end justify-between gap-3">
@@ -51,6 +58,48 @@ export default async function InboxPage() {
           </p>
           {isBroker && <SeedButton />}
         </div>
+      )}
+
+      {(dueToday.length > 0 || upcoming.length > 0) && (
+        <section aria-label="Reach-outs" className="space-y-2.5">
+          <SectionLabel count={dueToday.length || undefined}>
+            Reach-outs
+          </SectionLabel>
+          {dueToday.length > 0 && (
+            <ul className="divide-y divide-line overflow-hidden rounded-[10px] border border-crimson/40 bg-navy-deep/40">
+              {dueToday.map((x) => (
+                <TouchCard
+                  key={`${x.lead.id}-${x.dueKey}`}
+                  leadId={x.lead.id}
+                  name={x.lead.name}
+                  contact={x.lead.contact}
+                  reason={
+                    x.kind === "birthday"
+                      ? "Birthday today"
+                      : `${x.years} ${x.years === 1 ? "year" : "years"} in the house`
+                  }
+                  message={x.message}
+                  kind={x.kind}
+                  dueKey={x.dueKey}
+                  today
+                />
+              ))}
+            </ul>
+          )}
+          {upcoming.length > 0 && (
+            <p className="font-sans text-[12px] leading-relaxed text-mute">
+              Coming up:{" "}
+              {upcoming
+                .map(
+                  (x) =>
+                    `${x.lead.name.split(" ")[0]} (${
+                      x.kind === "birthday" ? "birthday" : "anniversary"
+                    } in ${x.inDays}d)`,
+                )
+                .join(" · ")}
+            </p>
+          )}
+        </section>
       )}
 
       {mine.length === 0 ? (

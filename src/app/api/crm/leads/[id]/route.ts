@@ -1,5 +1,5 @@
 import { getSession } from "@/lib/crm/auth";
-import { addNote, logContactAttempt, reassign, setStatus } from "@/lib/crm/logic";
+import { addNote, logContactAttempt, logTouch, reassign, setStatus, type TouchKind } from "@/lib/crm/logic";
 import { userById } from "@/lib/crm/roster";
 import { updateDoc } from "@/lib/crm/store";
 import { STATUS_LABEL, type LeadStatus } from "@/lib/crm/types";
@@ -25,6 +25,12 @@ export async function PATCH(
     note?: string;
     contact?: string;
     assignTo?: string;
+    /** "MM-DD" to set, "" to clear. */
+    birthday?: string;
+    /** "YYYY-MM-DD" to set, "" to clear. */
+    closedOn?: string;
+    /** Log a completed reach-out: { kind, dueKey }. */
+    touch?: { kind: TouchKind; dueKey: string };
   };
   try {
     body = await req.json();
@@ -60,6 +66,22 @@ export async function PATCH(
     }
     if (body.contact && CONTACT_LABEL[body.contact]) {
       logContactAttempt(lead, session.userId, CONTACT_LABEL[body.contact]);
+    }
+    if (body.birthday !== undefined) {
+      const v = String(body.birthday).trim();
+      if (v === "") delete lead.birthday;
+      else if (/^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(v)) lead.birthday = v;
+      else return { error: "Birthday looks off — use MM-DD", status: 422 };
+    }
+    if (body.closedOn !== undefined) {
+      const v = String(body.closedOn).trim();
+      if (v === "") delete lead.closedOn;
+      else if (/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(v)) lead.closedOn = v;
+      else return { error: "Closing date looks off", status: 422 };
+    }
+    if (body.touch && (body.touch.kind === "birthday" || body.touch.kind === "anniversary")) {
+      const dueKey = String(body.touch.dueKey).replace(/[^a-z0-9-]/g, "").slice(0, 24);
+      logTouch(lead, session.userId, body.touch.kind, dueKey);
     }
     return { lead };
   });

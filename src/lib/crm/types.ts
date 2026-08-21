@@ -39,7 +39,8 @@ export interface TimelineEvent {
     | "assigned"
     | "status"
     | "note"
-    | "contact-attempt";
+    | "contact-attempt"
+    | "touch";
   /** For status events, the new status. */
   status?: LeadStatus;
   /** Free text for notes / context lines. */
@@ -62,6 +63,14 @@ export interface Lead {
   /** True once any human contact attempt/status change happened. */
   firstResponseAt?: string; // ISO
   timeline: TimelineEvent[];
+  /**
+   * Relationship dates — the long-game layer. birthday is "MM-DD"
+   * (year deliberately not collected); closedOn is the ISO date the
+   * deal closed. Either being set enrolls the client in the yearly
+   * reach-out queue.
+   */
+  birthday?: string;
+  closedOn?: string;
 }
 
 export interface CrmUser {

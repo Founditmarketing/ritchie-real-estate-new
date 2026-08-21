@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { MATT_ID, rotationIds } from "./roster";
+import { firstName, MATT_ID, rotationIds } from "./roster";
 import type {
   CrmDoc,
   Lead,
@@ -130,6 +130,121 @@ export function needsAttention(lead: Lead, at = Date.now()): boolean {
   );
 }
 
+
+/* ------------------------------------------------------------------ */
+/* The relationship engine — the long game, automated.                 */
+/* Birthdays and home anniversaries become a daily reach-out queue     */
+/* with the message already written. Deterministic like the coach:     */
+/* nothing sends itself (yet) — the CRM remembers and writes, a human  */
+/* taps send. When the email rails land, birthday sends can go auto.   */
+/* ------------------------------------------------------------------ */
+
+export type TouchKind = "birthday" | "anniversary";
+
+export interface Touch {
+  lead: Lead;
+  kind: TouchKind;
+  /** Years since closing (anniversaries only). */
+  years?: number;
+  /** Ready-to-send text message, personalized. */
+  message: string;
+  /** Dedup key, e.g. "birthday-2026" — logged into the timeline. */
+  dueKey: string;
+  /** Days from `at` until due. 0 = today. */
+  inDays: number;
+}
+
+const DAY = 86_400_000;
+
+/** "MM-DD" for a date, UTC — seed and engine must agree on a clock. */
+function monthDay(d: Date): string {
+  return `${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}`;
+}
+
+function touchMessage(lead: Lead, kind: TouchKind, years: number): string {
+  const first = lead.name.split(" ")[0];
+  const agent = firstName(lead.assignedTo);
+  if (kind === "birthday") {
+    return `Happy birthday, ${first}! Hope it's a great one. — ${agent}, Ritchie Real Estate`;
+  }
+  const yr = years === 1 ? "1 year" : `${years} years`;
+  return `${first}, ${yr} in the house today — happy anniversary! If you ever wonder what it's worth now, I've got you. — ${agent}, Ritchie Real Estate`;
+}
+
+/** Already reached out for this occasion this year? */
+function touched(lead: Lead, dueKey: string): boolean {
+  return lead.timeline.some((e) => e.type === "touch" && e.text?.includes(dueKey));
+}
+
+/**
+ * Every reach-out due within the next `windowDays` (default: today plus
+ * the coming week) for the given leads. Junk leads never qualify; a
+ * closedOn anniversary needs at least one full year on the clock.
+ */
+export function touchesDue(
+  leads: Lead[],
+  at = Date.now(),
+  windowDays = 7,
+): Touch[] {
+  const out: Touch[] = [];
+  for (const lead of leads) {
+    if (lead.status === "junk") continue;
+    for (let d = 0; d <= windowDays; d++) {
+      const day = new Date(at + d * DAY);
+      const md = monthDay(day);
+      const year = day.getUTCFullYear();
+      if (lead.birthday === md) {
+        const dueKey = `birthday-${year}`;
+        if (!touched(lead, dueKey)) {
+          out.push({
+            lead,
+            kind: "birthday",
+            message: touchMessage(lead, "birthday", 0),
+            dueKey,
+            inDays: d,
+          });
+        }
+      }
+      if (lead.closedOn) {
+        const closed = new Date(lead.closedOn);
+        const years = year - closed.getUTCFullYear();
+        if (monthDay(closed) === md && years >= 1) {
+          const dueKey = `anniversary-${year}`;
+          if (!touched(lead, dueKey)) {
+            out.push({
+              lead,
+              kind: "anniversary",
+              years,
+              message: touchMessage(lead, "anniversary", years),
+              dueKey,
+              inDays: d,
+            });
+          }
+        }
+      }
+    }
+  }
+  return out.sort((a, b) => a.inDays - b.inDays);
+}
+
+/** Record that the reach-out happened — suppresses it for this year. */
+export function logTouch(
+  lead: Lead,
+  by: string,
+  kind: TouchKind,
+  dueKey: string,
+): void {
+  if (!lead.firstResponseAt) lead.firstResponseAt = now();
+  lead.timeline.push(
+    makeEvent(by, "touch", {
+      text:
+        kind === "birthday"
+          ? `Wished happy birthday (${dueKey})`
+          : `Home-anniversary check-in (${dueKey})`,
+    }),
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* Demo seed — clearly-labeled sample leads so the prototype opens     */
 /* looking alive. Names/numbers are invented placeholders.             */
@@ -172,6 +287,25 @@ export function seedDoc(): CrmDoc {
     ["Tonya Simms", "318-555-0134", "Neighbor of a past client", "manual", "residential", "self", "contacted", 11 * HOUR, undefined, "jennifer-byrd"],
   ];
 
+  // Relationship dates for the demo: one birthday TODAY, one home
+  // anniversary TODAY (2 years), plus upcoming ones this week — so the
+  // reach-out queue is alive the moment the demo opens. Computed off the
+  // same UTC clock the engine reads.
+  const md = (offsetDays: number) => {
+    const d = new Date(t + offsetDays * 86_400_000);
+    return `${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}`;
+  };
+  const closedYearsAgo = (years: number, offsetDays: number) => {
+    const d = new Date(t + offsetDays * 86_400_000);
+    return `${d.getUTCFullYear() - years}-${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}`;
+  };
+  const DATES: Record<string, { birthday?: string; closedOn?: string }> = {
+    "The Guidry family": { closedOn: closedYearsAgo(2, 0) },   // 2 years today
+    "R. Thibodeaux": { birthday: md(0) },                      // birthday today
+    "Monica Deshotel": { birthday: md(3) },                    // this week
+    "Carl Bevins": { closedOn: closedYearsAgo(1, 5) },         // 1 yr, in 5 days
+  };
+
   for (const [name, contact, intent, source, kind, origin, status, ageMs, note, loggedBy] of rows) {
     const lead = ingestLead(doc, {
       name,
@@ -195,6 +329,11 @@ export function seedDoc(): CrmDoc {
     if (note) {
       addNote(lead, lead.assignedTo, note);
       lead.timeline[lead.timeline.length - 1].at = new Date(t - ageMs / 2).toISOString();
+    }
+    const dates = DATES[name];
+    if (dates) {
+      lead.birthday = dates.birthday;
+      lead.closedOn = dates.closedOn;
     }
   }
 
