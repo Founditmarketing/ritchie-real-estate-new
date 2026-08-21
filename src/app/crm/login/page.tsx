@@ -17,11 +17,8 @@ export default async function CrmLoginPage() {
           <h1 className="mt-4 font-serif text-[30px] leading-tight text-paper">
             Ritchie CRM
           </h1>
-          <p className="mt-1 flex items-center gap-2 font-sans text-[12.5px] text-mute">
+          <p className="mt-1 font-sans text-[12.5px] text-mute">
             Team lead manager
-            <span className="inline-flex items-center rounded-full border border-line px-2 py-[3px] text-[9px] font-medium uppercase tracking-[0.18em] text-mute">
-              Prototype
-            </span>
           </p>
         </div>
         <LoginForm />

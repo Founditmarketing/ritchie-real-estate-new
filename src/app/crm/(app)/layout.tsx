@@ -32,9 +32,6 @@ export default async function CrmAppLayout({
               Ritchie <span className="text-cream-warm">CRM</span>
             </span>
           </Link>
-          <span className="hidden items-center rounded-full border border-line px-2 py-[3px] text-[9px] font-medium uppercase tracking-[0.18em] text-mute min-[400px]:inline-flex">
-            Prototype
-          </span>
           <span className="ml-auto truncate font-sans text-[13px] text-cream-warm">
             {firstName(session.userId)}
           </span>
