@@ -482,3 +482,49 @@ html {
   background: color-mix(in oklch, var(--color-crimson) 42%, transparent);
   background-clip: padding-box;
 }
+
+/* ---------------------------------------------------------------- */
+/* Offering memorandum — one US-Letter sheet, print-first.          */
+/* The OM is the artifact a commercial broker hands a buyer, so     */
+/* paper is the real target and the screen is the preview. The      */
+/* existing global print block already hides grain/chrome; this     */
+/* pins the sheet to the page and keeps the photo + rules from      */
+/* being dropped by "background graphics off" defaults.             */
+/* ---------------------------------------------------------------- */
+@page {
+  size: letter portrait;
+  margin: 0;
+}
+
+@media print {
+  /* The base print block already drops header/nav/grain. The sheet also
+     has to lose the footer, the concierge launcher and the scroll
+     hairline, or they trail the OM onto a second sheet of the client's
+     paper. */
+  footer,
+  button[aria-label^="Ask Ritchie"],
+  div[class*="h-[2px]"] {
+    display: none !important;
+  }
+
+  .om-screen {
+    background: #fff !important;
+    padding: 0 !important;
+  }
+  .om-sheet {
+    max-width: none !important;
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    /* Force the cover photo, the crimson rules and the fact bands to
+       actually print — without this the sheet comes out as bare type. */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .om-sheet * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

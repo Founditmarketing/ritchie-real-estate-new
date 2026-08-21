@@ -182,6 +182,16 @@ export default async function CommercialPage() {
                         {l.address.city}, LA
                       </p>
                     </Link>
+                    {/* The OM sits one tap from every commercial plate —
+                        the sheet a buyer actually gets handed. */}
+                    <Link
+                      href={`/commercial/${l.id}/offering`}
+                      data-cursor-label="Sheet"
+                      className="mt-2.5 inline-flex items-center gap-2 font-sans text-[10.5px] font-medium uppercase tracking-[0.18em] text-crimson-bright transition-colors hover:text-cream"
+                    >
+                      Offering memorandum
+                      <span aria-hidden>&rarr;</span>
+                    </Link>
                   </Reveal>
                 </li>
               ))}
