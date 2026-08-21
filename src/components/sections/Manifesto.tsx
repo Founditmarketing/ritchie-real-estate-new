@@ -6,7 +6,7 @@ import { ease } from "@/lib/motion";
 
 /**
  * A type-only section break on the dark canvas. One plain sentence carries
- * the whole brand: "One closing at a time." — lifted from Matt's own story
+ * the whole brand: "One deal at a time." — client-tuned wording of Matt's
  * copy in the Broker section. No image, no card. Sits between the hero and
  * the market band, a held breath before the data.
  *
@@ -77,7 +77,7 @@ export function Manifesto() {
         </motion.span>
 
         {/*
-          Clamp floor accommodates the longest line ("One closing") inside
+          Clamp floor accommodates the longest line ("at a time.") inside
           the container at the smallest viewport: ~11 glyphs of Cormorant
           italic at 40px stays inside a 280px-48px container even with
           ~22px scroll drift. vw multiple drops from 18 to 13.5 for the
@@ -87,7 +87,7 @@ export function Manifesto() {
           <InkLine
             drift={w1X}
             animate={!reduced}
-            text="One closing"
+            text="One deal"
             fillClass="text-paper"
           />
           <InkLine
@@ -106,8 +106,8 @@ export function Manifesto() {
           transition={{ duration: 0.8, ease: ease.outExpo, delay: 0.15 }}
           className="mx-auto mt-9 max-w-[52ch] text-center font-serif text-[clamp(17px,1.4vw,22px)] font-normal italic leading-[1.55] text-cream-warm md:mt-12"
         >
-          Anybody can pull a listing off the MLS. Knowing what a Garden
-          District lot really trades for, or which commercial corridor is
+          Anybody can pull a listing off the MLS. Knowing what a Versailles
+          lot really trades for, or which commercial corridor is
           about to turn, takes a lifetime in Central Louisiana.
         </motion.p>
 
